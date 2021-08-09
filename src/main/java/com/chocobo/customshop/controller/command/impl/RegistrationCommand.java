@@ -23,7 +23,6 @@ public class RegistrationCommand implements Command {
             try {
                 UserServiceImpl.getInstance().register(email, login, password);
             } catch (ServiceException e) {
-                // TODO: 08.08.2021 specify error
                 return PagePath.ERROR_500_JSP;
             }
             return PagePath.CONFIRMATION_JSP;

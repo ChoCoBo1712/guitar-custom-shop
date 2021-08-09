@@ -38,7 +38,6 @@ public class Controller extends HttpServlet {
             String pageName = command.get().execute(request);
             request.getRequestDispatcher(pageName).forward(request, response);
         } else {
-            // TODO: 08.08.2021 specify error
             request.getRequestDispatcher(PagePath.ERROR_404_JSP).forward(request, response);
         }
     }

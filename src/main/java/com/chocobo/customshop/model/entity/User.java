@@ -6,6 +6,7 @@ import java.util.Objects;
 public class User extends BaseEntity {
 
     public enum UserRole {
+        GUEST,
         CLIENT,
         MASTER,
         ADMIN
@@ -25,6 +26,7 @@ public class User extends BaseEntity {
     private UserStatus status;
 
     public User(String email, String login, byte[] passwordHash, byte[] salt, UserRole role, UserStatus status) {
+        // TODO: 09.08.2021 fix sending default value of long to constructor
         super(0);
         this.email = email;
         this.login = login;
