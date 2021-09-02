@@ -1,6 +1,7 @@
 package com.chocobo.customshop.controller.command.impl;
 
 import com.chocobo.customshop.controller.command.Command;
+import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.controller.command.PagePath;
 import com.chocobo.customshop.controller.command.validator.UserValidator;
 import com.chocobo.customshop.controller.command.validator.ValidationResult;
@@ -12,6 +13,8 @@ import com.chocobo.customshop.service.impl.TokenServiceImpl;
 import com.chocobo.customshop.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
+import static com.chocobo.customshop.controller.command.CommandResult.RouteType.*;
+import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestParameter.*;
 
 public class RegisterCommand implements Command {
@@ -23,12 +26,13 @@ public class RegisterCommand implements Command {
     private static final String BODY_PROPERTY = "confirmation_mail.body";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String email = request.getParameter(EMAIL);
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
 
         ValidationResult validationResult = UserValidator.validateRegistration(email, login);
+        CommandResult result;
         if (validationResult.isValid()) {
             try {
                 long userId = UserServiceImpl.getInstance().register(email, login, password);
@@ -43,12 +47,13 @@ public class RegisterCommand implements Command {
                 String mailBody = String.format(bodyTemplate, confirmationLink);
                 mailService.sendMail(email, mailSubject, mailBody);
             } catch (ServiceException e) {
-                return PagePath.ERROR_500_JSP;
+                return new CommandResult(ERROR_500_JSP, REDIRECT);
             }
-            return PagePath.REGISTER_SUCCESS_JSP;
+            result = new CommandResult(REGISTER_SUCCESS_JSP, REDIRECT);
         } else {
             request.setAttribute(VALIDATION_ERROR, validationResult.getErrorMessage());
-            return PagePath.REGISTER_JSP;
+            result = new CommandResult(REGISTER_JSP, REDIRECT);
         }
+        return result;
     }
 }
