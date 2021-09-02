@@ -1,12 +1,8 @@
 package com.chocobo.customshop.model.entity;
 
-public class BaseEntity {
+public abstract class AbstractEntity {
 
     private long entityId;
-
-    protected BaseEntity(long entityId) {
-        this.entityId = entityId;
-    }
 
     public long getEntityId() {
         return entityId;
@@ -20,7 +16,7 @@ public class BaseEntity {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        BaseEntity that = (BaseEntity) object;
+        AbstractEntity that = (AbstractEntity) object;
 
         return entityId == that.entityId;
     }
@@ -33,5 +29,20 @@ public class BaseEntity {
     @Override
     public String toString() {
         return "id = " + entityId;
+    }
+
+    public abstract class AbstractBuilder {
+
+        public AbstractBuilder setEntityId(long entityId) {
+            AbstractEntity.this.entityId = entityId;
+            return this;
+        }
+
+        public AbstractBuilder of(AbstractEntity entity) {
+            AbstractEntity.this.entityId = entity.entityId;
+            return this;
+        }
+
+        public abstract AbstractEntity build();
     }
 }

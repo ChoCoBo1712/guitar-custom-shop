@@ -7,11 +7,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -25,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DatabaseConnectionPool {
 
     public static final Logger logger = LogManager.getLogger();
-    private static final String POOL_PROPERTIES_NAME = "pool.properties";
+    private static final String POOL_PROPERTIES_NAME = "properties/pool.properties";
     private static final String POOL_SIZE_PROPERTY = "poolSize";
 
     private static final AtomicReference<DatabaseConnectionPool> instance = new AtomicReference<>(null);

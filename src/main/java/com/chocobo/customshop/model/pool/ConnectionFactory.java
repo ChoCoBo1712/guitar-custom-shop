@@ -15,7 +15,7 @@ import java.util.Properties;
 class ConnectionFactory {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String DB_PROPERTIES_NAME = "db.properties";
+    private static final String DB_PROPERTIES_NAME = "properties/db.properties";
     private static final String DRIVER_PROPERTY = "driver";
     private static final String URL_PROPERTY = "url";
 

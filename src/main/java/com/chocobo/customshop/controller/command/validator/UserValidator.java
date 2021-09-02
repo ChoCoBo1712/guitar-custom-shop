@@ -6,6 +6,7 @@ import com.chocobo.customshop.service.impl.UserServiceImpl;
 
 public class UserValidator {
 
+    // TODO: 31.08.2021 translate 
     private static final String INVALID_EMAIL_MSG = "Such email is already registered";
     private static final String INVALID_LOGIN_MSG = "User with such login is already registered";
     private static final String EXCEPTION_MSG = "Could not validate given information now, please try later";

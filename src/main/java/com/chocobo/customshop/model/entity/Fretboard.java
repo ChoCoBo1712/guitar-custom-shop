@@ -2,41 +2,30 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class Fretboard extends BaseEntity {
+public class Fretboard extends AbstractEntity {
 
     private String radius;
     private String frets;
     private long woodId;
 
-    public Fretboard(long entityId, String radius, String frets, long woodId) {
-        super(entityId);
-        this.radius = radius;
-        this.frets = frets;
-        this.woodId = woodId;
+    private Fretboard() {
+
+    }
+
+    public static FretboardBuilder builder() {
+        return new Fretboard().new FretboardBuilder();
     }
 
     public String getRadius() {
         return radius;
     }
 
-    public void setRadius(String radius) {
-        this.radius = radius;
-    }
-
     public String getFrets() {
         return frets;
     }
 
-    public void setFrets(String frets) {
-        this.frets = frets;
-    }
-
     public long getWoodId() {
         return woodId;
-    }
-
-    public void setWoodId(long woodId) {
-        this.woodId = woodId;
     }
 
     @Override
@@ -74,5 +63,32 @@ public class Fretboard extends BaseEntity {
         builder.append("wood id = ").append(woodId).append(")");
 
         return builder.toString();
+    }
+
+    public class FretboardBuilder extends AbstractBuilder {
+
+        private FretboardBuilder() {
+
+        }
+
+        public FretboardBuilder setRadius(String radius) {
+            Fretboard.this.radius = radius;
+            return this;
+        }
+
+        public FretboardBuilder setFrets(String frets) {
+            Fretboard.this.frets = frets;
+            return this;
+        }
+
+        public FretboardBuilder setWoodId(long woodId) {
+            Fretboard.this.woodId = woodId;
+            return this;
+        }
+
+        @Override
+        public Fretboard build() {
+            return Fretboard.this;
+        }
     }
 }

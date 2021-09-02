@@ -2,6 +2,7 @@ package com.chocobo.customshop.model.dao.impl;
 
 import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.DatabaseConnectionException;
+import com.chocobo.customshop.model.dao.TableColumn;
 import com.chocobo.customshop.model.dao.UserDao;
 import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.pool.DatabaseConnectionPool;
@@ -9,6 +10,8 @@ import com.chocobo.customshop.model.pool.DatabaseConnectionPool;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
+
+import static com.chocobo.customshop.model.dao.TableColumn.*;
 
 public class UserDaoImpl implements UserDao {
 
@@ -32,6 +35,11 @@ public class UserDaoImpl implements UserDao {
     private static final String INSERT =
             "INSERT INTO users(email, login, password_hash, salt, role, status)" +
             "VALUES(?, ?, ?, ?, ?, ?);";
+
+    private static final String UPDATE =
+            "UPDATE users " +
+            "SET email = ?, login = ?, password_hash = ?, salt = ?, role = ?, status = ?" +
+            "WHERE user_id = ?;";
 
     public static UserDao getInstance() {
         if (instance == null) {
@@ -68,7 +76,26 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void update(User entity) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE);
+            statement.setString(1, entity.getEmail());
+            statement.setString(2, entity.getLogin());
+            statement.setBytes(3, entity.getPasswordHash());
+            statement.setBytes(4, entity.getSalt());
+            statement.setString(5, entity.getRole().toString());
+            statement.setString(6, entity.getStatus().toString());
+            statement.setString(7, String.valueOf(entity.getEntityId()));
+            statement.execute();
 
+            statement.close();
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override
@@ -87,15 +114,15 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user = new User(
-                        resultSet.getLong(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getBytes(4),
-                        resultSet.getBytes(5),
-                        User.UserRole.valueOf(resultSet.getString(6)),
-                        User.UserStatus.valueOf(resultSet.getString(7))
-                );
+                user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
             }
             statement.close();
             return Optional.ofNullable(user);
@@ -122,15 +149,15 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user = new User(
-                        resultSet.getLong(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getBytes(4),
-                        resultSet.getBytes(5),
-                        User.UserRole.valueOf(resultSet.getString(6)),
-                        User.UserStatus.valueOf(resultSet.getString(7))
-                );
+                user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
             }
             statement.close();
             return Optional.ofNullable(user);
@@ -152,15 +179,15 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user = new User(
-                        resultSet.getLong(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getBytes(4),
-                        resultSet.getBytes(5),
-                        User.UserRole.valueOf(resultSet.getString(6)),
-                        User.UserStatus.valueOf(resultSet.getString(7))
-                );
+                user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
             }
             statement.close();
             return Optional.ofNullable(user);

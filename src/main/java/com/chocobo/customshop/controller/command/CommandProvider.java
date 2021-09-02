@@ -1,7 +1,6 @@
 package com.chocobo.customshop.controller.command;
 
 import com.chocobo.customshop.controller.command.impl.*;
-import com.mysql.cj.log.Log;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,8 +17,9 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_INDEX_PAGE, new GoToIndexPageCommand());
         commandMap.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
         commandMap.put(CommandType.GO_TO_REGISTER_PAGE, new GoToRegisterPageCommand());
-        commandMap.put(CommandType.REGISTRATION, new RegistrationCommand());
+        commandMap.put(CommandType.REGISTER, new RegisterCommand());
         commandMap.put(CommandType.LOGIN, new LoginCommand());
+        commandMap.put(CommandType.CONFIRM_EMAIL, new ConfirmEmailCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

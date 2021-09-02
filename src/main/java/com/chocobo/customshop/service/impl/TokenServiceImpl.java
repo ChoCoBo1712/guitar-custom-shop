@@ -1,6 +1,9 @@
 package com.chocobo.customshop.service.impl;
 
+import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.service.TokenService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -8,19 +11,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Properties;
+import java.util.*;
 
 public class TokenServiceImpl implements TokenService {
 
-    private static final String TOKEN_PROPERTIES_NAME = "token.properties";
+    private static TokenService instance;
+
+    private static final String TOKEN_PROPERTIES_NAME = "properties/token.properties";
     private static final String SECRET_KEY_PROPERTY = "secretKey";
     private static final String VALIDITY_TIME_PROPERTY = "validityTime";
     private static final String ID_CLAIM = "id";
+    private static final String EMAIL_CLAIM = "email";
 
-    private static Key secretKey;
-    private static int validityTime;
+    private static final Key secretKey;
+    private static final int validityTime;
 
     static {
         ClassLoader classLoader = MailServiceImpl.class.getClassLoader();
@@ -35,8 +39,15 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
+    public static TokenService getInstance() {
+        if (instance == null) {
+            instance = new TokenServiceImpl();
+        }
+        return instance;
+    }
+
     @Override
-    public String generateToken(long userId) {
+    public String generateToken(long userId, String email) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.HOUR, validityTime);
@@ -44,8 +55,24 @@ public class TokenServiceImpl implements TokenService {
 
         return Jwts.builder()
                 .claim(ID_CLAIM, userId)
+                .claim(EMAIL_CLAIM, email)
                 .signWith(secretKey)
                 .setExpiration(expirationTime)
                 .compact();
+    }
+
+    @Override
+    public Map<String, Object> parseToken(String token) throws ServiceException {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            return new HashMap<>(claims);
+        } catch (JwtException | NumberFormatException e) {
+            throw new ServiceException("Got invalid token", e);
+        }
+
     }
 }

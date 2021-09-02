@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-public class ProxyConnection implements Connection {
+class ProxyConnection implements Connection {
 
     private final Connection connection;
 
@@ -15,10 +15,10 @@ public class ProxyConnection implements Connection {
 
     void closeInnerConnection() throws SQLException {
         connection.close();
-    }
+    }   
 
     @Override
-    public void close() throws SQLException {
+    public void close() {
         DatabaseConnectionPool.getInstance().releaseConnection(connection);
     }
 

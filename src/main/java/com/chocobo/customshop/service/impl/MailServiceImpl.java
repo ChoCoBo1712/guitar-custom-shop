@@ -16,22 +16,23 @@ public class MailServiceImpl implements MailService {
 
     private static MailService instance;
 
-    private static final String MAIL_PROPERTIES_NAME = "mail.properties";
+    private static final String MAIL_PROPERTIES_NAME = "properties/mail.properties";
     private static final String USERNAME_PROPERTY = "username";
     private static final String PASSWORD_PROPERTY = "password";
     private static final String HTML_BODY_TYPE = "text/html; charset=UTF-8";
 
-    private static final Session session;
+    private static final Properties mailProperties;
+    private static final Session mailSession;
     private static final String sender;
 
     static {
         ClassLoader classLoader = MailServiceImpl.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(MAIL_PROPERTIES_NAME)) {
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            sender = properties.getProperty(USERNAME_PROPERTY);
-            String password = properties.getProperty(PASSWORD_PROPERTY);
-            session = Session.getInstance(properties, new Authenticator() {
+            mailProperties = new Properties();
+            mailProperties.load(inputStream);
+            sender = mailProperties.getProperty(USERNAME_PROPERTY);
+            String password = mailProperties.getProperty(PASSWORD_PROPERTY);
+            mailSession = Session.getInstance(mailProperties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(sender, password);
@@ -51,7 +52,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendMail(String recipient, String subject, String body) throws ServiceException {
-        Message message = new MimeMessage(session);
+        Message message = new MimeMessage(mailSession);
 
         try {
             message.setFrom(new InternetAddress(sender));
@@ -69,6 +70,10 @@ public class MailServiceImpl implements MailService {
         } catch (MessagingException e) {
             throw new ServiceException("Error sending an email", e);
         }
+    }
 
+    @Override
+    public String getMailProperty(String propertyName) {
+        return mailProperties.getProperty(propertyName);
     }
 }

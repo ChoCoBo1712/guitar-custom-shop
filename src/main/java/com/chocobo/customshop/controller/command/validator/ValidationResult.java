@@ -2,6 +2,7 @@ package com.chocobo.customshop.controller.command.validator;
 
 public class ValidationResult {
 
+    // TODO: 31.08.2021 translate
     private static final String DEFAULT_POSITIVE_MSG = "Validation successful";
 
     private final boolean valid;

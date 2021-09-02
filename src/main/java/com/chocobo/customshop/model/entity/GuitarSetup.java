@@ -2,7 +2,7 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class GuitarSetup extends BaseEntity {
+public class GuitarSetup extends AbstractEntity {
 
     private boolean stringsChanging;
     private long stringSetId;
@@ -14,93 +14,48 @@ public class GuitarSetup extends BaseEntity {
     private String comment;
     private long userId;
 
-    public GuitarSetup(
-            long entityId, boolean stringsChanging, long stringSetId, boolean bodyCleaning,
-            boolean fretboardConditioning, boolean neckPolishing, boolean fretsPolishing,
-            boolean nutCutting, String comment, long userId
-    ) {
-        super(entityId);
-        this.stringsChanging = stringsChanging;
-        this.stringSetId = stringSetId;
-        this.bodyCleaning = bodyCleaning;
-        this.fretboardConditioning = fretboardConditioning;
-        this.neckPolishing = neckPolishing;
-        this.fretsPolishing = fretsPolishing;
-        this.nutCutting = nutCutting;
-        this.comment = comment;
-        this.userId = userId;
+    private GuitarSetup() {
+
+    }
+
+    public static GuitarSetupBuilder builder() {
+        return new GuitarSetup().new GuitarSetupBuilder();
     }
 
     public boolean isStringsChanging() {
         return stringsChanging;
     }
 
-    public void setStringsChanging(boolean stringsChanging) {
-        this.stringsChanging = stringsChanging;
-    }
-
     public long getStringSetId() {
         return stringSetId;
-    }
-
-    public void setStringSetId(long guitarStringsId) {
-        this.stringSetId = guitarStringsId;
     }
 
     public boolean isBodyCleaning() {
         return bodyCleaning;
     }
 
-    public void setBodyCleaning(boolean bodyCleaning) {
-        this.bodyCleaning = bodyCleaning;
-    }
-
     public boolean isFretboardConditioning() {
         return fretboardConditioning;
-    }
-
-    public void setFretboardConditioning(boolean fretboardConditioning) {
-        this.fretboardConditioning = fretboardConditioning;
     }
 
     public boolean isNeckPolishing() {
         return neckPolishing;
     }
 
-    public void setNeckPolishing(boolean neckPolishing) {
-        this.neckPolishing = neckPolishing;
-    }
-
     public boolean isFretsPolishing() {
         return fretsPolishing;
-    }
-
-    public void setFretsPolishing(boolean fretsPolishing) {
-        this.fretsPolishing = fretsPolishing;
     }
 
     public boolean isNutCutting() {
         return nutCutting;
     }
 
-    public void setNutCutting(boolean nutCutting) {
-        this.nutCutting = nutCutting;
-    }
-
     public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public long getUserId() {
         return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     @Override
@@ -153,5 +108,62 @@ public class GuitarSetup extends BaseEntity {
         builder.append("user id = ").append(userId).append(")");
 
         return builder.toString();
+    }
+
+    public class GuitarSetupBuilder extends AbstractBuilder {
+
+        private GuitarSetupBuilder() {
+
+        }
+
+        public GuitarSetupBuilder setStringsChanging(boolean stringsChanging) {
+            GuitarSetup.this.stringsChanging = stringsChanging;
+            return this;
+        }
+
+        public GuitarSetupBuilder setStringSetId(long stringSetId) {
+            GuitarSetup.this.stringSetId = stringSetId;
+            return this;
+        }
+
+        public GuitarSetupBuilder setBodyCleaning(boolean bodyCleaning) {
+            GuitarSetup.this.bodyCleaning = bodyCleaning;
+            return this;
+        }
+
+        public GuitarSetupBuilder setFretboardConditioning(boolean fretboardConditioning) {
+            GuitarSetup.this.fretboardConditioning = fretboardConditioning;
+            return this;
+        }
+
+        public GuitarSetupBuilder setNeckPolishing(boolean neckPolishing) {
+            GuitarSetup.this.neckPolishing = neckPolishing;
+            return this;
+        }
+
+        public GuitarSetupBuilder setFretsPolishing(boolean fretsPolishing) {
+            GuitarSetup.this.fretsPolishing = fretsPolishing;
+            return this;
+        }
+
+        public GuitarSetupBuilder setNutCutting(boolean nutCutting) {
+            GuitarSetup.this.nutCutting = nutCutting;
+            return this;
+        }
+
+        public GuitarSetupBuilder setComment(String comment) {
+            GuitarSetup.this.comment = comment;
+            return this;
+        }
+
+        public GuitarSetupBuilder setUserId(long userId) {
+            GuitarSetup.this.userId = userId;
+            return this;
+        }
+
+        @Override
+        public GuitarSetup build() {
+            return GuitarSetup.this;
+        }
     }
 }

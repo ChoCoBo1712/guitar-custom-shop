@@ -41,10 +41,4 @@ public class Controller extends HttpServlet {
             request.getRequestDispatcher(PagePath.ERROR_404_JSP).forward(request, response);
         }
     }
-
-    @Override
-    public void destroy() {
-        DatabaseConnectionPool.getInstance().destroy();
-        super.destroy();
-    }
 }

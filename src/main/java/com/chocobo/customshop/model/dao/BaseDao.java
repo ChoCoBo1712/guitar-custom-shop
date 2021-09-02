@@ -1,12 +1,12 @@
 package com.chocobo.customshop.model.dao;
 
 import com.chocobo.customshop.exception.DaoException;
-import com.chocobo.customshop.model.entity.BaseEntity;
+import com.chocobo.customshop.model.entity.AbstractEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseDao<T extends BaseEntity> {
+public interface BaseDao<T extends AbstractEntity> {
 
     long insert(T entity) throws DaoException;
 

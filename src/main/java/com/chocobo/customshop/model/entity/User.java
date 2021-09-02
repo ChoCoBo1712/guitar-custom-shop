@@ -1,9 +1,11 @@
 package com.chocobo.customshop.model.entity;
 
+import jakarta.jws.soap.SOAPBinding;
+
 import java.util.Arrays;
 import java.util.Objects;
 
-public class User extends BaseEntity {
+public class User extends AbstractEntity {
 
     public enum UserRole {
         GUEST,
@@ -25,73 +27,36 @@ public class User extends BaseEntity {
     private UserRole role;
     private UserStatus status;
 
-    public User(String email, String login, byte[] passwordHash, byte[] salt, UserRole role, UserStatus status) {
-        // TODO: 09.08.2021 fix sending default value of long to constructor
-        super(0);
-        this.email = email;
-        this.login = login;
-        this.passwordHash = passwordHash;
-        this.salt = salt;
-        this.role = role;
-        this.status = status;
+    private User() {
+
     }
 
-    public User(long entityId, String email, String login, byte[] passwordHash, byte[] salt, UserRole role, UserStatus status) {
-        super(entityId);
-        this.email = email;
-        this.login = login;
-        this.passwordHash = passwordHash;
-        this.salt = salt;
-        this.role = role;
-        this.status = status;
+    public static UserBuilder builder() {
+        return new User().new UserBuilder();
     }
 
     public String getLogin() {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public byte[] getPasswordHash() {
         return passwordHash;
     }
 
-    public void setPasswordHash(byte[] passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
     public byte[] getSalt() {
         return salt;
-    }
-
-    public void setSalt(byte[] salt) {
-        this.salt = salt;
     }
 
     public UserRole getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
     public UserStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
     }
 
     @Override
@@ -134,5 +99,58 @@ public class User extends BaseEntity {
         builder.append("user status = ").append(status).append(")");
 
         return builder.toString();
+    }
+
+    public class UserBuilder extends AbstractBuilder {
+
+        private UserBuilder() {
+
+        }
+
+        public UserBuilder setLogin(String login) {
+            User.this.login = login;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            User.this.email = email;
+            return this;
+        }
+
+        public UserBuilder setPasswordHash(byte[] passwordHash) {
+            User.this.passwordHash = passwordHash;
+            return this;
+        }
+
+        public UserBuilder setSalt(byte[] salt) {
+            User.this.salt = salt;
+            return this;
+        }
+
+        public UserBuilder setRole(UserRole role) {
+            User.this.role = role;
+            return this;
+        }
+
+        public UserBuilder setStatus(UserStatus status) {
+            User.this.status = status;
+            return this;
+        }
+
+        public UserBuilder of(User user) {
+            super.of(user);
+            User.this.login = user.login;
+            User.this.email = user.email;
+            User.this.passwordHash = user.passwordHash;
+            User.this.salt = user.salt;
+            User.this.role = user.role;
+            User.this.status = user.status;
+            return this;
+        }
+
+        @Override
+        public User build() {
+            return User.this;
+        }
     }
 }

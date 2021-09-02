@@ -2,7 +2,7 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class Guitar extends BaseEntity {
+public class Guitar extends AbstractEntity {
 
     public enum NeckJoint {
         BOLT_ON,
@@ -20,92 +20,48 @@ public class Guitar extends BaseEntity {
     private String comment;
     private long userId;
 
-    public Guitar(
-            long entityId, String picturePath, NeckJoint neckJoint, long stringSetId, long bodyId, long neckId,
-            long pickupSetId, String color, String comment, long userId
-    ) {
-        super(entityId);
-        this.picturePath = picturePath;
-        this.neckJoint = neckJoint;
-        this.stringSetId = stringSetId;
-        this.bodyId = bodyId;
-        this.neckId = neckId;
-        this.pickupSetId = pickupSetId;
-        this.color = color;
-        this.comment = comment;
-        this.userId = userId;
+    private Guitar() {
+
+    }
+
+    public static GuitarBuilder builder() {
+        return new Guitar().new GuitarBuilder();
     }
 
     public String getPicturePath() {
         return picturePath;
     }
 
-    public void setPicturePath(String picturePath) {
-        this.picturePath = picturePath;
-    }
-
     public NeckJoint getNeckJoint() {
         return neckJoint;
-    }
-
-    public void setNeckJoint(NeckJoint neckJoint) {
-        this.neckJoint = neckJoint;
     }
 
     public long getStringSetId() {
         return stringSetId;
     }
 
-    public void setStringSetId(long stringSetId) {
-        this.stringSetId = stringSetId;
-    }
-
     public long getBodyId() {
         return bodyId;
-    }
-
-    public void setBodyId(long bodyId) {
-        this.bodyId = bodyId;
     }
 
     public long getNeckId() {
         return neckId;
     }
 
-    public void setNeckId(long neckId) {
-        this.neckId = neckId;
-    }
-
     public long getPickupSetId() {
         return pickupSetId;
-    }
-
-    public void setPickupSetId(long pickupSetId) {
-        this.pickupSetId = pickupSetId;
     }
 
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public long getUserId() {
         return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     @Override
@@ -158,5 +114,62 @@ public class Guitar extends BaseEntity {
         builder.append("user id = ").append(userId).append(")");
 
         return builder.toString();
+    }
+
+    public class GuitarBuilder extends AbstractBuilder {
+
+        private GuitarBuilder() {
+
+        }
+
+        public GuitarBuilder setPicturePath(String picturePath) {
+            Guitar.this.picturePath = picturePath;
+            return this;
+        }
+
+        public GuitarBuilder setNeckJoint(NeckJoint neckJoint) {
+            Guitar.this.neckJoint = neckJoint;
+            return this;
+        }
+
+        public GuitarBuilder setStringSetId(long stringSetId) {
+            Guitar.this.stringSetId = stringSetId;
+            return this;
+        }
+
+        public GuitarBuilder setBodyId(long bodyId) {
+            Guitar.this.bodyId = bodyId;
+            return this;
+        }
+
+        public GuitarBuilder setNeckId(long neckId) {
+            Guitar.this.neckId = neckId;
+            return this;
+        }
+
+        public GuitarBuilder setPickupSetId(long pickupSetId) {
+            Guitar.this.pickupSetId = pickupSetId;
+            return this;
+        }
+
+        public GuitarBuilder setColor(String color) {
+            Guitar.this.color = color;
+            return this;
+        }
+
+        public GuitarBuilder setComment(String comment) {
+            Guitar.this.comment = comment;
+            return this;
+        }
+
+        public GuitarBuilder setUserId(long userId) {
+            Guitar.this.userId = userId;
+            return this;
+        }
+
+        @Override
+        public Guitar build() {
+            return Guitar.this;
+        }
     }
 }

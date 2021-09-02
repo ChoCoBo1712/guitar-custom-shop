@@ -2,21 +2,20 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class PickupSet extends BaseEntity {
+public class PickupSet extends AbstractEntity {
 
     private String name;
 
-    public PickupSet(long entityId, String name) {
-        super(entityId);
-        this.name = name;
+    private PickupSet() {
+
+    }
+
+    public static PickupSetBuilder builder() {
+        return new PickupSet().new PickupSetBuilder();
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -49,5 +48,22 @@ public class PickupSet extends BaseEntity {
         builder.append("name = ").append(name).append(")");
 
         return builder.toString();
+    }
+
+    public class PickupSetBuilder extends AbstractBuilder {
+
+        private PickupSetBuilder() {
+
+        }
+
+        public PickupSetBuilder setName(String name) {
+            PickupSet.this.name = name;
+            return this;
+        }
+
+        @Override
+        public PickupSet build() {
+            return null;
+        }
     }
 }

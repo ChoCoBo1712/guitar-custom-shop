@@ -15,6 +15,7 @@ import static com.chocobo.customshop.controller.command.RequestParameter.*;
 
 public class LoginCommand implements Command {
 
+    // TODO: 31.08.2021 translate
     private static final String ERROR_MSG = "Incorrect login or password";
 
     @Override

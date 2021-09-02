@@ -14,4 +14,8 @@ public interface UserService {
     long register(String email, String login, String password) throws ServiceException;
 
     Optional<User> login(String login, String password) throws ServiceException;
+
+    Optional<User> findById(long id) throws ServiceException;
+
+    void update(User user) throws ServiceException;
 }

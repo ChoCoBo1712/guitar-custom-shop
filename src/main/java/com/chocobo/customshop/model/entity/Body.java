@@ -2,31 +2,25 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class Body extends BaseEntity {
+public class Body extends AbstractEntity {
 
     private StringSet shape;
     private long woodId;
 
-    public Body(long entityId, StringSet shape, long woodId) {
-        super(entityId);
-        this.shape = shape;
-        this.woodId = woodId;
+    private Body() {
+
+    }
+
+    public static BodyBuilder builder() {
+        return new Body().new BodyBuilder();
     }
 
     public StringSet getShape() {
         return shape;
     }
 
-    public void setShape(StringSet shape) {
-        this.shape = shape;
-    }
-
     public long getWoodId() {
         return woodId;
-    }
-
-    public void setWoodId(long woodId) {
-        this.woodId = woodId;
     }
 
     @Override
@@ -61,5 +55,28 @@ public class Body extends BaseEntity {
         builder.append("wood id = ").append(woodId).append(")");
 
         return builder.toString();
+    }
+
+    public class BodyBuilder extends AbstractBuilder {
+
+        private BodyBuilder() {
+
+        }
+
+        public BodyBuilder setShape(StringSet shape) {
+            Body.this.shape = shape;
+            return this;
+        }
+
+        public BodyBuilder setWoodId(long woodId) {
+            Body.this.woodId = woodId;
+            return this;
+        }
+
+        @Override
+        public Body build() {
+            return Body.this;
+        }
+
     }
 }

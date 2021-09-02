@@ -2,7 +2,7 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class Neck extends BaseEntity {
+public class Neck extends AbstractEntity {
 
     public enum TunerSet {
         LOCKING,
@@ -14,44 +14,28 @@ public class Neck extends BaseEntity {
     private long woodId;
     private long fretboardId;
 
-    public Neck(long entityId, StringSet shape, TunerSet tunerSet, long woodId, long fretboardId) {
-        super(entityId);
-        this.shape = shape;
-        this.tunerSet = tunerSet;
-        this.woodId = woodId;
-        this.fretboardId = fretboardId;
+    private Neck() {
+
+    }
+
+    public static NeckBuilder builder() {
+        return new Neck().new NeckBuilder();
     }
 
     public StringSet getShape() {
         return shape;
     }
 
-    public void setShape(StringSet shape) {
-        this.shape = shape;
-    }
-
-    public TunerSet getTuner() {
+    public TunerSet getTunerSet() {
         return tunerSet;
-    }
-
-    public void setTuner(TunerSet tunerSet) {
-        this.tunerSet = tunerSet;
     }
 
     public long getWoodId() {
         return woodId;
     }
 
-    public void setWoodId(long woodId) {
-        this.woodId = woodId;
-    }
-
     public long getFretboardId() {
         return fretboardId;
-    }
-
-    public void setFretboardId(long fretboardId) {
-        this.fretboardId = fretboardId;
     }
 
     @Override
@@ -91,5 +75,37 @@ public class Neck extends BaseEntity {
         builder.append("fretboard id = ").append(fretboardId).append(")");
 
         return builder.toString();
+    }
+
+    public class NeckBuilder extends AbstractBuilder {
+
+        private NeckBuilder() {
+
+        }
+
+        public NeckBuilder setShape(StringSet shape) {
+            Neck.this.shape = shape;
+            return this;
+        }
+
+        public NeckBuilder setTunerSet(TunerSet tunerSet) {
+            Neck.this.tunerSet = tunerSet;
+            return this;
+        }
+
+        public NeckBuilder setWoodId(long woodId) {
+            Neck.this.woodId = woodId;
+            return this;
+        }
+
+        public NeckBuilder setFretboardId(long fretboardId) {
+            Neck.this.fretboardId = fretboardId;
+            return this;
+        }
+
+        @Override
+        public Neck build() {
+            return Neck.this;
+        }
     }
 }

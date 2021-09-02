@@ -2,21 +2,20 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class Wood extends BaseEntity {
+public class Wood extends AbstractEntity {
 
     private StringSet name;
 
-    public Wood(long entityId, StringSet name) {
-        super(entityId);
-        this.name = name;
+    private Wood() {
+
+    }
+
+    public static WoodBuilder builder() {
+        return new Wood().new WoodBuilder();
     }
 
     public StringSet getName() {
         return name;
-    }
-
-    public void setName(StringSet name) {
-        this.name = name;
     }
 
     @Override
@@ -49,5 +48,22 @@ public class Wood extends BaseEntity {
         builder.append("name = ").append(name).append(")");
 
         return builder.toString();
+    }
+
+    public class WoodBuilder extends AbstractBuilder {
+
+        private WoodBuilder() {
+
+        }
+
+        public WoodBuilder setName(StringSet name) {
+            Wood.this.name = name;
+            return this;
+        }
+
+        @Override
+        public Wood build() {
+            return Wood.this;
+        }
     }
 }

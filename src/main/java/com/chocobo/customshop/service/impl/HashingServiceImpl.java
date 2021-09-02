@@ -18,13 +18,12 @@ public class HashingServiceImpl implements HashingService {
 
     private static HashingService instance;
 
-    private static final String HASHING_PROPERTIES_NAME = "hashing.properties";
+    private static final String HASHING_PROPERTIES_NAME = "properties/hashing.properties";
     private static final String ITERATION_COUNT_PROPERTY = "iterationCount";
     private static final String KEY_LENGTH_PROPERTY = "keyLength";
     private static final String ALGORITHM_PROPERTY = "algorithm";
     private static final String SALT_LENGTH_PROPERTY = "saltLength";
-    private static final byte[] CONST_SALT = "GHafjl214lnsgk0h"
-            .getBytes(StandardCharsets.UTF_8);
+    private static final byte[] CONST_SALT = "GHafjl214lnsgk0h".getBytes(StandardCharsets.UTF_8);
 
     private static final int iterationCount;
     private static final int keyLength;

@@ -2,31 +2,25 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
-public class StringSet extends BaseEntity {
+public class StringSet extends AbstractEntity {
 
     private String name;
     private String size;
 
-    public StringSet(long entityId, String name, String size) {
-        super(entityId);
-        this.name = name;
-        this.size = size;
+    private StringSet() {
+
+    }
+
+    public static StringSetBuilder builder() {
+        return new StringSet().new StringSetBuilder();
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getSize() {
         return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 
     @Override
@@ -62,5 +56,27 @@ public class StringSet extends BaseEntity {
         builder.append("size = ").append(size).append(")");
 
         return builder.toString();
+    }
+
+    public class StringSetBuilder extends AbstractBuilder {
+
+        private StringSetBuilder() {
+
+        }
+
+        public StringSetBuilder setName(String name) {
+            StringSet.this.name = name;
+            return this;
+        }
+
+        public StringSetBuilder setSize(String size) {
+            StringSet.this.size = size;
+            return this;
+        }
+
+        @Override
+        public StringSet build() {
+            return StringSet.this;
+        }
     }
 }

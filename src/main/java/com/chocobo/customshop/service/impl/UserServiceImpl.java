@@ -1,6 +1,5 @@
 package com.chocobo.customshop.service.impl;
 
-import com.chocobo.customshop.controller.command.PagePath;
 import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.dao.UserDao;
@@ -53,8 +52,14 @@ public class UserServiceImpl implements UserService {
         byte[] salt = hashingService.generateSalt();
         byte[] passwordHash = hashingService.generateHash(password, salt);
 
-        User user = new User(email, login, passwordHash, salt, User.UserRole.CLIENT, User.UserStatus.NOT_CONFIRMED);
-
+        User user = User.builder()
+                .setEmail(email)
+                .setLogin(login)
+                .setPasswordHash(passwordHash)
+                .setSalt(salt)
+                .setRole(User.UserRole.CLIENT)
+                .setStatus(User.UserStatus.NOT_CONFIRMED)
+                .build();
         try {
             return userDao.insert(user);
         } catch (DaoException e) {
@@ -79,6 +84,24 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findById(long id) throws ServiceException {
+        try {
+            return userDao.selectById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void update(User user) throws ServiceException {
+        try {
+            userDao.update(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
 }
