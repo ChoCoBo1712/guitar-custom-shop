@@ -1,28 +1,27 @@
 package com.chocobo.customshop.controller.command.validator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ValidationResult {
 
-    // TODO: 31.08.2021 translate
-    private static final String DEFAULT_POSITIVE_MSG = "Validation successful";
-
     private final boolean valid;
-    private final String errorMessage;
+    private final List<String> errorList;
 
     public ValidationResult() {
         this.valid = true;
-        this.errorMessage = DEFAULT_POSITIVE_MSG;
+        errorList = new ArrayList<>();
     }
 
-    public ValidationResult(String errorMessage) {
-        this.valid = false;
-        this.errorMessage = errorMessage;
+    public void addToErrorList(String error) {
+        errorList.add(error);
     }
 
     public boolean isValid() {
         return valid;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public List<String> getErrorList() {
+        return new ArrayList<>(errorList);
     }
 }

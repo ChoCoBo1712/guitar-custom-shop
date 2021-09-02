@@ -4,26 +4,27 @@ import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.service.UserService;
 import com.chocobo.customshop.service.impl.UserServiceImpl;
 
+import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
+import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
+
 public class UserValidator {
 
-    // TODO: 31.08.2021 translate 
-    private static final String INVALID_EMAIL_MSG = "Such email is already registered";
-    private static final String INVALID_LOGIN_MSG = "User with such login is already registered";
-    private static final String EXCEPTION_MSG = "Could not validate given information now, please try later";
+    public static final String SERVICE_EXCEPTION = "serviceException";
 
     public static ValidationResult validateRegistration(String email, String login) {
         UserService userService = UserServiceImpl.getInstance();
+        ValidationResult validationResult = new ValidationResult();
         try {
             if (!userService.isEmailUnique(email)) {
-                return new ValidationResult(INVALID_EMAIL_MSG);
+                validationResult.addToErrorList(INVALID_EMAIL_ERROR);
             }
 
             if (!userService.isLoginUnique(login)) {
-                return new ValidationResult(INVALID_LOGIN_MSG);
+                validationResult.addToErrorList(INVALID_LOGIN_ERROR);
             }
         } catch (ServiceException e) {
-            return new ValidationResult(EXCEPTION_MSG);
+            validationResult.addToErrorList(SERVICE_EXCEPTION);
         }
-        return new ValidationResult();
+        return validationResult;
     }
 }

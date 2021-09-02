@@ -2,7 +2,6 @@ package com.chocobo.customshop.controller.command.impl;
 
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
-import com.chocobo.customshop.controller.command.PagePath;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.service.TokenService;
@@ -14,10 +13,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.chocobo.customshop.controller.command.CommandResult.RouteType.*;
-import static com.chocobo.customshop.controller.command.PagePath.*;
+import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
+import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
+import static com.chocobo.customshop.controller.command.PagePath.ACTIVATION_SUCCESS_URL;
 import static com.chocobo.customshop.controller.command.RequestParameter.TOKEN;
-import static com.chocobo.customshop.model.entity.User.UserStatus.*;
+import static com.chocobo.customshop.model.entity.User.UserStatus.CONFIRMED;
+import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class ConfirmEmailCommand implements Command {
 
@@ -46,9 +47,9 @@ public class ConfirmEmailCommand implements Command {
                 }
             }
 
-            return new CommandResult(ACTIVATION_SUCCESS_JSP, REDIRECT);
+            return new CommandResult(ACTIVATION_SUCCESS_URL, REDIRECT);
         } catch (ServiceException e) {
-            return new CommandResult(ERROR_500_JSP, REDIRECT);
+            return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
     }
 }

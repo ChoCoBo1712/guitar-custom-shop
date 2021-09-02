@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
 
 @WebListener
-public class SessionListener implements HttpSessionListener {
+public class HttpSessionListenerImpl implements HttpSessionListener {
 
     private static final String DEFAULT_LOCALE = "en_US";
 

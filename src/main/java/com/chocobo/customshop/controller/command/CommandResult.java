@@ -5,18 +5,18 @@ public class CommandResult {
     public enum RouteType {
         FORWARD,
         REDIRECT,
-        JSON
+        ERROR
     }
 
-    private final String route;
+    private final Object route;
     private final RouteType routeType;
 
-    public CommandResult(String route, RouteType routeType) {
+    public CommandResult(Object route, RouteType routeType) {
         this.route = route;
         this.routeType = routeType;
     }
 
-    public String getRoute() {
+    public Object getRoute() {
         return route;
     }
 

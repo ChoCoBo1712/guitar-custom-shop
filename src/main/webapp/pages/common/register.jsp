@@ -15,6 +15,6 @@
         <input type="submit" value=<fmt:message key="register.submit" />>
     </form>
 
-    <p>${validationError}</p>
+    <p>${sessionScope.validationError}</p>
 </body>
 </html>

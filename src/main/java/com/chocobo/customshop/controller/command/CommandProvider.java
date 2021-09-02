@@ -14,9 +14,14 @@ public class CommandProvider {
     private static final Map<CommandType, Command> commandMap = new EnumMap<>(CommandType.class);
 
     static {
+        // GoTo commands
         commandMap.put(CommandType.GO_TO_INDEX_PAGE, new GoToIndexPageCommand());
         commandMap.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
         commandMap.put(CommandType.GO_TO_REGISTER_PAGE, new GoToRegisterPageCommand());
+        commandMap.put(CommandType.GO_TO_REGISTER_SUCCESS_PAGE, new GoToRegisterSuccessPageCommand());
+        commandMap.put(CommandType.GO_TO_ACTIVATION_SUCCESS_PAGE, new GoToActivationSuccessPageCommand());
+
+        // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
         commandMap.put(CommandType.LOGIN, new LoginCommand());
         commandMap.put(CommandType.CONFIRM_EMAIL, new ConfirmEmailCommand());
