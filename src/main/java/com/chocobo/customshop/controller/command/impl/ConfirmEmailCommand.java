@@ -9,6 +9,8 @@ import com.chocobo.customshop.service.UserService;
 import com.chocobo.customshop.service.impl.TokenServiceImpl;
 import com.chocobo.customshop.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +23,8 @@ import static com.chocobo.customshop.model.entity.User.UserStatus.CONFIRMED;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class ConfirmEmailCommand implements Command {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private static final String ID_CLAIM = "id";
     private static final String EMAIL_CLAIM = "email";
@@ -49,6 +53,7 @@ public class ConfirmEmailCommand implements Command {
 
             return new CommandResult(ACTIVATION_SUCCESS_URL, REDIRECT);
         } catch (ServiceException e) {
+            logger.error("An error occurred during confirm email command execution", e);
             return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
     }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="properties.pagecontent" />
 
@@ -15,6 +16,12 @@
         <input type="submit" value=<fmt:message key="register.submit" />>
     </form>
 
-    <p>${sessionScope.validationError}</p>
+    <c:if test="${sessionScope.invalidEmailError}">
+        <p><fmt:message key="register.invalid_email" /></p>
+    </c:if>
+
+    <c:if test="${sessionScope.invalidLoginError}">
+        <p><fmt:message key="register.invalid_login" /></p>
+    </c:if>
 </body>
 </html>

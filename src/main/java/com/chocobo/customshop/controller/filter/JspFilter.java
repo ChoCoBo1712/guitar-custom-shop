@@ -13,8 +13,8 @@ public class JspFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        httpRequest.getRequestDispatcher(PagePath.ERROR_404_JSP).forward(request, response);
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
         chain.doFilter(request, response);
     }
 }

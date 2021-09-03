@@ -2,6 +2,6 @@
 
 <html>
 <body>
-    <jsp:forward page="/controller?command=go_to_index_page"></jsp:forward>
+    <jsp:forward page="/pages/common/index.jsp"/>
 </body>
 </html>

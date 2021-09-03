@@ -1,4 +1,4 @@
-     plugins {
+plugins {
     id 'java'
     id 'war'
 }
@@ -10,9 +10,6 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 15
-targetCompatibility = 15
-
 dependencies {
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.25'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
@@ -20,7 +17,6 @@ dependencies {
     implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
 
     implementation group: 'com.sun.mail', name: 'jakarta.mail', version: '2.0.1'
-//    implementation group: 'jakarta.activation', name: 'jakarta.activation-api', version: '2.0.1'
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'

@@ -64,6 +64,7 @@ public class Controller extends HttpServlet {
                 }
             }
         } else {
+            logger.error("Specified command not found");
             response.sendError(SC_NOT_FOUND);
         }
     }

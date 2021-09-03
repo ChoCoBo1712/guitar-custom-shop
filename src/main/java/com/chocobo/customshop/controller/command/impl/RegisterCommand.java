@@ -13,6 +13,8 @@ import com.chocobo.customshop.service.impl.TokenServiceImpl;
 import com.chocobo.customshop.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -26,6 +28,8 @@ import static com.chocobo.customshop.controller.command.validator.UserValidator.
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class RegisterCommand implements Command {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private static final String PROTOCOL_DELIMITER = "://";
     private static final String URL_BLANK = "/controller?command=confirm_email&token=";
@@ -59,6 +63,7 @@ public class RegisterCommand implements Command {
                 String mailBody = String.format(bodyTemplate, confirmationLink);
                 mailService.sendMail(email, mailSubject, mailBody);
             } catch (ServiceException e) {
+                logger.error("An error occurred during register command execution", e);
                 return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
             }
             result = new CommandResult(REGISTER_SUCCESS_URL, REDIRECT);

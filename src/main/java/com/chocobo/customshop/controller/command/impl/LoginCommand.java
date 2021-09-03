@@ -7,6 +7,8 @@ import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
@@ -21,6 +23,8 @@ import static com.chocobo.customshop.controller.command.SessionAttribute.USER_RO
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class LoginCommand implements Command {
+
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -41,6 +45,7 @@ public class LoginCommand implements Command {
                 result = new CommandResult(LOGIN_URL, REDIRECT);
             }
         } catch (ServiceException e) {
+            logger.error("An error occurred during login command execution", e);
             result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
         return result;

@@ -15,7 +15,8 @@
         <input type="submit" value=<fmt:message key="login.submit" />>
     </form>
 
-    <c:if test="${sessionScope.loginError}"/>
-    <p><fmt:message key="login.error" /></p>
+    <c:if test="${sessionScope.loginError}">
+        <p><fmt:message key="login.error" /></p>
+    </c:if>
 </body>
 </html>
