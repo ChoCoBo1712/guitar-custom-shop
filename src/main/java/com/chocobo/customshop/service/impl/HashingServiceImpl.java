@@ -2,6 +2,8 @@ package com.chocobo.customshop.service.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.service.HashingService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -16,6 +18,7 @@ import java.util.Properties;
 
 public class HashingServiceImpl implements HashingService {
 
+    private static final Logger logger = LogManager.getLogger();
     private static HashingService instance;
 
     private static final String HASHING_PROPERTIES_NAME = "properties/hashing.properties";
@@ -40,7 +43,8 @@ public class HashingServiceImpl implements HashingService {
             hashingAlgorithm = properties.getProperty(ALGORITHM_PROPERTY);
             saltLength = Integer.parseInt(properties.getProperty(SALT_LENGTH_PROPERTY));
         } catch (IOException e) {
-            throw new RuntimeException("Couldn't read hashing properties file", e);
+            logger.error("Couldn't read hashing properties file", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -70,7 +74,7 @@ public class HashingServiceImpl implements HashingService {
             System.arraycopy(CONST_SALT, 0, result, hash.length, CONST_SALT.length);
             return result;
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Error generating hash", e);
         }
     }
 }

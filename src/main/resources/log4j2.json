@@ -23,8 +23,8 @@
       },
       "RollingFile": {
         "name": "File",
-        "fileName": "${catalina.base}/logs/last.log",
-        "filePattern": "${catalina.base}/logs/${date:MM.yyyy}/array-%d{dd.MM.yyyy}-%i.log.gz",
+        "fileName": "${sys:catalina.home}/logs/last.log",
+        "filePattern": "${sys:catalina.home}/logs/${date:MM.yyyy}/array-%d{dd.MM.yyyy}-%i.log.gz",
         "PatternLayout": {
           "pattern": "${pattern_file}"
         },

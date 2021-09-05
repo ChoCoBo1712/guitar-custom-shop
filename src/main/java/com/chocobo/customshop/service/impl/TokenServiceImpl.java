@@ -6,6 +6,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +17,7 @@ import java.util.*;
 
 public class TokenServiceImpl implements TokenService {
 
+    private static final Logger logger = LogManager.getLogger();
     private static TokenService instance;
 
     private static final String TOKEN_PROPERTIES_NAME = "properties/token.properties";
@@ -35,7 +38,8 @@ public class TokenServiceImpl implements TokenService {
             secretKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
             validityTime = Integer.parseInt(properties.getProperty(VALIDITY_TIME_PROPERTY));
         } catch (IOException e) {
-            throw new RuntimeException("Couldn't read token properties file", e);
+            logger.error("Couldn't read token properties file", e);
+            throw new RuntimeException(e);
         }
     }
 
