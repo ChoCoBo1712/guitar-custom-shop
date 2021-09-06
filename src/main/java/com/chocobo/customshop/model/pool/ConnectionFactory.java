@@ -29,10 +29,10 @@ class ConnectionFactory {
             Class.forName(dbProperties.getProperty(DRIVER_PROPERTY));
             dbUrl = dbProperties.getProperty(URL_PROPERTY);
         } catch (IOException e) {
-            logger.error("Couldn't read database properties file", e);
+            logger.fatal("Couldn't read database properties file", e);
             throw new RuntimeException("Couldn't read database properties file", e);
         } catch (ClassNotFoundException e) {
-            logger.error("Couldn't register database driver", e);
+            logger.fatal("Couldn't register database driver", e);
             throw new RuntimeException("Couldn't read database properties file", e);
         }
     }
@@ -42,6 +42,7 @@ class ConnectionFactory {
             Connection connection = DriverManager.getConnection(dbUrl, dbProperties);
             return new ProxyConnection(connection);
         } catch (SQLException e) {
+            logger.error("Unable to create database connection", e);
             throw new DatabaseConnectionException("Unable to create database connection", e);
         }
     }

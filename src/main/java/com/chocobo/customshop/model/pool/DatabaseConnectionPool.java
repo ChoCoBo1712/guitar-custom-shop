@@ -9,9 +9,11 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayDeque;
 import java.util.Properties;
 import java.util.Queue;
+import java.util.Timer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -24,16 +26,25 @@ public class DatabaseConnectionPool {
 
     public static final Logger logger = LogManager.getLogger();
     private static final String POOL_PROPERTIES_NAME = "properties/pool.properties";
-    private static final String POOL_SIZE_PROPERTY = "poolSize";
+    private static final String MIN_POOL_SIZE_PROPERTY = "minPoolSize";
+    private static final String MAX_POOL_SIZE_PROPERTY = "maxPoolSize";
+    public static final String CONNECTION_LIFETIME_PROPERTY = "connectionLifetime";
+    public static final String POOL_CHECK_DELAY_PROPERTY = "poolCheckDelay";
+    public static final String POOL_CHECK_PERIOD_PROPERTY = "poolCheckPeriod";
 
     private static final AtomicReference<DatabaseConnectionPool> instance = new AtomicReference<>(null);
     private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
 
-    private final int poolSize;
+    private final int minPoolSize;
+    private final int maxPoolSize;
+    private final long connectionLifetime;
+    private final int poolCheckDelay;
+    private final int poolCheckPeriod;
 
     private final Lock poolLock = new ReentrantLock(true);
     private final BlockingQueue<Connection> availableConnections;
     private final Queue<Connection> usedConnections;
+    private final Timer timer = new Timer(true);
 
     public static DatabaseConnectionPool getInstance() {
         while (instance.get() == null) {
@@ -50,13 +61,38 @@ public class DatabaseConnectionPool {
             Properties poolProperties = new Properties();
             poolProperties.load(inputStream);
 
-            poolSize = Integer.parseInt(poolProperties.getProperty(POOL_SIZE_PROPERTY));
-            availableConnections = new ArrayBlockingQueue<>(poolSize);
-            usedConnections = new ArrayDeque<>(poolSize);
+            minPoolSize = Integer.parseInt(poolProperties.getProperty(MIN_POOL_SIZE_PROPERTY));
+            maxPoolSize = Integer.parseInt(poolProperties.getProperty(MAX_POOL_SIZE_PROPERTY));
+
+            if (minPoolSize > maxPoolSize) {
+                logger.fatal("Min size of pool is greater than max size");
+                throw new RuntimeException("Min size of pool is greater than max size");
+            }
+
+            connectionLifetime = Long.parseLong(poolProperties.getProperty(CONNECTION_LIFETIME_PROPERTY));
+            poolCheckDelay = Integer.parseInt(poolProperties.getProperty(POOL_CHECK_DELAY_PROPERTY));
+            poolCheckPeriod = Integer.parseInt(poolProperties.getProperty(POOL_CHECK_PERIOD_PROPERTY));
+
+            availableConnections = new ArrayBlockingQueue<>(minPoolSize);
+            usedConnections = new ArrayDeque<>(minPoolSize);
+
+            for (int i = 0; i < minPoolSize; i++) {
+                Connection connection = ConnectionFactory.createConnection();
+                availableConnections.add(connection);
+            }
         } catch (IOException e) {
-            logger.error("Couldn't read connection pool properties file", e);
+            logger.fatal("Couldn't read connection pool properties file", e);
             throw new RuntimeException("Couldn't read connection pool properties file", e);
+        } catch (NumberFormatException e) {
+            logger.fatal("Couldn't configure vital parameters of connection pool", e);
+            throw new RuntimeException("Couldn't configure size of connection pool", e);
+        } catch (DatabaseConnectionException e) {
+            logger.fatal("Error establishing connection pool", e);
+            throw new RuntimeException("Error establishing connection pool", e);
         }
+
+        PoolTimerTask task = new PoolTimerTask();
+        timer.schedule(task, poolCheckDelay, poolCheckPeriod);
     }
 
     public Connection getConnection() throws DatabaseConnectionException {
@@ -64,13 +100,15 @@ public class DatabaseConnectionPool {
             poolLock.lock();
             Connection connection = null;
 
-            if (availableConnections.size() + usedConnections.size() < poolSize) {
+            if (availableConnections.isEmpty() && usedConnections.size() < maxPoolSize) {
                 availableConnections.add(ConnectionFactory.createConnection());
             }
 
             try {
                 connection = availableConnections.take();
                 usedConnections.add(connection);
+                ProxyConnection proxyConnection = (ProxyConnection) connection;
+                proxyConnection.setLifetimeStart(Instant.now());
             } catch (InterruptedException e) {
                 logger.error("Unexpected exception", e);
                 Thread.currentThread().interrupt();
@@ -99,28 +137,31 @@ public class DatabaseConnectionPool {
     }
 
     public void destroy() {
-        poolLock.lock();
-        for (int i = 0; i < availableConnections.size(); i++) {
-            try {
-                ProxyConnection connection = (ProxyConnection) availableConnections.take();
-                connection.closeInnerConnection();
-            } catch (SQLException e) {
-                logger.error("Failed to close connection", e);
-            } catch (InterruptedException e) {
-                logger.error("Unexpected exception", e);
-                Thread.currentThread().interrupt();
+        try {
+            poolLock.lock();
+            for (int i = 0; i < availableConnections.size(); i++) {
+                try {
+                    ProxyConnection connection = (ProxyConnection) availableConnections.take();
+                    connection.closeInnerConnection();
+                } catch (SQLException e) {
+                    logger.error("Failed to close connection", e);
+                } catch (InterruptedException e) {
+                    logger.error("Unexpected exception", e);
+                    Thread.currentThread().interrupt();
+                }
             }
-        }
 
-        for (int i = 0; i < usedConnections.size(); i++) {
-            ProxyConnection connection = (ProxyConnection) usedConnections.remove();
-            try {
-                connection.closeInnerConnection();
-            } catch (SQLException e) {
-                logger.error("Failed to close connection", e);
+            for (int i = 0; i < usedConnections.size(); i++) {
+                ProxyConnection connection = (ProxyConnection) usedConnections.remove();
+                try {
+                    connection.closeInnerConnection();
+                } catch (SQLException e) {
+                    logger.error("Failed to close connection", e);
+                }
             }
+        } finally {
+            poolLock.unlock();
         }
-        poolLock.unlock();
 
         DriverManager.getDrivers()
                 .asIterator()
@@ -131,5 +172,29 @@ public class DatabaseConnectionPool {
                         logger.error("Failed to deregister driver: ", e);
                     }
                 });
+    }
+
+    Lock getPoolLock() {
+        return poolLock;
+    }
+
+    BlockingQueue<Connection> getAvailableConnections() {
+        return availableConnections;
+    }
+
+    Queue<Connection> getUsedConnections() {
+        return usedConnections;
+    }
+
+    int getMinPoolSize() {
+        return minPoolSize;
+    }
+
+    int getMaxPoolSize() {
+        return maxPoolSize;
+    }
+
+    long getConnectionLifetime() {
+        return connectionLifetime;
     }
 }

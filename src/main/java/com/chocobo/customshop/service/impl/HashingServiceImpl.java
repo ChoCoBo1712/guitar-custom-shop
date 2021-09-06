@@ -43,7 +43,7 @@ public class HashingServiceImpl implements HashingService {
             hashingAlgorithm = properties.getProperty(ALGORITHM_PROPERTY);
             saltLength = Integer.parseInt(properties.getProperty(SALT_LENGTH_PROPERTY));
         } catch (IOException e) {
-            logger.error("Couldn't read hashing properties file", e);
+            logger.fatal("Couldn't read hashing properties file", e);
             throw new RuntimeException(e);
         }
     }

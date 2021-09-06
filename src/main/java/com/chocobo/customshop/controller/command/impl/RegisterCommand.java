@@ -2,8 +2,6 @@ package com.chocobo.customshop.controller.command.impl;
 
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
-import com.chocobo.customshop.controller.command.SessionAttribute;
-import com.chocobo.customshop.controller.command.validator.UserValidator;
 import com.chocobo.customshop.controller.command.validator.ValidationResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.service.MailService;
@@ -23,8 +21,10 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.REGISTER_SUCCESS_URL;
 import static com.chocobo.customshop.controller.command.PagePath.REGISTER_URL;
 import static com.chocobo.customshop.controller.command.RequestParameter.*;
-import static com.chocobo.customshop.controller.command.SessionAttribute.*;
-import static com.chocobo.customshop.controller.command.validator.UserValidator.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
+import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
+import static com.chocobo.customshop.controller.command.validator.UserValidator.SERVICE_EXCEPTION;
+import static com.chocobo.customshop.controller.command.validator.UserValidator.validateRegistration;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class RegisterCommand implements Command {
@@ -34,8 +34,8 @@ public class RegisterCommand implements Command {
     private static final String PROTOCOL_DELIMITER = "://";
     private static final String URL_BLANK = "/controller?command=confirm_email&token=";
 
-    private static final String SUBJECT_PROPERTY = "confirmation_mail.subject";
-    private static final String BODY_PROPERTY = "confirmation_mail.body";
+    private static final String SUBJECT_PROPERTY = "confirmationMail.subject";
+    private static final String BODY_PROPERTY = "confirmationMail.body";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {

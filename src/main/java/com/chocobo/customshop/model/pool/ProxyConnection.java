@@ -1,6 +1,7 @@
 package com.chocobo.customshop.model.pool;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
@@ -8,6 +9,7 @@ import java.util.concurrent.Executor;
 class ProxyConnection implements Connection {
 
     private final Connection connection;
+    private Instant lifetimeStart;
 
     ProxyConnection(Connection connection) {
         this.connection = connection;
@@ -15,7 +17,15 @@ class ProxyConnection implements Connection {
 
     void closeInnerConnection() throws SQLException {
         connection.close();
-    }   
+    }
+
+    void setLifetimeStart(Instant instant) {
+        lifetimeStart = instant;
+    }
+
+    Instant getLifetimeStart() {
+        return lifetimeStart;
+    }
 
     @Override
     public void close() {

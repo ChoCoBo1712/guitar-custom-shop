@@ -38,7 +38,7 @@ public class TokenServiceImpl implements TokenService {
             secretKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
             validityTime = Integer.parseInt(properties.getProperty(VALIDITY_TIME_PROPERTY));
         } catch (IOException e) {
-            logger.error("Couldn't read token properties file", e);
+            logger.fatal("Couldn't read token properties file", e);
             throw new RuntimeException(e);
         }
     }

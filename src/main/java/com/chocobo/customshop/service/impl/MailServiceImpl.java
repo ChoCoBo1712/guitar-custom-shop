@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
             });
             emailExecutor = Executors.newFixedThreadPool(threadPoolSize);
         } catch (IOException e) {
-            logger.error("Couldn't read mail properties file", e);
+            logger.fatal("Couldn't read mail properties file", e);
             throw new RuntimeException(e);
         }
     }
