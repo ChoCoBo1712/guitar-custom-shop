@@ -24,6 +24,7 @@ public class CommandProvider {
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
         commandMap.put(CommandType.LOGIN, new LoginCommand());
+        commandMap.put(CommandType.LOGOUT, new LogoutCommand());
         commandMap.put(CommandType.CONFIRM_EMAIL, new ConfirmEmailCommand());
     }
 

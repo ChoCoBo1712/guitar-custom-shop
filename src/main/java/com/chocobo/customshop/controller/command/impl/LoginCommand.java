@@ -2,6 +2,7 @@ package com.chocobo.customshop.controller.command.impl;
 
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
+import com.chocobo.customshop.controller.command.SessionAttribute;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.service.impl.UserServiceImpl;
@@ -18,8 +19,8 @@ import static com.chocobo.customshop.controller.command.PagePath.INDEX_URL;
 import static com.chocobo.customshop.controller.command.PagePath.LOGIN_URL;
 import static com.chocobo.customshop.controller.command.RequestParameter.LOGIN;
 import static com.chocobo.customshop.controller.command.RequestParameter.PASSWORD;
+import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.LOGIN_ERROR;
-import static com.chocobo.customshop.controller.command.SessionAttribute.USER_ROLE;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class LoginCommand implements Command {
@@ -38,7 +39,7 @@ public class LoginCommand implements Command {
             Optional<User> optionalUser = UserServiceImpl.getInstance().login(login, password);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                session.setAttribute(USER_ROLE, user.getRole());
+                session.setAttribute(USER, user);
                 result = new CommandResult(INDEX_URL, REDIRECT);
             } else {
                 request.getSession().setAttribute(LOGIN_ERROR, true);

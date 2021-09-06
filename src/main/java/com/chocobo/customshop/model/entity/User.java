@@ -8,7 +8,6 @@ import java.util.Objects;
 public class User extends AbstractEntity {
 
     public enum UserRole {
-        GUEST,
         CLIENT,
         MASTER,
         ADMIN
