@@ -6,30 +6,25 @@
 
 <html>
 <head>
-    <title><fmt:message key="admin.users.title" /></title>
-    <jsp:include page="shared/head.html" />
+    <title><fmt:message key="admin.woods.title" /></title>
+    <jsp:include page="../shared/head.html" />
 </head>
 <body>
-    <jsp:include page="shared/header.jsp" />
+    <jsp:include page="../shared/header.jsp" />
 
-    <a href="${pageContext.request.contextPath}/controller?command=go_to_create_user_page"><fmt:message key="admin.create" /></a>
-
-    <table id="users_table">
+    <table id="woods_table">
         <thead>
-            <th><fmt:message key="admin.users.id" /></th>
-            <th><fmt:message key="admin.users.email" /></th>
-            <th><fmt:message key="admin.users.login" /></th>
-            <th><fmt:message key="admin.users.role" /></th>
-            <th><fmt:message key="admin.users.status" /></th>
+            <th><fmt:message key="admin.woods.id" /></th>
+            <th><fmt:message key="admin.woods.name" /></th>
             <th><fmt:message key="admin.users.actions" /></th>
         </thead>
     </table>
 
-    <jsp:include page="shared/footer.jsp" />
+    <jsp:include page="../shared/footer.jsp" />
 
     <script>
         $(document).ready( function () {
-            $('#users_table').DataTable( {
+            $('#woods_table').DataTable( {
                 language: {
                     <c:if test="${sessionScope.locale == 'en_US'}">
                     url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/en-gb.json'
@@ -42,7 +37,7 @@
                 serverSide: true,
                 ordering: false,
                 ajax: {
-                    url: '/controller?command=get_users',
+                    url: '/controller?command=get_woods',
                     // data: function (d) {
                     //     d.requestType = "jquery_datatable";
                     //     d.filterCriteria = $('#searchCriteria').val();
@@ -50,17 +45,14 @@
                 },
                 columns: [
                     { data: 'entityId'},
-                    { data: 'email'},
-                    { data: 'login'},
-                    { data: 'role'},
-                    { data: 'status'},
+                    { data: 'name'},
                     {
                         data: null,
                         render: function (row) {
-                            return '<a href="/controller?command=go_to_edit_user_page&id=' + row.entityId + '">'
+                            return '<a href="/controller?command=go_to_edit_wood_page&id=' + row.entityId + '">'
                                 + '<fmt:message key="admin.edit" /></a>'
                                 + '<br>'
-                                + '<a href="/controller?command=delete_user&id=' + row.entityId + '">'
+                                + '<a href="/controller?command=delete_wood&id=' + row.entityId + '">'
                                 + '<fmt:message key="admin.delete" /></a>'
                         }
                     },

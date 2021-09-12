@@ -7,10 +7,10 @@
 <html>
 <head>
     <title><fmt:message key="admin.create_user.title" /></title>
-    <jsp:include page="shared/head.html" />
+    <jsp:include page="../shared/head.html" />
 </head>
 <body>
-    <jsp:include page="shared/header.jsp" />
+    <jsp:include page="../shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=create_user" method="post">
         <input type="email" name="email" placeholder=<fmt:message key="register.email" /> required>
@@ -41,7 +41,7 @@
         <p><fmt:message key="register.invalid_login" /></p>
     </c:if>
 
-    <jsp:include page="shared/footer.jsp" />
+    <jsp:include page="../shared/footer.jsp" />
 
 </body>
 </html>

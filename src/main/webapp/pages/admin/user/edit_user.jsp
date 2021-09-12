@@ -7,10 +7,10 @@
 <html>
 <head>
     <title><fmt:message key="admin.edit_user.title" /></title>
-    <jsp:include page="shared/head.html" />
+    <jsp:include page="../shared/head.html" />
 </head>
 <body>
-    <jsp:include page="shared/header.jsp" />
+    <jsp:include page="../shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=update_user&previousEmail=${requestScope.user.email}&previousLogin=${requestScope.user.login}" method="post">
         <input type="text" name="id" value="${requestScope.user.entityId}" hidden>
@@ -42,7 +42,7 @@
         <p><fmt:message key="register.invalid_login" /></p>
     </c:if>
 
-    <jsp:include page="shared/footer.jsp" />
+    <jsp:include page="../shared/footer.jsp" />
 
     <script>
         $('#role_select').val('${requestScope.user.role}')
