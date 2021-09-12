@@ -13,11 +13,13 @@
     <jsp:include page="../shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=create_user" method="post">
-        <input type="email" name="email" placeholder=<fmt:message key="register.email" /> required>
+        <input type="email" name="email" placeholder=<fmt:message key="register.email" /> required maxlength="50">
         <br>
-        <input type="text" name="login" placeholder=<fmt:message key="register.login" /> required minlength="6">
+        <input type="text" name="login" placeholder=<fmt:message key="register.login" /> required
+               pattern="[0-9a-zA-Z]{8,20}">
         <br>
-        <input type="password" name="password" placeholder=<fmt:message key="register.password" /> required minlength="8">
+        <input type="password" name="password" placeholder=<fmt:message key="register.password" /> required
+               pattern="(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{8,32}">
         <br>
         <select name="role" id="role_select">
             <option value="ADMIN">ADMIN</option>

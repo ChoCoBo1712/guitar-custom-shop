@@ -23,8 +23,6 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestParameter.*;
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 

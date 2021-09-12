@@ -10,9 +10,14 @@
 </head>
 <body>
     <form action="${pageContext.request.contextPath}/controller?command=register" method="post">
-        <input type="email" name="email" placeholder=<fmt:message key="register.email" /> required><br/>
-        <input type="text" name="login" placeholder=<fmt:message key="register.login" /> required minlength="6"><br/>
-        <input type="password" name="password" placeholder=<fmt:message key="register.password" /> required minlength="8"><br/>
+        <input type="email" name="email" placeholder=<fmt:message key="register.email" /> required maxlength="50">
+        <br>
+        <input type="text" name="login" placeholder=<fmt:message key="register.login" /> required
+               pattern="[0-9a-zA-Z]{8,20}">
+        <br>
+        <input type="password" name="password" placeholder=<fmt:message key="register.password" /> required
+               pattern="(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{8,32}">
+        <br>
         <input type="submit" value=<fmt:message key="register.submit" />>
     </form>
 
