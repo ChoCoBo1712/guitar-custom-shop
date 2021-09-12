@@ -33,11 +33,11 @@
         <input type="submit" value=<fmt:message key="admin.create" />>
     </form>
 
-    <c:if test="${sessionScope.invalidEmailError}">
+    <c:if test="${requestScope.invalidEmailError}">
         <p><fmt:message key="register.invalid_email" /></p>
     </c:if>
 
-    <c:if test="${sessionScope.invalidLoginError}">
+    <c:if test="${requestScope.invalidLoginError}">
         <p><fmt:message key="register.invalid_login" /></p>
     </c:if>
 

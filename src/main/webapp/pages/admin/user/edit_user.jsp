@@ -12,7 +12,7 @@
 <body>
     <jsp:include page="../shared/header.jsp" />
 
-    <form action="${pageContext.request.contextPath}/controller?command=update_user&previousEmail=${requestScope.user.email}&previousLogin=${requestScope.user.login}" method="post">
+    <form action="${pageContext.request.contextPath}/controller?command=update_user" method="post">
         <input type="text" name="id" value="${requestScope.user.entityId}" hidden>
         <input type="email" name="email" value="${requestScope.user.email}"
                placeholder=<fmt:message key="register.email" /> required>
@@ -34,11 +34,11 @@
         <input type="submit" value=<fmt:message key="admin.edit" />>
     </form>
 
-    <c:if test="${sessionScope.invalidEmailError}">
+    <c:if test="${requestScope.invalidEmailError}">
         <p><fmt:message key="register.invalid_email" /></p>
     </c:if>
 
-    <c:if test="${sessionScope.invalidLoginError}">
+    <c:if test="${requestScope.invalidLoginError}">
         <p><fmt:message key="register.invalid_login" /></p>
     </c:if>
 

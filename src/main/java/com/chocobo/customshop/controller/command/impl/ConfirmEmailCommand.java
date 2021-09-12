@@ -9,6 +9,7 @@ import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.util.impl.TokenServiceImpl;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,7 +44,7 @@ public class ConfirmEmailCommand implements Command {
             Optional<User> optionalUser = userService.findById(userId);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                if (email.equals(user.getEmail()) && user.getStatus() != CONFIRMED) {
+                if (StringUtils.equals(email, user.getEmail()) && user.getStatus() != CONFIRMED) {
                     User updatedUser = User.builder().of(user)
                             .setStatus(CONFIRMED)
                             .build();

@@ -19,8 +19,6 @@ public final class RequestParameter {
     public static final String DATA = "data";
     public static final String ENTITY_ID = "id";
     public static final String USER = "user";
-    public static final String PREVIOUS_EMAIL = "previousEmail";
-    public static final String PREVIOUS_LOGIN = "previousLogin";
 
     private RequestParameter() {
 

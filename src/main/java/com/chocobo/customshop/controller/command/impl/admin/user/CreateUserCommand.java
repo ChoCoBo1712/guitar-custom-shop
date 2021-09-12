@@ -32,8 +32,6 @@ public class CreateUserCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute(INVALID_EMAIL_ERROR, false);
-        session.setAttribute(INVALID_LOGIN_ERROR, false);
 
         String email = request.getParameter(EMAIL);
         String login = request.getParameter(LOGIN);

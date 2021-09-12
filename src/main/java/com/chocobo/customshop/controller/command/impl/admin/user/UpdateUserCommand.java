@@ -21,8 +21,7 @@ import java.util.Optional;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.controller.command.PagePath.ADMIN_EDIT_USER_URL;
-import static com.chocobo.customshop.controller.command.PagePath.ADMIN_USERS_URL;
+import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestParameter.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
 import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
@@ -37,26 +36,24 @@ public class UpdateUserCommand implements Command {
     public CommandResult execute(HttpServletRequest request) {
         UserService userService = UserServiceImpl.getInstance();
         HttpSession session = request.getSession();
-        session.setAttribute(INVALID_EMAIL_ERROR, false);
-        session.setAttribute(INVALID_LOGIN_ERROR, false);
 
         String email = request.getParameter(EMAIL);
         String login = request.getParameter(LOGIN);
         UserRole role = UserRole.valueOf(request.getParameter(ROLE));
         UserStatus status = UserStatus.valueOf(request.getParameter(STATUS));
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
-        String previousEmail = request.getParameter(PREVIOUS_EMAIL);
-        String previousLogin = request.getParameter(PREVIOUS_LOGIN);
 
         CommandResult result;
         try {
-            ValidationService validationService = ValidationServiceImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationService
-                    .validateUserUpdate(email, login, previousEmail, previousLogin);
-            if (validationResult.getLeft()) {
-                Optional<User> optionalUser = userService.findById(entityId);
-                if (optionalUser.isPresent()) {
-                    User user = optionalUser.get();
+            Optional<User> optionalUser = userService.findById(entityId);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                String previousEmail = user.getEmail();
+                String previousLogin = user.getLogin();
+                ValidationService validationService = ValidationServiceImpl.getInstance();
+                Pair<Boolean, List<String>> validationResult = validationService
+                        .validateUserUpdate(email, login, previousEmail, previousLogin);
+                if (validationResult.getLeft()) {
                     User updatedUser = User.builder().of(user)
                             .setEmail(email)
                             .setLogin(login)
@@ -66,13 +63,14 @@ public class UpdateUserCommand implements Command {
                     userService.update(updatedUser);
                     result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
                 } else {
-                    logger.error("Requested user not found, id = " + entityId);
-                    result = new CommandResult(SC_NOT_FOUND, ERROR);
+                    List<String> errorAttributesList = validationResult.getRight();
+                    errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                    String currentEditUserPageUrl = ADMIN_EDIT_USER_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
+                    result = new CommandResult(currentEditUserPageUrl, REDIRECT);
                 }
             } else {
-                List<String> errorAttributesList = validationResult.getRight();
-                errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
-                result = new CommandResult(ADMIN_EDIT_USER_URL, REDIRECT);
+                logger.error("Requested user not found, id = " + entityId);
+                result = new CommandResult(SC_NOT_FOUND, ERROR);
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during update user command execution", e);

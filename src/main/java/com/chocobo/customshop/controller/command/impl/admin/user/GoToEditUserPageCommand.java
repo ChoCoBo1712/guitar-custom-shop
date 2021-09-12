@@ -12,11 +12,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-import static com.chocobo.customshop.controller.command.CommandResult.RouteType.*;
+import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
+import static com.chocobo.customshop.controller.command.CommandResult.RouteType.FORWARD;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_EDIT_USER_JSP;
-import static com.chocobo.customshop.controller.command.PagePath.LOGIN_URL;
-import static com.chocobo.customshop.controller.command.RequestParameter.*;
-import static com.chocobo.customshop.controller.command.SessionAttribute.USER_ERROR;
+import static com.chocobo.customshop.controller.command.RequestParameter.ENTITY_ID;
+import static com.chocobo.customshop.controller.command.RequestParameter.USER;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 

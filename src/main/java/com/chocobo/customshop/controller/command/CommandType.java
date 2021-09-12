@@ -13,7 +13,6 @@ public enum CommandType {
     GO_TO_EDIT_USER_PAGE,
     GO_TO_WOODS_PAGE,
 
-
     // other commands
     REGISTER,
     LOGIN,
