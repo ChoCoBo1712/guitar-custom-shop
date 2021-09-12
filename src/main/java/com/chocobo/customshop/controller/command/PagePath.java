@@ -2,7 +2,7 @@ package com.chocobo.customshop.controller.command;
 
 public final class PagePath {
 
-    public static final String INDEX_JSP = "/pages/common/users.jsp";
+    public static final String INDEX_JSP = "/pages/common/index.jsp";
     public static final String LOGIN_JSP = "/pages/common/login.jsp";
     public static final String REGISTER_JSP = "/pages/common/register.jsp";
     public static final String REGISTER_SUCCESS_JSP = "/pages/common/register_success.jsp";

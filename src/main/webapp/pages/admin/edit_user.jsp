@@ -12,8 +12,7 @@
 <body>
     <jsp:include page="shared/header.jsp" />
 
-    <form action="${pageContext.request.contextPath}/controller?command=update_user
-    &previousEmail=${requestScope.user.email}&previousLogin=${requestScope.user.login}" method="post">
+    <form action="${pageContext.request.contextPath}/controller?command=update_user&previousEmail=${requestScope.user.email}&previousLogin=${requestScope.user.login}" method="post">
         <input type="text" name="id" value="${requestScope.user.entityId}" hidden>
         <input type="email" name="email" value="${requestScope.user.email}"
                placeholder=<fmt:message key="register.email" /> required>

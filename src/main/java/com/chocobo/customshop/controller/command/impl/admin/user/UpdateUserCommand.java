@@ -68,7 +68,6 @@ public class UpdateUserCommand implements Command {
                 } else {
                     logger.error("Requested user not found, id = " + entityId);
                     result = new CommandResult(SC_NOT_FOUND, ERROR);
-                    // TODO: 12.09.2021 ask about not found
                 }
             } else {
                 List<String> errorAttributesList = validationResult.getRight();

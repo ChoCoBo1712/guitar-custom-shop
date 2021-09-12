@@ -82,7 +82,6 @@ public class MailServiceImpl implements MailService {
                 try {
                     Transport.send(message);
                 } catch (MessagingException e) {
-                    // TODO: 05.09.2021 ask about exception catch 
                     logger.error("Error sending an email", e);
                 }
             });

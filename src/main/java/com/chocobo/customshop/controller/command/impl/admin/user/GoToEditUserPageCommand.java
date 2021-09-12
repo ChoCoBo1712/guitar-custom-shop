@@ -36,7 +36,6 @@ public class GoToEditUserPageCommand implements Command {
             } else {
                 logger.error("Requested user not found, id = " + entityId);
                 return new CommandResult(SC_NOT_FOUND, ERROR);
-                // TODO: 12.09.2021 ask about not found 
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during go to edit user page command execution", e);

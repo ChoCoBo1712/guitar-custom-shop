@@ -40,6 +40,7 @@
                 },
                 processing: true,
                 serverSide: true,
+                ordering: false,
                 ajax: {
                     url: '/controller?command=get_users',
                     // data: function (d) {
