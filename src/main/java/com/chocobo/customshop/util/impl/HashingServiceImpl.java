@@ -1,7 +1,7 @@
-package com.chocobo.customshop.service.impl;
+package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.service.HashingService;
+import com.chocobo.customshop.util.HashingService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

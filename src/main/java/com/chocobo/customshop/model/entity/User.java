@@ -8,9 +8,9 @@ import java.util.Objects;
 public class User extends AbstractEntity {
 
     public enum UserRole {
+        ADMIN,
         CLIENT,
-        MASTER,
-        ADMIN
+        MASTER
     }
 
     public enum UserStatus {
@@ -21,8 +21,8 @@ public class User extends AbstractEntity {
 
     private String email;
     private String login;
-    private byte[] passwordHash;
-    private byte[] salt;
+    private transient byte[] passwordHash;
+    private transient byte[] salt;
     private UserRole role;
     private UserStatus status;
 

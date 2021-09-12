@@ -16,5 +16,5 @@ public interface BaseDao<T extends AbstractEntity> {
 
     Optional<T> selectById(long id) throws DaoException;
 
-    List<T> selectAll(int offset) throws DaoException;
+    List<T> selectAll(int offset, int length) throws DaoException;
 }

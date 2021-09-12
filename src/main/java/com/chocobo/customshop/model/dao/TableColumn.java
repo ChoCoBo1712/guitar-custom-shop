@@ -15,5 +15,9 @@ public final class TableColumn {
     public static final String USER_ROLE = "role";
     public static final String USER_STATUS = "status";
 
-    //
+    // wood TABLE
+    public static final String WOOD_ID = "wood_id";
+    public static final String WOOD_NAME = "name";
+    public static final String WOOD_DELETED = "deleted";
+
 }

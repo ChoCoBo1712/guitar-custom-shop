@@ -1,14 +1,20 @@
-package com.chocobo.customshop.service.impl;
+package com.chocobo.customshop.model.service.impl;
 
 import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.dao.UserDao;
 import com.chocobo.customshop.model.dao.impl.UserDaoImpl;
 import com.chocobo.customshop.model.entity.User;
-import com.chocobo.customshop.service.HashingService;
-import com.chocobo.customshop.service.UserService;
+import com.chocobo.customshop.model.entity.User.UserRole;
+import com.chocobo.customshop.model.entity.User.UserStatus;
+import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
+import com.chocobo.customshop.util.HashingService;
+import com.chocobo.customshop.model.service.UserService;
+import com.chocobo.customshop.util.impl.HashingServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -48,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long register(String email, String login, String password) throws ServiceException {
+    public long register(String email, String login, String password, UserRole role, UserStatus status) throws ServiceException {
         byte[] salt = hashingService.generateSalt();
         byte[] passwordHash = hashingService.generateHash(password, salt);
 
@@ -57,8 +63,8 @@ public class UserServiceImpl implements UserService {
                 .setLogin(login)
                 .setPasswordHash(passwordHash)
                 .setSalt(salt)
-                .setRole(User.UserRole.CLIENT)
-                .setStatus(User.UserStatus.NOT_CONFIRMED)
+                .setRole(role)
+                .setStatus(status)
                 .build();
         try {
             return userDao.insert(user);
@@ -99,6 +105,28 @@ public class UserServiceImpl implements UserService {
     public void update(User user) throws ServiceException {
         try {
             userDao.update(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<User> filter(int start, int length, UserFilterCriteria criteria, String keyword) throws ServiceException {
+        List<User> result = new ArrayList<>();
+        try {
+            switch (criteria) {
+                case NONE -> result = userDao.selectAll(start, length);
+                case ID -> {
+                }
+                case EMAIL -> {
+                }
+                case LOGIN -> {
+                }
+                case ROLE -> {
+                }
+                default -> throw new ServiceException("Invalid criteria: " + criteria);
+            }
+            return result;
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

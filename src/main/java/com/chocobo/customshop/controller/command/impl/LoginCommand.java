@@ -2,10 +2,9 @@ package com.chocobo.customshop.controller.command.impl;
 
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
-import com.chocobo.customshop.controller.command.SessionAttribute;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
-import com.chocobo.customshop.service.impl.UserServiceImpl;
+import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
@@ -42,7 +41,7 @@ public class LoginCommand implements Command {
                 session.setAttribute(USER, user);
                 result = new CommandResult(INDEX_URL, REDIRECT);
             } else {
-                request.getSession().setAttribute(LOGIN_ERROR, true);
+                session.setAttribute(LOGIN_ERROR, true);
                 result = new CommandResult(LOGIN_URL, REDIRECT);
             }
         } catch (ServiceException e) {

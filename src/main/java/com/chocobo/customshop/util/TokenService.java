@@ -1,4 +1,4 @@
-package com.chocobo.customshop.service;
+package com.chocobo.customshop.util;
 
 import com.chocobo.customshop.exception.ServiceException;
 

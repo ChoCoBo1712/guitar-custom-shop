@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Wood extends AbstractEntity {
 
-    private StringSet name;
+    private String name;
 
     private Wood() {
 
@@ -14,7 +14,7 @@ public class Wood extends AbstractEntity {
         return new Wood().new WoodBuilder();
     }
 
-    public StringSet getName() {
+    public String getName() {
         return name;
     }
 
@@ -56,7 +56,7 @@ public class Wood extends AbstractEntity {
 
         }
 
-        public WoodBuilder setName(StringSet name) {
+        public WoodBuilder setName(String name) {
             Wood.this.name = name;
             return this;
         }

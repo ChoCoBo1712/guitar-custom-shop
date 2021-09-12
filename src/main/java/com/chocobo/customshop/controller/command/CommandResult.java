@@ -5,7 +5,8 @@ public class CommandResult {
     public enum RouteType {
         FORWARD,
         REDIRECT,
-        ERROR
+        ERROR,
+        JSON
     }
 
     private final Object route;

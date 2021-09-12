@@ -1,7 +1,7 @@
-package com.chocobo.customshop.service.impl;
+package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.service.MailService;
+import com.chocobo.customshop.util.MailService;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;

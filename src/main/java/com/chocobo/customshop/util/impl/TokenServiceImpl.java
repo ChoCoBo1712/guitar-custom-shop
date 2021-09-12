@@ -1,7 +1,7 @@
-package com.chocobo.customshop.service.impl;
+package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.service.TokenService;
+import com.chocobo.customshop.util.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

@@ -5,15 +5,11 @@ import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @WebListener
 public class HttpSessionListenerImpl implements HttpSessionListener {
 
-    public static final Logger logger = LogManager.getLogger();
-
-    private static final String DEFAULT_LOCALE = "en_US";
+    private static final String DEFAULT_LOCALE = "ru_RU";
 
     @Override
     public void sessionCreated(HttpSessionEvent event) {

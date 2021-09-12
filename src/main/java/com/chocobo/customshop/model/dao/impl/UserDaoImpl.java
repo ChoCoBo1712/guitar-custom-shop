@@ -8,6 +8,7 @@ import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.pool.DatabaseConnectionPool;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,12 @@ import static com.chocobo.customshop.model.dao.TableColumn.*;
 public class UserDaoImpl implements UserDao {
 
     private static UserDao instance;
+
+    private static final String SELECT_ALL =
+            "SELECT user_id, email, login, password_hash, salt, role, status " +
+            "FROM users " +
+            "WHERE status <> 'DELETED' " +
+            "LIMIT ?, ?;";
 
     private static final String SELECT_BY_ID =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
@@ -134,8 +141,35 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> selectAll(int offset) throws DaoException {
-        return null;
+    public List<User> selectAll(int offset, int length) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<User> userList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
+            statement.setInt(1, offset);
+            statement.setInt(2, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
+                userList.add(user);
+            }
+            statement.close();
+            return userList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override

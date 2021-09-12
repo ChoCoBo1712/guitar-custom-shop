@@ -58,6 +58,10 @@ public class Controller extends HttpServlet {
                     int errorCode = (Integer) route;
                     response.sendError(errorCode);
                 }
+                case JSON -> {
+                    String jsonResponse = (String) route;
+                    response.getWriter().write(jsonResponse);
+                }
                 default -> {
                     logger.error("Invalid route type: " + routeType.name());
                     response.sendError(SC_INTERNAL_SERVER_ERROR);
