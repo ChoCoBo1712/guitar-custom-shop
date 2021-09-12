@@ -25,24 +25,24 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public Pair<Boolean, List<String>> validateUserCreation(String email, String login) throws ServiceException {
         List<String> errorList = new ArrayList<>();
-        boolean valid = validate(email, errorList, UserEmailValidator.getInstance());
-        valid = valid && validate(login, errorList, UserLoginValidator.getInstance());
+        boolean validEmail = validate(email, errorList, UserEmailValidator.getInstance());
+        boolean validLogin = validate(login, errorList, UserLoginValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
             throw new ServiceException("An error occurred during user email validation");
         }
-        return Pair.of(valid, errorList);
+        return Pair.of(validEmail && validLogin, errorList);
     }
 
     @Override
     public Pair<Boolean, List<String>> validateUserUpdate(String email, String login, String previousEmail, String previousLogin)
             throws ServiceException {
         List<String> errorList = new ArrayList<>();
-        boolean valid = validateIfNecessary(email, previousEmail, errorList, UserEmailValidator.getInstance());
-        valid = valid && validateIfNecessary(login, previousLogin, errorList, UserLoginValidator.getInstance());
+        boolean validEmail = validateIfNecessary(email, previousEmail, errorList, UserEmailValidator.getInstance());
+        boolean validLogin = validateIfNecessary(login, previousLogin, errorList, UserLoginValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
             throw new ServiceException("An error occurred during user email validation");
         }
-        return Pair.of(valid, errorList);
+        return Pair.of(validEmail && validLogin, errorList);
     }
 
     private boolean validate(String attribute, List<String> errorList, Validator validator) {
