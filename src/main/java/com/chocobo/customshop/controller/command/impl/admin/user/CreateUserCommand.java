@@ -6,8 +6,8 @@ import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User.UserRole;
 import com.chocobo.customshop.model.entity.User.UserStatus;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
-import com.chocobo.customshop.util.ValidationService;
-import com.chocobo.customshop.util.impl.ValidationServiceImpl;
+import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.tuple.Pair;
@@ -21,8 +21,6 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_USER_URL;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_USERS_URL;
 import static com.chocobo.customshop.controller.command.RequestParameter.*;
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateUserCommand implements Command {
@@ -41,8 +39,8 @@ public class CreateUserCommand implements Command {
 
         CommandResult result;
         try {
-            ValidationService validationService = ValidationServiceImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationService.validateUserCreation(email, login);
+            ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
+            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login);
             if (validationResult.getLeft()) {
                 UserServiceImpl.getInstance().register(email, login, password, role, status);
                 result = new CommandResult(ADMIN_USERS_URL, REDIRECT);

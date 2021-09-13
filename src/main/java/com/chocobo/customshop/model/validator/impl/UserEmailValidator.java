@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
-import static com.chocobo.customshop.util.impl.ValidationServiceImpl.SERVICE_EXCEPTION;
+import static com.chocobo.customshop.util.impl.ValidationUtilImpl.SERVICE_EXCEPTION;
 
 public class UserEmailValidator implements Validator {
     // TODO: 06.09.2021 implement client and server side validation

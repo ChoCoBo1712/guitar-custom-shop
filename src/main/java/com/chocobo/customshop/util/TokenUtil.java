@@ -4,7 +4,7 @@ import com.chocobo.customshop.exception.ServiceException;
 
 import java.util.Map;
 
-public interface TokenService {
+public interface TokenUtil {
 
     String generateToken(long userId, String email);
 

@@ -2,7 +2,7 @@ package com.chocobo.customshop.util;
 
 import com.chocobo.customshop.exception.ServiceException;
 
-public interface HashingService {
+public interface HashingUtil {
 
     byte[] generateSalt();
 

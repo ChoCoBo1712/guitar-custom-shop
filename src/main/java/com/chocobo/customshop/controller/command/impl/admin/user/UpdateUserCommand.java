@@ -8,8 +8,8 @@ import com.chocobo.customshop.model.entity.User.UserRole;
 import com.chocobo.customshop.model.entity.User.UserStatus;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
-import com.chocobo.customshop.util.ValidationService;
-import com.chocobo.customshop.util.impl.ValidationServiceImpl;
+import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.tuple.Pair;
@@ -48,8 +48,8 @@ public class UpdateUserCommand implements Command {
                 User user = optionalUser.get();
                 String previousEmail = user.getEmail();
                 String previousLogin = user.getLogin();
-                ValidationService validationService = ValidationServiceImpl.getInstance();
-                Pair<Boolean, List<String>> validationResult = validationService
+                ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
+                Pair<Boolean, List<String>> validationResult = validationUtil
                         .validateUserUpdate(email, login, previousEmail, previousLogin);
                 if (validationResult.getLeft()) {
                     User updatedUser = User.builder().of(user)

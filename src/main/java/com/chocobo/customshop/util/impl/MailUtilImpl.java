@@ -1,7 +1,7 @@
 package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.util.MailService;
+import com.chocobo.customshop.util.MailUtil;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -16,10 +16,10 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MailServiceImpl implements MailService {
+public class MailUtilImpl implements MailUtil {
 
     private static final Logger logger = LogManager.getLogger();
-    private static MailService instance;
+    private static MailUtil instance;
 
     private static final String MAIL_PROPERTIES_NAME = "properties/mail.properties";
     private static final String USERNAME_PROPERTY = "username";
@@ -34,7 +34,7 @@ public class MailServiceImpl implements MailService {
     private static final ExecutorService emailExecutor;
 
     static {
-        ClassLoader classLoader = MailServiceImpl.class.getClassLoader();
+        ClassLoader classLoader = MailUtilImpl.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(MAIL_PROPERTIES_NAME)) {
             mailProperties = new Properties();
             mailProperties.load(inputStream);
@@ -55,9 +55,9 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    public static MailService getInstance() {
+    public static MailUtil getInstance() {
         if (instance == null) {
-            instance = new MailServiceImpl();
+            instance = new MailUtilImpl();
         }
         return instance;
     }

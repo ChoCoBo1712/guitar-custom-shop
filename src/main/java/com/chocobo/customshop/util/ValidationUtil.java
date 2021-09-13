@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
-public interface ValidationService {
+public interface ValidationUtil {
 
     String SERVICE_EXCEPTION = "serviceException";
 

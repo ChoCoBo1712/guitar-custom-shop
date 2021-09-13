@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
-import static com.chocobo.customshop.util.impl.ValidationServiceImpl.SERVICE_EXCEPTION;
+import static com.chocobo.customshop.util.impl.ValidationUtilImpl.SERVICE_EXCEPTION;
 
 public class UserLoginValidator implements Validator {
 

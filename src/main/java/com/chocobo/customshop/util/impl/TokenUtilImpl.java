@@ -1,7 +1,7 @@
 package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.util.TokenService;
+import com.chocobo.customshop.util.TokenUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -15,10 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.*;
 
-public class TokenServiceImpl implements TokenService {
+public class TokenUtilImpl implements TokenUtil {
 
     private static final Logger logger = LogManager.getLogger();
-    private static TokenService instance;
+    private static TokenUtil instance;
 
     private static final String TOKEN_PROPERTIES_NAME = "properties/token.properties";
     private static final String SECRET_KEY_PROPERTY = "secretKey";
@@ -30,7 +30,7 @@ public class TokenServiceImpl implements TokenService {
     private static final int validityTime;
 
     static {
-        ClassLoader classLoader = MailServiceImpl.class.getClassLoader();
+        ClassLoader classLoader = MailUtilImpl.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(TOKEN_PROPERTIES_NAME)) {
             Properties properties = new Properties();
             properties.load(inputStream);
@@ -43,9 +43,9 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
-    public static TokenService getInstance() {
+    public static TokenUtil getInstance() {
         if (instance == null) {
-            instance = new TokenServiceImpl();
+            instance = new TokenUtilImpl();
         }
         return instance;
     }

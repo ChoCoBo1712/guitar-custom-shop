@@ -8,9 +8,9 @@ import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.entity.User.UserRole;
 import com.chocobo.customshop.model.entity.User.UserStatus;
 import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
-import com.chocobo.customshop.util.HashingService;
+import com.chocobo.customshop.util.HashingUtil;
 import com.chocobo.customshop.model.service.UserService;
-import com.chocobo.customshop.util.impl.HashingServiceImpl;
+import com.chocobo.customshop.util.impl.HashingUtilImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private static UserService instance;
 
     private final UserDao userDao = UserDaoImpl.getInstance();
-    private final HashingService hashingService = HashingServiceImpl.getInstance();
+    private final HashingUtil hashingUtil = HashingUtilImpl.getInstance();
 
     public static UserService getInstance() {
         if (instance == null) {
@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long register(String email, String login, String password, UserRole role, UserStatus status) throws ServiceException {
-        byte[] salt = hashingService.generateSalt();
-        byte[] passwordHash = hashingService.generateHash(password, salt);
+        byte[] salt = hashingUtil.generateSalt();
+        byte[] passwordHash = hashingUtil.generateHash(password, salt);
 
         User user = User.builder()
                 .setEmail(email)
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
             optional = userDao.selectByLogin(login);
             if (optional.isPresent()) {
                 User user = optional.get();
-                byte[] passwordHash = hashingService.generateHash(password, user.getSalt());
+                byte[] passwordHash = hashingUtil.generateHash(password, user.getSalt());
 
                 if (Arrays.equals(passwordHash, user.getPasswordHash())) {
                     return Optional.of(user);

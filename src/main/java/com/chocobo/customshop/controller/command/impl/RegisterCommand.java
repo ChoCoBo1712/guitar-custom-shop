@@ -4,12 +4,12 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
-import com.chocobo.customshop.util.MailService;
-import com.chocobo.customshop.util.TokenService;
-import com.chocobo.customshop.util.ValidationService;
-import com.chocobo.customshop.util.impl.MailServiceImpl;
-import com.chocobo.customshop.util.impl.TokenServiceImpl;
-import com.chocobo.customshop.util.impl.ValidationServiceImpl;
+import com.chocobo.customshop.util.MailUtil;
+import com.chocobo.customshop.util.TokenUtil;
+import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.util.impl.MailUtilImpl;
+import com.chocobo.customshop.util.impl.TokenUtilImpl;
+import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,8 +23,6 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.REGISTER_SUCCESS_URL;
 import static com.chocobo.customshop.controller.command.PagePath.REGISTER_URL;
 import static com.chocobo.customshop.controller.command.RequestParameter.*;
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
 import static com.chocobo.customshop.model.entity.User.UserRole.CLIENT;
 import static com.chocobo.customshop.model.entity.User.UserStatus.NOT_CONFIRMED;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -49,21 +47,21 @@ public class RegisterCommand implements Command {
 
         CommandResult result;
         try {
-            ValidationService validationService = ValidationServiceImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationService.validateUserCreation(email, login);
+            ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
+            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login);
             if (validationResult.getLeft()) {
                 long userId = UserServiceImpl.getInstance().register(email, login, password, CLIENT, NOT_CONFIRMED);
 
-                MailService mailService = MailServiceImpl.getInstance();
-                TokenService tokenService = TokenServiceImpl.getInstance();
+                MailUtil mailUtil = MailUtilImpl.getInstance();
+                TokenUtil tokenUtil = TokenUtilImpl.getInstance();
 
-                String mailSubject = mailService.getMailProperty(SUBJECT_PROPERTY);
-                String bodyTemplate = mailService.getMailProperty(BODY_PROPERTY);
-                String confirmationUrl = URL_BLANK + tokenService.generateToken(userId, email);
+                String mailSubject = mailUtil.getMailProperty(SUBJECT_PROPERTY);
+                String bodyTemplate = mailUtil.getMailProperty(BODY_PROPERTY);
+                String confirmationUrl = URL_BLANK + tokenUtil.generateToken(userId, email);
                 String confirmationLink = request.getScheme() + PROTOCOL_DELIMITER + request.getServerName() + confirmationUrl;
 
                 String mailBody = String.format(bodyTemplate, confirmationLink);
-                mailService.sendMail(email, mailSubject, mailBody);
+                mailUtil.sendMail(email, mailSubject, mailBody);
                 result = new CommandResult(REGISTER_SUCCESS_URL, REDIRECT);
             } else {
                 List<String> errorAttributesList = validationResult.getRight();

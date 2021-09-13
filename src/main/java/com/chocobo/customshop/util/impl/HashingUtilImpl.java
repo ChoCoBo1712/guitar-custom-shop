@@ -1,7 +1,7 @@
 package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.util.HashingService;
+import com.chocobo.customshop.util.HashingUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,10 +16,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Properties;
 
-public class HashingServiceImpl implements HashingService {
+public class HashingUtilImpl implements HashingUtil {
 
     private static final Logger logger = LogManager.getLogger();
-    private static HashingService instance;
+    private static HashingUtil instance;
 
     private static final String HASHING_PROPERTIES_NAME = "properties/hashing.properties";
     private static final String ITERATION_COUNT_PROPERTY = "iterationCount";
@@ -34,7 +34,7 @@ public class HashingServiceImpl implements HashingService {
     private static final int saltLength;
 
     static {
-        ClassLoader classLoader = MailServiceImpl.class.getClassLoader();
+        ClassLoader classLoader = MailUtilImpl.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(HASHING_PROPERTIES_NAME)) {
             Properties properties = new Properties();
             properties.load(inputStream);
@@ -48,9 +48,9 @@ public class HashingServiceImpl implements HashingService {
         }
     }
 
-    public static HashingService getInstance() {
+    public static HashingUtil getInstance() {
         if (instance == null) {
-            instance = new HashingServiceImpl();
+            instance = new HashingUtilImpl();
         }
         return instance;
     }

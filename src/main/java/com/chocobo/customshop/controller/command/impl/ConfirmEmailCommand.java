@@ -4,9 +4,9 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
-import com.chocobo.customshop.util.TokenService;
+import com.chocobo.customshop.util.TokenUtil;
 import com.chocobo.customshop.model.service.UserService;
-import com.chocobo.customshop.util.impl.TokenServiceImpl;
+import com.chocobo.customshop.util.impl.TokenUtilImpl;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -33,11 +33,11 @@ public class ConfirmEmailCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         UserService userService = UserServiceImpl.getInstance();
-        TokenService tokenService = TokenServiceImpl.getInstance();
+        TokenUtil tokenUtil = TokenUtilImpl.getInstance();
 
         try {
             String token = request.getParameter(TOKEN);
-            Map<String, Object> tokenContent = tokenService.parseToken(token);
+            Map<String, Object> tokenContent = tokenUtil.parseToken(token);
             long userId = ((Double) tokenContent.get(ID_CLAIM)).longValue();
             String email = (String) tokenContent.get(EMAIL_CLAIM);
 
