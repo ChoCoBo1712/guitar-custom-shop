@@ -91,7 +91,6 @@
             let searchInput = $('#searchInput');
             let searchCriteria = $('#searchCriteria');
             let searchSelect = $('#searchSelect');
-            let searchValue;
 
             searchSelect.hide();
 
@@ -100,8 +99,7 @@
             });
 
             searchInput.keyup(function () {
-                searchValue = searchInput.val().trim();
-                table.search(searchValue).draw();
+                table.search(searchInput.val().trim()).draw();
             });
 
             searchCriteria.change(function () {
@@ -123,9 +121,10 @@
                         .append($("<option></option>").attr("value", "CONFIRMED").text("CONFIRMED"))
                     searchSelect.change();
                 } else {
+                    searchInput.val("");
                     searchInput.show();
                     searchSelect.hide();
-                    table.search(searchValue).draw();
+                    table.search(searchInput.val()).draw();
                 }
             });
 
