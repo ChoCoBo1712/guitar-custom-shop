@@ -9,7 +9,7 @@ public interface ValidationUtil {
 
     String SERVICE_EXCEPTION = "serviceException";
 
-    Pair<Boolean, List<String>> validateUserCreation(String email, String login) throws ServiceException;
+    Pair<Boolean, List<String>> validateUserCreation(String email, String login, String password) throws ServiceException;
 
     Pair<Boolean, List<String>> validateUserUpdate(String email, String login, String previousEmail, String previousLogin)
             throws ServiceException;

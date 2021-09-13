@@ -4,6 +4,7 @@ import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.model.validator.impl.UserEmailValidator;
 import com.chocobo.customshop.model.validator.impl.UserLoginValidator;
+import com.chocobo.customshop.model.validator.impl.UserPasswordValidator;
 import com.chocobo.customshop.util.ValidationUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,10 +24,12 @@ public class ValidationUtilImpl implements ValidationUtil {
     }
 
     @Override
-    public Pair<Boolean, List<String>> validateUserCreation(String email, String login) throws ServiceException {
+    public Pair<Boolean, List<String>> validateUserCreation(String email, String login, String password)
+            throws ServiceException {
         List<String> errorList = new ArrayList<>();
         boolean valid = validate(email, errorList, UserEmailValidator.getInstance());
         valid &= validate(login, errorList, UserLoginValidator.getInstance());
+        valid &= validate(password, errorList, UserPasswordValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
             throw new ServiceException("An error occurred during user email validation");
         }
@@ -34,8 +37,8 @@ public class ValidationUtilImpl implements ValidationUtil {
     }
 
     @Override
-    public Pair<Boolean, List<String>> validateUserUpdate(String email, String login, String previousEmail, String previousLogin)
-            throws ServiceException {
+    public Pair<Boolean, List<String>> validateUserUpdate(String email, String login, String previousEmail,
+                                                          String previousLogin) throws ServiceException {
         List<String> errorList = new ArrayList<>();
         boolean valid = validateIfNecessary(email, previousEmail, errorList, UserEmailValidator.getInstance());
         valid &= validateIfNecessary(login, previousLogin, errorList, UserLoginValidator.getInstance());
@@ -45,7 +48,7 @@ public class ValidationUtilImpl implements ValidationUtil {
         return Pair.of(valid, errorList);
     }
 
-    private boolean validate(String attribute, List<String> errorList, Validator validator) {
+    private boolean validate(String attribute, List<String> errorList, Validator<String> validator) {
         Pair<Boolean, String> validationResult = validator.validate(attribute);
         String error = validationResult.getRight();
         if (!error.isEmpty()) {
@@ -54,7 +57,8 @@ public class ValidationUtilImpl implements ValidationUtil {
         return validationResult.getLeft();
     }
 
-    private boolean validateIfNecessary(String attribute, String previousAttribute, List<String> errorList, Validator validator) {
+    private boolean validateIfNecessary(String attribute, String previousAttribute, List<String> errorList,
+                                        Validator<String> validator) {
         if (!StringUtils.equals(attribute, previousAttribute)) {
             Pair<Boolean, String> validationResult = validator.validate(attribute);
             String error = validationResult.getRight();

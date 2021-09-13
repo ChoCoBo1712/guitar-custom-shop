@@ -7,15 +7,19 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_LOGIN_ERROR;
+import java.util.regex.Pattern;
+
+import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static com.chocobo.customshop.util.impl.ValidationUtilImpl.SERVICE_EXCEPTION;
 
-public class UserLoginValidator implements Validator {
+public class UserLoginValidator implements Validator<String> {
 
     private static final Logger logger = LogManager.getLogger();
-    private static Validator instance;
+    private static Validator<String> instance;
 
-    public static Validator getInstance() {
+    private static final String VALID_LOGIN_REGEX = "^\\p{Alnum}{8,20}$";
+
+    public static Validator<String> getInstance() {
         if (instance == null) {
             instance = new UserLoginValidator();
         }
@@ -23,13 +27,16 @@ public class UserLoginValidator implements Validator {
     }
 
     @Override
-    public Pair<Boolean, String> validate(Object login) {
+    public Pair<Boolean, String> validate(String login) {
         boolean valid = true;
         String error = "";
         try {
-            if (!UserServiceImpl.getInstance().isLoginUnique((String) login)) {
+            if (!Pattern.matches(VALID_LOGIN_REGEX, login)) {
                 valid = false;
-                error = INVALID_LOGIN_ERROR;
+                error = INVALID_LOGIN_PATTERN_ERROR;
+            } else if (!UserServiceImpl.getInstance().isLoginUnique(login)) {
+                valid = false;
+                error = DUPLICATE_LOGIN_ERROR;
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during user login validation", e);

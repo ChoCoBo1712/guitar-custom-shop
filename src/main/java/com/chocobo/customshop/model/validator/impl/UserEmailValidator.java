@@ -7,15 +7,20 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_ERROR;
+import java.util.regex.Pattern;
+
+import static com.chocobo.customshop.controller.command.SessionAttribute.DUPLICATE_EMAIL_ERROR;
+import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_EMAIL_PATTERN_ERROR;
 import static com.chocobo.customshop.util.impl.ValidationUtilImpl.SERVICE_EXCEPTION;
 
-public class UserEmailValidator implements Validator {
-    // TODO: 06.09.2021 implement client and server side validation
-    private static final Logger logger = LogManager.getLogger();
-    private static Validator instance;
+public class UserEmailValidator implements Validator<String> {
 
-    public static Validator getInstance() {
+    private static final Logger logger = LogManager.getLogger();
+    private static Validator<String> instance;
+
+    private static final String VALID_EMAIL_REGEX = "^[\\w.]+@[\\w.]+$";
+
+    public static Validator<String> getInstance() {
         if (instance == null) {
             instance = new UserEmailValidator();
         }
@@ -23,13 +28,16 @@ public class UserEmailValidator implements Validator {
     }
 
     @Override
-    public Pair<Boolean, String> validate(Object email) {
+    public Pair<Boolean, String> validate(String email) {
         boolean valid = true;
         String error = "";
         try {
-            if (!UserServiceImpl.getInstance().isEmailUnique((String) email)) {
+            if (!Pattern.matches(VALID_EMAIL_REGEX, email)) {
                 valid = false;
-                error = INVALID_EMAIL_ERROR;
+                error = INVALID_EMAIL_PATTERN_ERROR;
+            } else if (!UserServiceImpl.getInstance().isEmailUnique(email)) {
+                valid = false;
+                error = DUPLICATE_EMAIL_ERROR;
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during user email validation", e);

@@ -40,7 +40,7 @@ public class CreateUserCommand implements Command {
         CommandResult result;
         try {
             ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login);
+            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login, password);
             if (validationResult.getLeft()) {
                 UserServiceImpl.getInstance().register(email, login, password, role, status);
                 result = new CommandResult(ADMIN_USERS_URL, REDIRECT);

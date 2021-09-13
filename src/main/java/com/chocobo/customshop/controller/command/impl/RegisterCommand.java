@@ -48,7 +48,7 @@ public class RegisterCommand implements Command {
         CommandResult result;
         try {
             ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login);
+            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login, password);
             if (validationResult.getLeft()) {
                 long userId = UserServiceImpl.getInstance().register(email, login, password, CLIENT, NOT_CONFIRMED);
 

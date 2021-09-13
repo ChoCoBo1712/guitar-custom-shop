@@ -35,12 +35,24 @@
         <input type="submit" value=<fmt:message key="admin.create" />>
     </form>
 
-    <c:if test="${requestScope.invalidEmailError}">
-        <p><fmt:message key="register.invalid_email" /></p>
+    <c:if test="${requestScope.invalidEmailPatternError}">
+        <p><fmt:message key="create.invalid_email" /></p>
     </c:if>
 
-    <c:if test="${requestScope.invalidLoginError}">
-        <p><fmt:message key="register.invalid_login" /></p>
+    <c:if test="${requestScope.duplicateEmailError}">
+        <p><fmt:message key="create.duplicate_email" /></p>
+    </c:if>
+
+    <c:if test="${requestScope.invalidLoginPatternError}">
+        <p><fmt:message key="create.invalid_login" /></p>
+    </c:if>
+
+    <c:if test="${requestScope.duplicateLoginError}">
+        <p><fmt:message key="create.duplicate_login" /></p>
+    </c:if>
+
+    <c:if test="${requestScope.invalidPasswordPatternError}">
+        <p><fmt:message key="create.invalid_password" /></p>
     </c:if>
 
     <jsp:include page="../shared/footer.jsp" />

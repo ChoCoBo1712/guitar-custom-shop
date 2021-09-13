@@ -15,10 +15,10 @@
     <form action="${pageContext.request.contextPath}/controller?command=update_user" method="post">
         <input type="text" name="id" value="${requestScope.user.entityId}" hidden>
         <input type="email" name="email" value="${requestScope.user.email}"
-               placeholder=<fmt:message key="register.email" /> required>
+               placeholder=<fmt:message key="register.email" /> required maxlength="50">
         <br>
         <input type="text" name="login" value="${requestScope.user.login}"
-               placeholder=<fmt:message key="register.login" /> required minlength="6">
+               placeholder=<fmt:message key="register.login" /> required minlength="6" pattern="[0-9a-zA-Z]{8,20}">
         <br>
         <select name="role" id="role_select">
             <option value="ADMIN">ADMIN</option>
@@ -34,12 +34,20 @@
         <input type="submit" value=<fmt:message key="admin.edit" />>
     </form>
 
-    <c:if test="${requestScope.invalidEmailError}">
-        <p><fmt:message key="register.invalid_email" /></p>
+    <c:if test="${requestScope.invalidEmailPatternError}">
+        <p><fmt:message key="create.invalid_email" /></p>
     </c:if>
 
-    <c:if test="${requestScope.invalidLoginError}">
-        <p><fmt:message key="register.invalid_login" /></p>
+    <c:if test="${requestScope.duplicateEmailError}">
+        <p><fmt:message key="create.duplicate_email" /></p>
+    </c:if>
+
+    <c:if test="${requestScope.invalidLoginPatternError}">
+        <p><fmt:message key="create.invalid_login" /></p>
+    </c:if>
+
+    <c:if test="${requestScope.duplicateLoginError}">
+        <p><fmt:message key="create.duplicate_login" /></p>
     </c:if>
 
     <jsp:include page="../shared/footer.jsp" />
