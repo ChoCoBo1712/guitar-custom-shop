@@ -112,18 +112,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> filter(int start, int length, UserFilterCriteria criteria, String keyword) throws ServiceException {
-        List<User> result = new ArrayList<>();
+        List<User> result;
         try {
             switch (criteria) {
                 case NONE -> result = userDao.selectAll(start, length);
-                case ID -> {
-                }
-                case EMAIL -> {
-                }
-                case LOGIN -> {
-                }
-                case ROLE -> {
-                }
+                case ID -> result = userDao.selectById(start, length, keyword);
+                case EMAIL -> result = userDao.selectByEmail(start, length, keyword);
+                case LOGIN -> result = userDao.selectByLogin(start, length, keyword);
+                case ROLE -> result = userDao.selectByRole(start, length, keyword);
+                case STATUS -> result = userDao.selectByStatus(start, length, keyword);
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
             return result;

@@ -5,5 +5,6 @@ public enum UserFilterCriteria {
     ID,
     EMAIL,
     LOGIN,
-    ROLE
+    ROLE,
+    STATUS
 }

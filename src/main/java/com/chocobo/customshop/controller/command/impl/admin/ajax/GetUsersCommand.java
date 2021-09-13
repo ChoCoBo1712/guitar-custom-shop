@@ -9,6 +9,7 @@ import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,10 +39,9 @@ public class GetUsersCommand implements Command {
         List<User> users;
 
         try {
-            users = searchCriteria != null
-                    ? userService.filter(start, length, UserFilterCriteria.valueOf(searchCriteria.toUpperCase()),
-                    searchValue)
-                    : userService.filter(start, length, UserFilterCriteria.NONE, null);
+            users = searchValue.isEmpty()
+                    ? userService.filter(start, length, UserFilterCriteria.NONE, null)
+                    : userService.filter(start, length, UserFilterCriteria.valueOf(searchCriteria), searchValue);
         } catch (ServiceException e) {
             logger.error("An error occurred during get users command execution", e);
             return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);

@@ -56,6 +56,11 @@ public class WoodDaoImpl implements WoodDao {
     }
 
     @Override
+    public List<Wood> selectById(int offset, int length, String keyword) throws DaoException {
+        return null;
+    }
+
+    @Override
     public List<Wood> selectAll(int offset, int length) throws DaoException {
         Connection connection = null;
         DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();

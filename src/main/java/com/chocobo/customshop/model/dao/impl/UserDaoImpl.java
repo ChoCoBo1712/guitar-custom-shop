@@ -22,6 +22,7 @@ public class UserDaoImpl implements UserDao {
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
             "WHERE status <> 'DELETED' " +
+            "ORDER BY user_id " +
             "LIMIT ?, ?;";
 
     private static final String SELECT_BY_ID =
@@ -29,15 +30,50 @@ public class UserDaoImpl implements UserDao {
             "FROM users " +
             "WHERE user_id = ?;";
 
+    private static final String SELECT_MULTIPLE_BY_ID =
+            "SELECT user_id, email, login, password_hash, salt, role, status " +
+            "FROM users " +
+            "WHERE user_id LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
+            "ORDER BY user_id " +
+            "LIMIT ?, ?;";
+
     private static final String SELECT_BY_EMAIL =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
             "WHERE email = ?;";
 
+    private static final String SELECT_MULTIPLE_BY_EMAIL =
+            "SELECT user_id, email, login, password_hash, salt, role, status " +
+            "FROM users " +
+            "WHERE email LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
+            "ORDER BY user_id " +
+            "LIMIT ?, ?;";
+
     private static final String SELECT_BY_LOGIN =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
             "WHERE login = ?;";
+
+    private static final String SELECT_MULTIPLE_BY_ROLE =
+            "SELECT user_id, email, login, password_hash, salt, role, status " +
+            "FROM users " +
+            "WHERE role LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
+            "ORDER BY user_id " +
+            "LIMIT ?, ?;";
+
+    private static final String SELECT_MULTIPLE_BY_STATUS =
+            "SELECT user_id, email, login, password_hash, salt, role, status " +
+            "FROM users " +
+            "WHERE status LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
+            "ORDER BY user_id " +
+            "LIMIT ?, ?;";
+
+    private static final String SELECT_MULTIPLE_BY_LOGIN =
+            "SELECT user_id, email, login, password_hash, salt, role, status " +
+            "FROM users " +
+            "WHERE login LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
+            "ORDER BY user_id " +
+            "LIMIT ?, ?;";
 
     private static final String INSERT =
             "INSERT INTO users(email, login, password_hash, salt, role, status)" +
@@ -141,6 +177,39 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> selectById(int offset, int length, String keyword) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<User> userList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_ID);
+            statement.setString(1, keyword);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
+                userList.add(user);
+            }
+            statement.close();
+            return userList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
     public List<User> selectAll(int offset, int length) throws DaoException {
         Connection connection = null;
         DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
@@ -203,6 +272,39 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> selectByEmail(int offset, int length, String keyword) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<User> userList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_EMAIL);
+            statement.setString(1, keyword);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
+                userList.add(user);
+            }
+            statement.close();
+            return userList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
     public Optional<User> selectByLogin(String login) throws DaoException {
         Connection connection = null;
         DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
@@ -225,6 +327,105 @@ public class UserDaoImpl implements UserDao {
             }
             statement.close();
             return Optional.ofNullable(user);
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<User> selectByLogin(int offset, int length, String keyword) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<User> userList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_LOGIN);
+            statement.setString(1, keyword);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
+                userList.add(user);
+            }
+            statement.close();
+            return userList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<User> selectByRole(int offset, int length, String keyword) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<User> userList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_ROLE);
+            statement.setString(1, keyword);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
+                userList.add(user);
+            }
+            statement.close();
+            return userList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<User> selectByStatus(int offset, int length, String keyword) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<User> userList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_STATUS);
+            statement.setString(1, keyword);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = (User) User.builder()
+                        .setEmail(resultSet.getString(USER_EMAIL))
+                        .setLogin(resultSet.getString(USER_LOGIN))
+                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
+                        .setSalt(resultSet.getBytes(USER_SALT))
+                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
+                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
+                        .setEntityId(resultSet.getLong(USER_ID))
+                        .build();
+                userList.add(user);
+            }
+            statement.close();
+            return userList;
         } catch (DatabaseConnectionException | SQLException e) {
             throw new DaoException(e);
         } finally {

@@ -12,8 +12,6 @@
 <body>
     <jsp:include page="../shared/header.jsp" />
 
-    <a href="${pageContext.request.contextPath}/controller?command=go_to_create_user_page"><fmt:message key="admin.create" /></a>
-
     <table id="users_table">
         <thead>
             <th><fmt:message key="admin.users.id" /></th>
@@ -29,7 +27,7 @@
 
     <script>
         $(document).ready( function () {
-            $('#users_table').DataTable( {
+            let table = $('#users_table').DataTable( {
                 language: {
                     <c:if test="${sessionScope.locale == 'en_US'}">
                     url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/en-gb.json'
@@ -38,15 +36,15 @@
                     url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/ru.json'
                     </c:if>
                 },
+                dom: '<"toolbar">tipr',
                 processing: true,
                 serverSide: true,
                 ordering: false,
                 ajax: {
                     url: '/controller?command=get_users',
-                    // data: function (d) {
-                    //     d.requestType = "jquery_datatable";
-                    //     d.filterCriteria = $('#searchCriteria').val();
-                    // }
+                    data: function (data) {
+                        data.filterCriteria = $('#searchCriteria').val();
+                    }
                 },
                 columns: [
                     { data: 'entityId'},
@@ -65,8 +63,76 @@
                         }
                     },
                 ],
+                initComplete: function () {
+                    dataTableInitComplete(table);
+                }
             });
         } );
+
+        function dataTableInitComplete(table) {
+            $("div.toolbar").html(`
+                <div class="input-group mb-3">
+                <button id="createButton" type="button" class="btn btn-secondary">
+                    <fmt:message key="admin.create" />
+                </button>
+                <select id="searchCriteria" class="form-select">
+                    <option value="ID"><fmt:message key="admin.users.id" /></option>
+                    <option value="EMAIL"><fmt:message key="admin.users.email" /></option>
+                    <option value="LOGIN"><fmt:message key="admin.users.login" /></option>
+                    <option value="ROLE"><fmt:message key="admin.users.role" /></option>
+                    <option value="STATUS"><fmt:message key="admin.users.status" /></option>
+                </select>
+                <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
+                 placeholder=<fmt:message key="admin.search" />>
+                 <select id="searchSelect"></select>
+                </div>
+            `);
+
+            let searchInput = $('#searchInput');
+            let searchCriteria = $('#searchCriteria');
+            let searchSelect = $('#searchSelect');
+            let searchValue;
+
+            searchSelect.hide();
+
+            $('#createButton').click(function () {
+                window.location.href = "${pageContext.request.contextPath}/controller?command=go_to_create_user_page";
+            });
+
+            searchInput.keyup(function () {
+                searchValue = searchInput.val().trim();
+                table.search(searchValue).draw();
+            });
+
+            searchCriteria.change(function () {
+                if (searchCriteria.val() === 'ROLE') {
+                    searchInput.hide();
+                    searchSelect.show();
+                    searchSelect.html("")
+                        .append($("<option></option>").attr("value", "").text("None"))
+                        .append($("<option></option>").attr("value", "ADMIN").text("ADMIN"))
+                        .append($("<option></option>").attr("value", "CLIENT").text("CLIENT"))
+                        .append($("<option></option>").attr("value", "MASTER").text("MASTER"))
+                    searchSelect.change();
+                } else if (searchCriteria.val() === 'STATUS') {
+                    searchInput.hide();
+                    searchSelect.show();
+                    searchSelect.html("")
+                        .append($("<option></option>").attr("value", "").text("None"))
+                        .append($("<option></option>").attr("value", "NOT_CONFIRMED").text("NOT_CONFIRMED"))
+                        .append($("<option></option>").attr("value", "CONFIRMED").text("CONFIRMED"))
+                    searchSelect.change();
+                } else {
+                    searchInput.show();
+                    searchSelect.hide();
+                    table.search(searchValue).draw();
+                }
+            });
+
+            searchSelect.change(function () {
+                table.search(searchSelect.val()).draw();
+            });
+        }
     </script>
 </body>
 </html>
