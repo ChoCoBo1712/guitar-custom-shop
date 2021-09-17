@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Body extends AbstractEntity {
 
-    private StringSet shape;
+    private String shape;
     private long woodId;
 
     private Body() {
@@ -15,7 +15,7 @@ public class Body extends AbstractEntity {
         return new Body().new BodyBuilder();
     }
 
-    public StringSet getShape() {
+    public String getShape() {
         return shape;
     }
 
@@ -63,7 +63,7 @@ public class Body extends AbstractEntity {
 
         }
 
-        public BodyBuilder setShape(StringSet shape) {
+        public BodyBuilder setShape(String shape) {
             Body.this.shape = shape;
             return this;
         }

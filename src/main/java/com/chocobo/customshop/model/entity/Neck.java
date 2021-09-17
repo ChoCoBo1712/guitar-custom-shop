@@ -9,10 +9,10 @@ public class Neck extends AbstractEntity {
         NON_LOCKING
     }
 
-    private StringSet shape;
+    private String shape;
     private TunerSet tunerSet;
     private long woodId;
-    private long fretboardId;
+    private long fretboardWoodId;
 
     private Neck() {
 
@@ -22,7 +22,7 @@ public class Neck extends AbstractEntity {
         return new Neck().new NeckBuilder();
     }
 
-    public StringSet getShape() {
+    public String getShape() {
         return shape;
     }
 
@@ -35,7 +35,7 @@ public class Neck extends AbstractEntity {
     }
 
     public long getFretboardId() {
-        return fretboardId;
+        return fretboardWoodId;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Neck extends AbstractEntity {
 
         Neck neck = (Neck) obj;
         return super.equals(neck) && Objects.equals(neck.shape, shape) && Objects.equals(neck.tunerSet, tunerSet)
-                && neck.woodId == woodId && neck.fretboardId == fretboardId;
+                && neck.woodId == woodId && neck.fretboardWoodId == fretboardWoodId;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Neck extends AbstractEntity {
         result = prime * result + (shape != null ? shape.hashCode() : 0);
         result = prime * result + (tunerSet != null ? tunerSet.hashCode() : 0);
         result = prime * result + Long.hashCode(woodId);
-        result = prime * result + Long.hashCode(fretboardId);
+        result = prime * result + Long.hashCode(fretboardWoodId);
 
         return result;
     }
@@ -72,7 +72,7 @@ public class Neck extends AbstractEntity {
         builder.append("shape = ").append(shape).append(", ");
         builder.append("tuner = ").append(tunerSet).append(", ");
         builder.append("wood id = ").append(woodId).append(", ");
-        builder.append("fretboard id = ").append(fretboardId).append(")");
+        builder.append("fretboard id = ").append(fretboardWoodId).append(")");
 
         return builder.toString();
     }
@@ -83,7 +83,7 @@ public class Neck extends AbstractEntity {
 
         }
 
-        public NeckBuilder setShape(StringSet shape) {
+        public NeckBuilder setShape(String shape) {
             Neck.this.shape = shape;
             return this;
         }
@@ -98,8 +98,8 @@ public class Neck extends AbstractEntity {
             return this;
         }
 
-        public NeckBuilder setFretboardId(long fretboardId) {
-            Neck.this.fretboardId = fretboardId;
+        public NeckBuilder setFretboardId(long fretboardWoodId) {
+            Neck.this.fretboardWoodId = fretboardWoodId;
             return this;
         }
 

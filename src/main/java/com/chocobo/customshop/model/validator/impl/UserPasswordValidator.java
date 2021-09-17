@@ -2,8 +2,6 @@ package com.chocobo.customshop.model.validator.impl;
 
 import com.chocobo.customshop.model.validator.Validator;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.regex.Pattern;
 
