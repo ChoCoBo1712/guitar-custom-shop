@@ -8,10 +8,7 @@ import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.pool.DatabaseConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +35,10 @@ public class WoodDaoImpl implements WoodDao {
             "FROM woods " +
             "WHERE name = ?;";
 
+    private static final String INSERT =
+            "INSERT INTO woods(name)" +
+            "VALUES(?);";
+
     private static final String DELETE =
             "UPDATE woods " +
             "SET deleted = 1" +
@@ -52,7 +53,23 @@ public class WoodDaoImpl implements WoodDao {
 
     @Override
     public long insert(Wood entity) throws DaoException {
-        return 0;
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, entity.getName());
+            statement.execute();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            long generatedKey = generatedKeys.next() ? generatedKeys.getLong(1) : 0;
+            statement.close();
+            return generatedKey;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override

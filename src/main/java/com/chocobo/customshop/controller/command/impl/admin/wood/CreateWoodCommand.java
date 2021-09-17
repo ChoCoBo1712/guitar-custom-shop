@@ -4,6 +4,7 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
+import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
 import com.chocobo.customshop.util.ValidationUtil;
 import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +17,7 @@ import java.util.List;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_USER_URL;
-import static com.chocobo.customshop.controller.command.PagePath.ADMIN_USERS_URL;
+import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
@@ -29,26 +29,22 @@ public class CreateWoodCommand implements Command {
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        String email = request.getParameter(EMAIL);
-        String login = request.getParameter(LOGIN);
-        String password = request.getParameter(PASSWORD);
-        UserRole role = UserRole.valueOf(request.getParameter(ROLE));
-        UserStatus status = UserStatus.valueOf(request.getParameter(STATUS));
+        String name = request.getParameter(NAME);
 
         CommandResult result;
         try {
             ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login, password);
+            Pair<Boolean, List<String>> validationResult = validationUtil.validateWoodCreation(name);
             if (validationResult.getLeft()) {
-                UserServiceImpl.getInstance().register(email, login, password, role, status);
-                result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
+                WoodServiceImpl.getInstance().insert(name);
+                result = new CommandResult(ADMIN_WOODS_URL, REDIRECT);
             } else {
                 List<String> errorAttributesList = validationResult.getRight();
                 errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
-                result = new CommandResult(ADMIN_CREATE_USER_URL, REDIRECT);
+                result = new CommandResult(ADMIN_CREATE_WOOD_URL, REDIRECT);
             }
         } catch (ServiceException e) {
-            logger.error("An error occurred during create user command execution", e);
+            logger.error("An error occurred during create wood command execution", e);
             result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
         return result;

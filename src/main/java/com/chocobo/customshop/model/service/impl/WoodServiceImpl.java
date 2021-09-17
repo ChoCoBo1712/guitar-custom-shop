@@ -48,6 +48,18 @@ public class WoodServiceImpl implements WoodService {
     }
 
     @Override
+    public long insert(String name) throws ServiceException {
+        Wood wood = Wood.builder()
+                .setName(name)
+                .build();
+        try {
+            return woodDao.insert(wood);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public void delete(long id) throws ServiceException {
         try {
             woodDao.delete(id);

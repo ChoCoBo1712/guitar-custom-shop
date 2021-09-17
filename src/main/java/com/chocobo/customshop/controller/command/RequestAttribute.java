@@ -20,6 +20,7 @@ public final class RequestAttribute {
     public static final String ENTITY_ID = "id";
     public static final String USER = "user";
     public static final String WOOD = "wood";
+    public static final String NAME = "name";
 
     private RequestAttribute() {
 

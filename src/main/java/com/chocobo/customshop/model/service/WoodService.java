@@ -14,6 +14,8 @@ public interface WoodService {
 
     boolean isNameUnique(String name) throws ServiceException;
 
+    long insert(String name) throws ServiceException;
+
     void delete(long id) throws ServiceException;
 
     List<Wood> filter(int start, int length, WoodFilterCriteria criteria, String keyword) throws ServiceException;
