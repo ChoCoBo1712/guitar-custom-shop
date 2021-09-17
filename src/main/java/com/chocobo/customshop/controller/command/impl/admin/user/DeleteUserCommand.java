@@ -16,7 +16,7 @@ import java.util.Optional;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_USERS_URL;
-import static com.chocobo.customshop.controller.command.RequestParameter.ENTITY_ID;
+import static com.chocobo.customshop.controller.command.RequestAttribute.ENTITY_ID;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class DeleteUserCommand implements Command {
@@ -26,17 +26,9 @@ public class DeleteUserCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         UserService userService = UserServiceImpl.getInstance();
-        UserStatus status = UserStatus.DELETED;
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
         try {
-            Optional<User> optionalUser = userService.findById(entityId);
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                User updatedUser = User.builder().of(user)
-                        .setStatus(status)
-                        .build();
-                userService.update(updatedUser);
-            }
+            userService.delete(entityId);
         } catch (ServiceException e) {
             logger.error("An error occurred during delete user command execution", e);
             return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);

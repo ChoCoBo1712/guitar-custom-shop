@@ -84,6 +84,11 @@ public class UserDaoImpl implements UserDao {
             "SET email = ?, login = ?, password_hash = ?, salt = ?, role = ?, status = ?" +
             "WHERE user_id = ?;";
 
+    private static final String DELETE =
+            "UPDATE users " +
+            "SET status = 'DELETED'" +
+            "WHERE user_id = ?;";
+
     public static UserDao getInstance() {
         if (instance == null) {
             instance = new UserDaoImpl();
@@ -143,7 +148,19 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(long id) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE);
+            statement.execute();
 
+            statement.close();
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override

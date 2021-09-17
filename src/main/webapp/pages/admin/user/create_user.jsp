@@ -13,12 +13,12 @@
     <jsp:include page="../shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=create_user" method="post">
-        <input type="email" name="email" placeholder=<fmt:message key="register.email" /> required maxlength="50">
+        <input type="email" name="email" placeholder=<fmt:message key="placeholder.email" /> required maxlength="50">
         <br>
-        <input type="text" name="login" placeholder=<fmt:message key="register.login" /> required
+        <input type="text" name="login" placeholder=<fmt:message key="placeholder.login" /> required
                pattern="[0-9a-zA-Z]{8,20}">
         <br>
-        <input type="password" name="password" placeholder=<fmt:message key="register.password" /> required
+        <input type="password" name="password" placeholder=<fmt:message key="placeholder.password" /> required
                pattern="(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{8,32}">
         <br>
         <select name="role" id="role_select">
@@ -36,23 +36,23 @@
     </form>
 
     <c:if test="${requestScope.invalidEmailPatternError}">
-        <p><fmt:message key="create.invalid_email" /></p>
+        <p><fmt:message key="error.invalid_email" /></p>
     </c:if>
 
     <c:if test="${requestScope.duplicateEmailError}">
-        <p><fmt:message key="create.duplicate_email" /></p>
+        <p><fmt:message key="error.duplicate_email" /></p>
     </c:if>
 
     <c:if test="${requestScope.invalidLoginPatternError}">
-        <p><fmt:message key="create.invalid_login" /></p>
+        <p><fmt:message key="error.invalid_login" /></p>
     </c:if>
 
     <c:if test="${requestScope.duplicateLoginError}">
-        <p><fmt:message key="create.duplicate_login" /></p>
+        <p><fmt:message key="error.duplicate_login" /></p>
     </c:if>
 
     <c:if test="${requestScope.invalidPasswordPatternError}">
-        <p><fmt:message key="create.invalid_password" /></p>
+        <p><fmt:message key="error.invalid_password" /></p>
     </c:if>
 
     <jsp:include page="../shared/footer.jsp" />

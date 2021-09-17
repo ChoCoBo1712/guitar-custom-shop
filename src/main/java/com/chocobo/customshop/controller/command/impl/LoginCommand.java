@@ -16,8 +16,8 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.INDEX_URL;
 import static com.chocobo.customshop.controller.command.PagePath.LOGIN_URL;
-import static com.chocobo.customshop.controller.command.RequestParameter.LOGIN;
-import static com.chocobo.customshop.controller.command.RequestParameter.PASSWORD;
+import static com.chocobo.customshop.controller.command.RequestAttribute.LOGIN;
+import static com.chocobo.customshop.controller.command.RequestAttribute.PASSWORD;
 import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.LOGIN_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

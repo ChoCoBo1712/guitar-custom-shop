@@ -22,7 +22,7 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.REGISTER_SUCCESS_URL;
 import static com.chocobo.customshop.controller.command.PagePath.REGISTER_URL;
-import static com.chocobo.customshop.controller.command.RequestParameter.*;
+import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.model.entity.User.UserRole.CLIENT;
 import static com.chocobo.customshop.model.entity.User.UserStatus.NOT_CONFIRMED;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

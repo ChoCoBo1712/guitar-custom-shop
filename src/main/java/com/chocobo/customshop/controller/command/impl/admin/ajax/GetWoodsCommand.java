@@ -5,7 +5,6 @@ import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.WoodService;
-import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
 import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
 import com.google.gson.Gson;
@@ -19,7 +18,7 @@ import java.util.Map;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.JSON;
-import static com.chocobo.customshop.controller.command.RequestParameter.*;
+import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class GetWoodsCommand implements Command {
@@ -39,10 +38,9 @@ public class GetWoodsCommand implements Command {
         List<Wood> woods;
 
         try {
-            woods = searchCriteria != null
-                    ? woodService.filter(start, length, WoodFilterCriteria.valueOf(searchCriteria.toUpperCase()),
-                    searchValue)
-                    : woodService.filter(start, length, WoodFilterCriteria.NONE, null);
+            woods = searchValue.isEmpty()
+                    ? woodService.filter(start, length, WoodFilterCriteria.NONE, null)
+                    : woodService.filter(start, length, WoodFilterCriteria.valueOf(searchCriteria), searchValue);
         } catch (ServiceException e) {
             logger.error("An error occurred during get woods command execution", e);
             return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);

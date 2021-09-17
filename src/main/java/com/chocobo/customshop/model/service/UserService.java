@@ -23,5 +23,7 @@ public interface UserService {
 
     void update(User user) throws ServiceException;
 
+    void delete(long id) throws ServiceException;
+
     List<User> filter(int start, int length, UserFilterCriteria criteria, String keyword) throws ServiceException;
 }

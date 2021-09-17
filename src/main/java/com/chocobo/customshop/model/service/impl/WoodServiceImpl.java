@@ -12,6 +12,7 @@ import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class WoodServiceImpl implements WoodService {
 
@@ -24,6 +25,35 @@ public class WoodServiceImpl implements WoodService {
             instance = new WoodServiceImpl();
         }
         return instance;
+    }
+
+    @Override
+    public Optional<Wood> findById(long id) throws ServiceException {
+        try {
+            return woodDao.selectById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean isNameUnique(String name) throws ServiceException {
+        Optional<Wood> wood;
+        try {
+            wood = woodDao.selectByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return wood.isEmpty();
+    }
+
+    @Override
+    public void delete(long id) throws ServiceException {
+        try {
+            woodDao.delete(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override

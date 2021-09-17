@@ -14,7 +14,7 @@ public class Guitar extends AbstractEntity {
     private NeckJoint neckJoint;
     private long bodyId;
     private long neckId;
-    private long pickupSetId;
+    private long pickupId;
     private String color;
     private String comment;
     private long userId;
@@ -43,8 +43,8 @@ public class Guitar extends AbstractEntity {
         return neckId;
     }
 
-    public long getPickupSetId() {
-        return pickupSetId;
+    public long getPickupId() {
+        return pickupId;
     }
 
     public String getColor() {
@@ -72,7 +72,7 @@ public class Guitar extends AbstractEntity {
         return super.equals(guitar) && Objects.equals(guitar.picturePath, picturePath)
                 && Objects.equals(guitar.neckJoint, neckJoint)
                 && guitar.bodyId == bodyId && guitar.neckId == neckId
-                && guitar.pickupSetId == pickupSetId && Objects.equals(guitar.color, color)
+                && guitar.pickupId == pickupId && Objects.equals(guitar.color, color)
                 && Objects.equals(guitar.comment, comment) && guitar.userId == userId;
     }
 
@@ -85,7 +85,7 @@ public class Guitar extends AbstractEntity {
         result = prime * result + (neckJoint != null ? neckJoint.hashCode() : 0);
         result = prime * result + Long.hashCode(bodyId);
         result = prime * result + Long.hashCode(neckId);
-        result = prime * result + Long.hashCode(pickupSetId);
+        result = prime * result + Long.hashCode(pickupId);
         result = prime * result + (color != null ? color.hashCode() : 0);
         result = prime * result + (comment != null ? comment.hashCode() : 0);
         result = prime * result + Long.hashCode(userId);
@@ -101,7 +101,7 @@ public class Guitar extends AbstractEntity {
         builder.append("neck joint = ").append(neckJoint).append(", ");
         builder.append("body id = ").append(bodyId).append(", ");
         builder.append("neck id = ").append(neckId).append(", ");
-        builder.append("pickup set id = ").append(pickupSetId).append(", ");
+        builder.append("pickup set id = ").append(pickupId).append(", ");
         builder.append("color = ").append(color).append(", ");
         builder.append("comment = ").append(comment).append(", ");
         builder.append("user id = ").append(userId).append(")");
@@ -136,7 +136,7 @@ public class Guitar extends AbstractEntity {
         }
 
         public GuitarBuilder setPickupSetId(long pickupSetId) {
-            Guitar.this.pickupSetId = pickupSetId;
+            Guitar.this.pickupId = pickupSetId;
             return this;
         }
 

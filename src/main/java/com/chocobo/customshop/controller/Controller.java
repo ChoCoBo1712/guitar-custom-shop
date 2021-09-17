@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.chocobo.customshop.controller.command.RequestParameter.COMMAND;
+import static com.chocobo.customshop.controller.command.RequestAttribute.COMMAND;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 

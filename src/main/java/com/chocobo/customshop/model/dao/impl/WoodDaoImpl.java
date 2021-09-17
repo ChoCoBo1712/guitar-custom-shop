@@ -24,9 +24,24 @@ public class WoodDaoImpl implements WoodDao {
 
     private static final String SELECT_ALL =
             "SELECT wood_id, name " +
-                    "FROM woods " +
-                    "WHERE deleted <> 1 " +
-                    "LIMIT ?, ?;";
+            "FROM woods " +
+            "WHERE deleted <> 1 " +
+            "LIMIT ?, ?;";
+
+    private static final String SELECT_BY_ID =
+            "SELECT wood_id, name " +
+            "FROM woods " +
+            "WHERE user_id = ?;";
+
+    private static final String SELECT_BY_NAME =
+            "SELECT wood_id, name " +
+            "FROM woods " +
+            "WHERE name = ?;";
+
+    private static final String DELETE =
+            "UPDATE woods " +
+            "SET deleted = 1" +
+            "WHERE wood_id = ?;";
 
     public static WoodDao getInstance() {
         if (instance == null) {
@@ -47,12 +62,44 @@ public class WoodDaoImpl implements WoodDao {
 
     @Override
     public void delete(long id) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE);
+            statement.execute();
 
+            statement.close();
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override
     public Optional<Wood> selectById(long id) throws DaoException {
-        return Optional.empty();
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        Wood wood = null;
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);
+            statement.setString(1, String.valueOf(id));
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                wood = (Wood) Wood.builder()
+                        .setName(resultSet.getString(WOOD_NAME))
+                        .setEntityId(resultSet.getLong(WOOD_ID))
+                        .build();
+            }
+            statement.close();
+            return Optional.ofNullable(wood);
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override
@@ -80,6 +127,31 @@ public class WoodDaoImpl implements WoodDao {
             }
             statement.close();
             return woodList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public Optional<Wood> selectByName(String name) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        Wood wood = null;
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_BY_NAME);
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                wood = (Wood) Wood.builder()
+                        .setName(resultSet.getString(WOOD_NAME))
+                        .setEntityId(resultSet.getLong(WOOD_ID))
+                        .build();
+            }
+            statement.close();
+            return Optional.ofNullable(wood);
         } catch (DatabaseConnectionException | SQLException e) {
             throw new DaoException(e);
         } finally {

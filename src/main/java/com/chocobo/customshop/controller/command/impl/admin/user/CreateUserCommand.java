@@ -20,7 +20,7 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_USER_URL;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_USERS_URL;
-import static com.chocobo.customshop.controller.command.RequestParameter.*;
+import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateUserCommand implements Command {

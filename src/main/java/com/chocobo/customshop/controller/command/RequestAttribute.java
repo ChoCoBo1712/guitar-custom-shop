@@ -1,6 +1,6 @@
 package com.chocobo.customshop.controller.command;
 
-public final class RequestParameter {
+public final class RequestAttribute {
 
     public static final String COMMAND = "command";
     public static final String EMAIL = "email";
@@ -19,8 +19,9 @@ public final class RequestParameter {
     public static final String DATA = "data";
     public static final String ENTITY_ID = "id";
     public static final String USER = "user";
+    public static final String WOOD = "wood";
 
-    private RequestParameter() {
+    private RequestAttribute() {
 
     }
 }

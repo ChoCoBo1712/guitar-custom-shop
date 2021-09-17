@@ -18,6 +18,5 @@ public final class TableColumn {
     // wood TABLE
     public static final String WOOD_ID = "wood_id";
     public static final String WOOD_NAME = "name";
-    public static final String WOOD_DELETED = "deleted";
 
 }

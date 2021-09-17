@@ -111,6 +111,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void delete(long id) throws ServiceException {
+        try {
+            userDao.delete(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public List<User> filter(int start, int length, UserFilterCriteria criteria, String keyword) throws ServiceException {
         List<User> result;
         try {

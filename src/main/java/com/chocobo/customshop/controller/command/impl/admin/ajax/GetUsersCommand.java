@@ -9,7 +9,6 @@ import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +18,7 @@ import java.util.Map;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.JSON;
-import static com.chocobo.customshop.controller.command.RequestParameter.*;
+import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class GetUsersCommand implements Command {

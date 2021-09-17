@@ -19,7 +19,7 @@ import java.util.Optional;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.ACTIVATION_SUCCESS_URL;
-import static com.chocobo.customshop.controller.command.RequestParameter.TOKEN;
+import static com.chocobo.customshop.controller.command.RequestAttribute.TOKEN;
 import static com.chocobo.customshop.model.entity.User.UserStatus.CONFIRMED;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 

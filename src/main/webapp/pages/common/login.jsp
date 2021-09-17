@@ -10,9 +10,9 @@
 </head>
 <body>
     <form action="${pageContext.request.contextPath}/controller?command=login" method="post">
-        <input type="text" name="login" placeholder=<fmt:message key="login.login" /> required>
+        <input type="text" name="login" placeholder=<fmt:message key="placeholder.login" /> required>
         <br>
-        <input type="password" name="password" placeholder=<fmt:message key="login.password" /> required>
+        <input type="password" name="password" placeholder=<fmt:message key="placeholder.password" /> required>
         <br>
         <input type="submit" value=<fmt:message key="login.submit" />>
     </form>
