@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_USERS_URL;
+import static com.chocobo.customshop.controller.command.PagePath.ADMIN_WOODS_URL;
 import static com.chocobo.customshop.controller.command.RequestAttribute.ENTITY_ID;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
@@ -27,7 +28,7 @@ public class DeleteWoodCommand implements Command {
         CommandResult result;
         try {
             woodService.delete(entityId);
-            result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
+            result = new CommandResult(ADMIN_WOODS_URL, REDIRECT);
         } catch (ServiceException e) {
             logger.error("An error occurred during delete wood command execution", e);
             result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);

@@ -153,6 +153,7 @@ public class UserDaoImpl implements UserDao {
         try {
             connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(DELETE);
+            statement.setString(1, String.valueOf(id));
             statement.execute();
 
             statement.close();

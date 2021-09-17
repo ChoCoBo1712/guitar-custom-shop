@@ -28,7 +28,7 @@ public class WoodDaoImpl implements WoodDao {
     private static final String SELECT_BY_ID =
             "SELECT wood_id, name " +
             "FROM woods " +
-            "WHERE user_id = ?;";
+            "WHERE wood_id = ?;";
 
     private static final String SELECT_BY_NAME =
             "SELECT wood_id, name " +
@@ -85,6 +85,7 @@ public class WoodDaoImpl implements WoodDao {
             connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE);
             statement.setString(1, entity.getName());
+            statement.setString(2, String.valueOf(entity.getEntityId()));
             statement.execute();
 
             statement.close();
@@ -102,6 +103,7 @@ public class WoodDaoImpl implements WoodDao {
         try {
             connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(DELETE);
+            statement.setString(1, String.valueOf(id));
             statement.execute();
 
             statement.close();
