@@ -12,6 +12,8 @@ public enum CommandType {
     GO_TO_CREATE_USER_PAGE,
     GO_TO_EDIT_USER_PAGE,
     GO_TO_WOODS_PAGE,
+    GO_TO_CREATE_WOOD_PAGE,
+    GO_TO_EDIT_WOOD_PAGE,
 
     // other commands
     REGISTER,
@@ -23,4 +25,7 @@ public enum CommandType {
     UPDATE_USER,
     DELETE_USER,
     GET_WOODS,
+    CREATE_WOOD,
+    UPDATE_WOOD,
+    DELETE_WOOD,
 }

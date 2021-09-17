@@ -1,8 +1,6 @@
 package com.chocobo.customshop.model.validator.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.model.service.WoodService;
-import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
 import com.chocobo.customshop.model.validator.Validator;
 import org.apache.commons.lang3.tuple.Pair;
@@ -11,7 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.regex.Pattern;
 
-import static com.chocobo.customshop.controller.command.SessionAttribute.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.DUPLICATE_NAME_ERROR;
+import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_NAME_PATTERN_ERROR;
 import static com.chocobo.customshop.util.ValidationUtil.SERVICE_EXCEPTION;
 
 public class WoodNameValidator implements Validator<String> {

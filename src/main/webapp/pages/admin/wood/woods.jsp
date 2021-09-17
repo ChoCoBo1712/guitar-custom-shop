@@ -24,7 +24,7 @@
 
     <script>
         $(document).ready( function () {
-            $('#woods_table').DataTable( {
+            let table = $('#woods_table').DataTable( {
                 language: {
                     <c:if test="${sessionScope.locale == 'en_US'}">
                     url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/en-gb.json'
@@ -38,7 +38,7 @@
                 serverSide: true,
                 ordering: false,
                 ajax: {
-                    url: '/controller?command=get_users',
+                    url: '/controller?command=get_woods',
                     data: function (data) {
                         data.filterCriteria = $('#searchCriteria').val();
                     }
@@ -49,10 +49,10 @@
                     {
                         data: null,
                         render: function (row) {
-                            return '<a href="/controller?command=go_to_edit_user_page&id=' + row.entityId + '">'
+                            return '<a href="/controller?command=go_to_edit_wood_page&id=' + row.entityId + '">'
                                 + '<fmt:message key="admin.edit" /></a>'
                                 + '<br>'
-                                + '<a href="/controller?command=delete_user&id=' + row.entityId + '">'
+                                + '<a href="/controller?command=delete_wood&id=' + row.entityId + '">'
                                 + '<fmt:message key="admin.delete" /></a>'
                         }
                     },
@@ -86,7 +86,7 @@
             searchSelect.hide();
 
             $('#createButton').click(function () {
-                window.location.href = "${pageContext.request.contextPath}/controller?command=go_to_create_user_page";
+                window.location.href = "${pageContext.request.contextPath}/controller?command=go_to_create_wood_page";
             });
 
             searchInput.keyup(function () {

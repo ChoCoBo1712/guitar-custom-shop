@@ -11,8 +11,8 @@ public final class PagePath {
     public static final String ADMIN_EDIT_USER_JSP = "/pages/admin/user/edit_user.jsp";
     public static final String ADMIN_CREATE_USER_JSP = "/pages/admin/user/create_user.jsp";
     public static final String ADMIN_WOODS_JSP = "/pages/admin/wood/woods.jsp";
-    public static final String ADMIN_CREATE_WOOD_JSP = "/pages/admin/user/create_wood.jsp";
-    public static final String ADMIN_EDIT_WOOD_JSP = "/pages/admin/user/edit_wood.jsp";
+    public static final String ADMIN_CREATE_WOOD_JSP = "/pages/admin/wood/create_wood.jsp";
+    public static final String ADMIN_EDIT_WOOD_JSP = "/pages/admin/wood/edit_wood.jsp";
 
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
