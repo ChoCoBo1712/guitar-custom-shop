@@ -5,6 +5,7 @@ import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.model.validator.impl.UserEmailValidator;
 import com.chocobo.customshop.model.validator.impl.UserLoginValidator;
 import com.chocobo.customshop.model.validator.impl.UserPasswordValidator;
+import com.chocobo.customshop.model.validator.impl.WoodNameValidator;
 import com.chocobo.customshop.util.ValidationUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -51,7 +52,7 @@ public class ValidationUtilImpl implements ValidationUtil {
     @Override
     public Pair<Boolean, List<String>> validateWoodCreation(String name) throws ServiceException {
         List<String> errorList = new ArrayList<>();
-        boolean valid = validateInsert(name, errorList, UserEmailValidator.getInstance());
+        boolean valid = validateInsert(name, errorList, WoodNameValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
             throw new ServiceException("An error occurred during wood name validation");
         }
@@ -61,7 +62,7 @@ public class ValidationUtilImpl implements ValidationUtil {
     @Override
     public Pair<Boolean, List<String>> validateWoodUpdate(String name, String previousName) throws ServiceException {
         List<String> errorList = new ArrayList<>();
-        boolean valid = validateUpdate(name, previousName, errorList, UserEmailValidator.getInstance());
+        boolean valid = validateUpdate(name, previousName, errorList, WoodNameValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
             throw new ServiceException("An error occurred during wood name validation");
         }

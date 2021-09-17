@@ -27,13 +27,15 @@ public class DeleteUserCommand implements Command {
     public CommandResult execute(HttpServletRequest request) {
         UserService userService = UserServiceImpl.getInstance();
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
+
+        CommandResult result;
         try {
             userService.delete(entityId);
+            result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
         } catch (ServiceException e) {
             logger.error("An error occurred during delete user command execution", e);
-            return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
+            result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
-
-        return new CommandResult(ADMIN_USERS_URL, REDIRECT);
+        return result;
     }
 }

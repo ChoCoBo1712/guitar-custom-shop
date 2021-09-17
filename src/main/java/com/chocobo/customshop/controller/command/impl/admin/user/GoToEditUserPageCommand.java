@@ -28,20 +28,22 @@ public class GoToEditUserPageCommand implements Command {
     public CommandResult execute(HttpServletRequest request) {
         UserService userService = UserServiceImpl.getInstance();
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
+
+        CommandResult result;
         try {
             Optional<User> optionalUser = userService.findById(entityId);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 request.setAttribute(USER, user);
+                result = new CommandResult(ADMIN_EDIT_USER_JSP, FORWARD);
             } else {
                 logger.error("Requested user not found, id = " + entityId);
-                return new CommandResult(SC_NOT_FOUND, ERROR);
+                result = new CommandResult(SC_NOT_FOUND, ERROR);
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during go to edit user page command execution", e);
-            return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
+            result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
-
-        return new CommandResult(ADMIN_EDIT_USER_JSP, FORWARD);
+        return result;
     }
 }

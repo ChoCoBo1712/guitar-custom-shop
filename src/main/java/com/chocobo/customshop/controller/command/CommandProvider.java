@@ -4,7 +4,7 @@ import com.chocobo.customshop.controller.command.impl.*;
 import com.chocobo.customshop.controller.command.impl.admin.ajax.GetWoodsCommand;
 import com.chocobo.customshop.controller.command.impl.admin.user.*;
 import com.chocobo.customshop.controller.command.impl.admin.ajax.GetUsersCommand;
-import com.chocobo.customshop.controller.command.impl.admin.wood.GoToWoodsPageCommand;
+import com.chocobo.customshop.controller.command.impl.admin.wood.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,8 +28,8 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_CREATE_USER_PAGE, new GoToCreateUserPageCommand());
         commandMap.put(CommandType.GO_TO_EDIT_USER_PAGE, new GoToEditUserPageCommand());
         commandMap.put(CommandType.GO_TO_WOODS_PAGE, new GoToWoodsPageCommand());
-        commandMap.put(CommandType.GO_TO_CREATE_WOOD_PAGE, new GoToCreateUserPageCommand());
-        commandMap.put(CommandType.GO_TO_EDIT_WOOD_PAGE, new GoToEditUserPageCommand());
+        commandMap.put(CommandType.GO_TO_CREATE_WOOD_PAGE, new GoToCreateWoodPageCommand());
+        commandMap.put(CommandType.GO_TO_EDIT_WOOD_PAGE, new GoToEditWoodPageCommand());
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
@@ -41,9 +41,9 @@ public class CommandProvider {
         commandMap.put(CommandType.UPDATE_USER, new UpdateUserCommand());
         commandMap.put(CommandType.DELETE_USER, new DeleteUserCommand());
         commandMap.put(CommandType.GET_WOODS, new GetWoodsCommand());
-        commandMap.put(CommandType.CREATE_WOOD, new CreateUserCommand());
-        commandMap.put(CommandType.UPDATE_WOOD, new UpdateUserCommand());
-        commandMap.put(CommandType.DELETE_WOOD, new DeleteUserCommand());
+        commandMap.put(CommandType.CREATE_WOOD, new CreateWoodCommand());
+        commandMap.put(CommandType.UPDATE_WOOD, new UpdateWoodCommand());
+        commandMap.put(CommandType.DELETE_WOOD, new DeleteWoodCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

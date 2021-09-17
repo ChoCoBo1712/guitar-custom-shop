@@ -23,13 +23,15 @@ public class DeleteWoodCommand implements Command {
     public CommandResult execute(HttpServletRequest request) {
         WoodService woodService = WoodServiceImpl.getInstance();
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
+
+        CommandResult result;
         try {
             woodService.delete(entityId);
+            result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
         } catch (ServiceException e) {
             logger.error("An error occurred during delete wood command execution", e);
-            return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
+            result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
-
-        return new CommandResult(ADMIN_USERS_URL, REDIRECT);
+        return result;
     }
 }

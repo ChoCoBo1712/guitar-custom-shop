@@ -28,20 +28,22 @@ public class GoToEditWoodPageCommand implements Command {
     public CommandResult execute(HttpServletRequest request) {
         WoodService woodService = WoodServiceImpl.getInstance();
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
+
+        CommandResult result;
         try {
             Optional<Wood> optionalWood = woodService.findById(entityId);
             if (optionalWood.isPresent()) {
                 Wood wood = optionalWood.get();
                 request.setAttribute(WOOD, wood);
+                result = new CommandResult(ADMIN_EDIT_WOOD_JSP, FORWARD);
             } else {
                 logger.error("Requested wood not found, id = " + entityId);
-                return new CommandResult(SC_NOT_FOUND, ERROR);
+                result = new CommandResult(SC_NOT_FOUND, ERROR);
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during go to edit wood page command execution", e);
-            return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
+            result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
-
-        return new CommandResult(ADMIN_EDIT_WOOD_JSP, FORWARD);
+        return result;
     }
 }
