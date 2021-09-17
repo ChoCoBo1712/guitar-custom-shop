@@ -61,6 +61,12 @@ public class Wood extends AbstractEntity {
             return this;
         }
 
+        public WoodBuilder of(Wood wood) {
+            super.of(wood);
+            Wood.this.name = wood.name;
+            return this;
+        }
+
         @Override
         public Wood build() {
             return Wood.this;

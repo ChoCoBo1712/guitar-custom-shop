@@ -16,6 +16,8 @@ public interface WoodService {
 
     long insert(String name) throws ServiceException;
 
+    void update(Wood wood) throws ServiceException;
+
     void delete(long id) throws ServiceException;
 
     List<Wood> filter(int start, int length, WoodFilterCriteria criteria, String keyword) throws ServiceException;

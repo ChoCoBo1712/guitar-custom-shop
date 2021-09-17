@@ -3,7 +3,6 @@ package com.chocobo.customshop.controller.command.impl.admin.wood;
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
 import com.chocobo.customshop.util.ValidationUtil;
 import com.chocobo.customshop.util.impl.ValidationUtilImpl;
@@ -17,8 +16,9 @@ import java.util.List;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.controller.command.PagePath.*;
-import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_WOOD_URL;
+import static com.chocobo.customshop.controller.command.PagePath.ADMIN_WOODS_URL;
+import static com.chocobo.customshop.controller.command.RequestAttribute.NAME;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateWoodCommand implements Command {

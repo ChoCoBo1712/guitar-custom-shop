@@ -76,17 +76,17 @@ public class UserDaoImpl implements UserDao {
             "LIMIT ?, ?;";
 
     private static final String INSERT =
-            "INSERT INTO users(email, login, password_hash, salt, role, status)" +
+            "INSERT INTO users(email, login, password_hash, salt, role, status) " +
             "VALUES(?, ?, ?, ?, ?, ?);";
 
     private static final String UPDATE =
             "UPDATE users " +
-            "SET email = ?, login = ?, password_hash = ?, salt = ?, role = ?, status = ?" +
+            "SET email = ?, login = ?, password_hash = ?, salt = ?, role = ?, status = ? " +
             "WHERE user_id = ?;";
 
     private static final String DELETE =
             "UPDATE users " +
-            "SET status = 'DELETED'" +
+            "SET status = 'DELETED' " +
             "WHERE user_id = ?;";
 
     public static UserDao getInstance() {

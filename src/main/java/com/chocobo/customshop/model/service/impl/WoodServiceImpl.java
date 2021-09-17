@@ -60,6 +60,15 @@ public class WoodServiceImpl implements WoodService {
     }
 
     @Override
+    public void update(Wood wood) throws ServiceException {
+        try {
+            woodDao.update(wood);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public void delete(long id) throws ServiceException {
         try {
             woodDao.delete(id);

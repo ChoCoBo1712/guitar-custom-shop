@@ -36,12 +36,17 @@ public class WoodDaoImpl implements WoodDao {
             "WHERE name = ?;";
 
     private static final String INSERT =
-            "INSERT INTO woods(name)" +
+            "INSERT INTO woods(name) " +
             "VALUES(?);";
+
+    private static final String UPDATE =
+            "UPDATE woods " +
+            "SET name = ? " +
+            "WHERE wood_id = ?;";
 
     private static final String DELETE =
             "UPDATE woods " +
-            "SET deleted = 1" +
+            "SET deleted = 1 " +
             "WHERE wood_id = ?;";
 
     public static WoodDao getInstance() {
@@ -74,7 +79,20 @@ public class WoodDaoImpl implements WoodDao {
 
     @Override
     public void update(Wood entity) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE);
+            statement.setString(1, entity.getName());
+            statement.execute();
 
+            statement.close();
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override
