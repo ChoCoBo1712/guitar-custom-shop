@@ -27,9 +27,9 @@ public class ValidationUtilImpl implements ValidationUtil {
     public Pair<Boolean, List<String>> validateUserCreation(String email, String login, String password)
             throws ServiceException {
         List<String> errorList = new ArrayList<>();
-        boolean valid = validate(email, errorList, UserEmailValidator.getInstance());
-        valid &= validate(login, errorList, UserLoginValidator.getInstance());
-        valid &= validate(password, errorList, UserPasswordValidator.getInstance());
+        boolean valid = validateInsert(email, errorList, UserEmailValidator.getInstance());
+        valid &= validateInsert(login, errorList, UserLoginValidator.getInstance());
+        valid &= validateInsert(password, errorList, UserPasswordValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
             throw new ServiceException("An error occurred during user email validation");
         }
@@ -40,15 +40,35 @@ public class ValidationUtilImpl implements ValidationUtil {
     public Pair<Boolean, List<String>> validateUserUpdate(String email, String login, String previousEmail,
                                                           String previousLogin) throws ServiceException {
         List<String> errorList = new ArrayList<>();
-        boolean valid = validateIfNecessary(email, previousEmail, errorList, UserEmailValidator.getInstance());
-        valid &= validateIfNecessary(login, previousLogin, errorList, UserLoginValidator.getInstance());
+        boolean valid = validateUpdate(email, previousEmail, errorList, UserEmailValidator.getInstance());
+        valid &= validateUpdate(login, previousLogin, errorList, UserLoginValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
             throw new ServiceException("An error occurred during user email validation");
         }
         return Pair.of(valid, errorList);
     }
 
-    private boolean validate(String attribute, List<String> errorList, Validator<String> validator) {
+    @Override
+    public Pair<Boolean, List<String>> validateWoodCreation(String name) throws ServiceException {
+        List<String> errorList = new ArrayList<>();
+        boolean valid = validateInsert(name, errorList, UserEmailValidator.getInstance());
+        if (errorList.contains(SERVICE_EXCEPTION)) {
+            throw new ServiceException("An error occurred during wood name validation");
+        }
+        return Pair.of(valid, errorList);
+    }
+
+    @Override
+    public Pair<Boolean, List<String>> validateWoodUpdate(String name, String previousName) throws ServiceException {
+        List<String> errorList = new ArrayList<>();
+        boolean valid = validateUpdate(name, previousName, errorList, UserEmailValidator.getInstance());
+        if (errorList.contains(SERVICE_EXCEPTION)) {
+            throw new ServiceException("An error occurred during wood name validation");
+        }
+        return Pair.of(valid, errorList);
+    }
+
+    private boolean validateInsert(String attribute, List<String> errorList, Validator<String> validator) {
         Pair<Boolean, String> validationResult = validator.validate(attribute);
         String error = validationResult.getRight();
         if (!error.isEmpty()) {
@@ -57,8 +77,8 @@ public class ValidationUtilImpl implements ValidationUtil {
         return validationResult.getLeft();
     }
 
-    private boolean validateIfNecessary(String attribute, String previousAttribute, List<String> errorList,
-                                        Validator<String> validator) {
+    private boolean validateUpdate(String attribute, String previousAttribute, List<String> errorList,
+                                   Validator<String> validator) {
         if (!StringUtils.equals(attribute, previousAttribute)) {
             Pair<Boolean, String> validationResult = validator.validate(attribute);
             String error = validationResult.getRight();
