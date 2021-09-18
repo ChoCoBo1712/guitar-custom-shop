@@ -29,7 +29,7 @@ class ProxyConnection implements Connection {
 
     @Override
     public void close() {
-        DatabaseConnectionPool.getInstance().releaseConnection(connection);
+        DatabaseConnectionPool.getInstance().releaseConnection(this);
     }
 
     @Override
