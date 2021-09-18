@@ -14,7 +14,7 @@
 
     <form action="${pageContext.request.contextPath}/controller?command=create_wood" method="post">
         <input type="text" name="name" placeholder=<fmt:message key="placeholder.name" /> required
-               pattern="[a-zA-Z]{1,20}">
+               pattern="[a-zA-Z]{1,30}">
         <br>
         <input type="submit" value=<fmt:message key="admin.create" />>
     </form>
