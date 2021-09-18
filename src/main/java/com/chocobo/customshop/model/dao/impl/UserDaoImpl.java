@@ -98,356 +98,78 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public long insert(User entity) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, entity.getEmail());
-            statement.setString(2, entity.getLogin());
-            statement.setBytes(3, entity.getPasswordHash());
-            statement.setBytes(4, entity.getSalt());
-            statement.setString(5, entity.getRole().toString());
-            statement.setString(6, entity.getStatus().toString());
-            statement.execute();
-
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            long generatedKey = generatedKeys.next() ? generatedKeys.getLong(1) : 0;
-            statement.close();
-            return generatedKey;
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeInsert(
+                INSERT,
+                entity.getEmail(),
+                entity.getLogin(),
+                entity.getPasswordHash(),
+                entity.getSalt(),
+                entity.getRole().toString(),
+                entity.getStatus().toString()
+        );
     }
 
     @Override
     public void update(User entity) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, entity.getEmail());
-            statement.setString(2, entity.getLogin());
-            statement.setBytes(3, entity.getPasswordHash());
-            statement.setBytes(4, entity.getSalt());
-            statement.setString(5, entity.getRole().toString());
-            statement.setString(6, entity.getStatus().toString());
-            statement.setString(7, String.valueOf(entity.getEntityId()));
-            statement.execute();
-
-            statement.close();
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        executeUpdateOrDelete(
+                INSERT,
+                entity.getEmail(),
+                entity.getLogin(),
+                entity.getPasswordHash(),
+                entity.getSalt(),
+                entity.getRole().toString(),
+                entity.getStatus().toString(),
+                entity.getEntityId()
+        );
     }
 
     @Override
     public void delete(long id) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(DELETE);
-            statement.setString(1, String.valueOf(id));
-            statement.execute();
-
-            statement.close();
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        executeUpdateOrDelete(DELETE, id);
     }
 
     @Override
     public Optional<User> selectById(long id) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        User user = null;
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);
-            statement.setString(1, String.valueOf(id));
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-            }
-            statement.close();
-            return Optional.ofNullable(user);
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelect(SELECT_BY_ID, id);
     }
 
     @Override
     public List<User> selectById(int offset, int length, String keyword) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        List<User> userList = new ArrayList<>();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_ID);
-            statement.setString(1, keyword);
-            statement.setInt(2, offset);
-            statement.setInt(3, length);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                User user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-                userList.add(user);
-            }
-            statement.close();
-            return userList;
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelectMultiple(SELECT_MULTIPLE_BY_ID, keyword, offset, length);
     }
 
     @Override
     public List<User> selectAll(int offset, int length) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        List<User> userList = new ArrayList<>();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
-            statement.setInt(1, offset);
-            statement.setInt(2, length);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                User user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-                userList.add(user);
-            }
-            statement.close();
-            return userList;
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelectMultiple(SELECT_ALL, offset, length);
     }
 
     @Override
     public Optional<User> selectByEmail(String email) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        User user = null;
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_EMAIL);
-            statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-            }
-            statement.close();
-            return Optional.ofNullable(user);
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelect(SELECT_BY_EMAIL, email);
     }
 
     @Override
     public List<User> selectByEmail(int offset, int length, String keyword) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        List<User> userList = new ArrayList<>();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_EMAIL);
-            statement.setString(1, keyword);
-            statement.setInt(2, offset);
-            statement.setInt(3, length);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                User user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-                userList.add(user);
-            }
-            statement.close();
-            return userList;
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelectMultiple(SELECT_MULTIPLE_BY_EMAIL, keyword, offset, length);
     }
 
     @Override
     public Optional<User> selectByLogin(String login) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        User user = null;
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_LOGIN);
-            statement.setString(1, login);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-            }
-            statement.close();
-            return Optional.ofNullable(user);
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelect(SELECT_BY_LOGIN, login);
     }
 
     @Override
     public List<User> selectByLogin(int offset, int length, String keyword) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        List<User> userList = new ArrayList<>();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_LOGIN);
-            statement.setString(1, keyword);
-            statement.setInt(2, offset);
-            statement.setInt(3, length);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                User user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-                userList.add(user);
-            }
-            statement.close();
-            return userList;
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelectMultiple(SELECT_MULTIPLE_BY_LOGIN, keyword, offset, length);
     }
 
     @Override
     public List<User> selectByRole(int offset, int length, String keyword) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        List<User> userList = new ArrayList<>();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_ROLE);
-            statement.setString(1, keyword);
-            statement.setInt(2, offset);
-            statement.setInt(3, length);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                User user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-                userList.add(user);
-            }
-            statement.close();
-            return userList;
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelectMultiple(SELECT_MULTIPLE_BY_ROLE, keyword, offset, length);
     }
 
     @Override
     public List<User> selectByStatus(int offset, int length, String keyword) throws DaoException {
-        Connection connection = null;
-        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
-        List<User> userList = new ArrayList<>();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_STATUS);
-            statement.setString(1, keyword);
-            statement.setInt(2, offset);
-            statement.setInt(3, length);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                User user = (User) User.builder()
-                        .setEmail(resultSet.getString(USER_EMAIL))
-                        .setLogin(resultSet.getString(USER_LOGIN))
-                        .setPasswordHash(resultSet.getBytes(USER_PASSWORD_HASH))
-                        .setSalt(resultSet.getBytes(USER_SALT))
-                        .setRole(User.UserRole.valueOf(resultSet.getString(USER_ROLE)))
-                        .setStatus(User.UserStatus.valueOf(resultSet.getString(USER_STATUS)))
-                        .setEntityId(resultSet.getLong(USER_ID))
-                        .build();
-                userList.add(user);
-            }
-            statement.close();
-            return userList;
-        } catch (DatabaseConnectionException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
+        return executeSelectMultiple(SELECT_MULTIPLE_BY_STATUS, keyword, offset, length);
     }
 }
