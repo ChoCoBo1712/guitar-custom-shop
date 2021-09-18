@@ -8,7 +8,7 @@ import com.chocobo.customshop.model.entity.User.UserStatus;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserDao extends BaseDao<User>{
+public interface UserDao extends BaseDao<User> {
 
     Optional<User> selectByEmail(String email) throws DaoException;
 
