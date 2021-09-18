@@ -79,14 +79,12 @@ public class WoodServiceImpl implements WoodService {
 
     @Override
     public List<Wood> filter(int start, int length, WoodFilterCriteria criteria, String keyword) throws ServiceException {
-        List<Wood> result = new ArrayList<>();
+        List<Wood> result;
         try {
             switch (criteria) {
                 case NONE -> result = woodDao.selectAll(start, length);
-                case ID -> {
-                }
-                case NAME -> {
-                }
+                case ID -> result = woodDao.selectById(start, length, keyword);
+                case NAME -> result = woodDao.selectByName(start, length, keyword);
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
             return result;

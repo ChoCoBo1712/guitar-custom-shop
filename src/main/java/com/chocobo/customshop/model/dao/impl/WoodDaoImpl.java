@@ -30,10 +30,24 @@ public class WoodDaoImpl implements WoodDao {
             "FROM woods " +
             "WHERE wood_id = ?;";
 
+    private static final String SELECT_MULTIPLE_BY_ID =
+            "SELECT wood_id, name " +
+            "FROM woods " +
+            "WHERE wood_id LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
+            "ORDER BY wood_id " +
+            "LIMIT ?, ?;";
+
     private static final String SELECT_BY_NAME =
             "SELECT wood_id, name " +
             "FROM woods " +
             "WHERE name = ?;";
+
+    private static final String SELECT_MULTIPLE_BY_NAME =
+            "SELECT wood_id, name " +
+            "FROM woods " +
+            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
+            "ORDER BY wood_id " +
+            "LIMIT ?, ?;";
 
     private static final String INSERT =
             "INSERT INTO woods(name) " +
@@ -141,7 +155,30 @@ public class WoodDaoImpl implements WoodDao {
 
     @Override
     public List<Wood> selectById(int offset, int length, String keyword) throws DaoException {
-        return null;
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<Wood> woodList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_ID);
+            statement.setString(1, keyword);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Wood wood = (Wood) Wood.builder()
+                        .setName(resultSet.getString(WOOD_NAME))
+                        .setEntityId(resultSet.getLong(WOOD_ID))
+                        .build();
+                woodList.add(wood);
+            }
+            statement.close();
+            return woodList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     @Override
@@ -189,6 +226,34 @@ public class WoodDaoImpl implements WoodDao {
             }
             statement.close();
             return Optional.ofNullable(wood);
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Wood> selectByName(int offset, int length, String keyword) throws DaoException {
+        Connection connection = null;
+        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
+        List<Wood> woodList = new ArrayList<>();
+        try {
+            connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_MULTIPLE_BY_NAME);
+            statement.setString(1, keyword);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Wood wood = (Wood) Wood.builder()
+                        .setName(resultSet.getString(WOOD_NAME))
+                        .setEntityId(resultSet.getLong(WOOD_ID))
+                        .build();
+                woodList.add(wood);
+            }
+            statement.close();
+            return woodList;
         } catch (DatabaseConnectionException | SQLException e) {
             throw new DaoException(e);
         } finally {
