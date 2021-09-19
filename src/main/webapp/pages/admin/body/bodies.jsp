@@ -8,6 +8,15 @@
 <head>
     <title><fmt:message key="admin.bodies.title" /></title>
     <jsp:include page="../shared/head.html" />
+    <!-- jQuery Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <c:if test="${sessionScope.locale == 'en_US'}">
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/en.js"></script>
+    </c:if>
+    <c:if test="${sessionScope.locale == 'ru_RU'}">
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/ru.js"></script>
+    </c:if>
 </head>
 <body>
     <jsp:include page="../shared/header.jsp" />
@@ -82,7 +91,7 @@
                     <select id="searchCriteria" class="form-select">
                         <option value="ID"><fmt:message key="admin.bodies.id" /></option>
                         <option value="NAME"><fmt:message key="admin.bodies.name" /></option>
-                        <option value="WOOD"><fmt:message key="admin.bodies.wood" /></option>
+                        <option value="WOOD_ID"><fmt:message key="admin.bodies.wood" /></option>
                     </select>
                     <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
                      placeholder=<fmt:message key="admin.search" />>
@@ -105,25 +114,58 @@
             });
 
             searchCriteria.change(function () {
-                if (searchCriteria.val() === 'WOOD') {
+                searchInput.val("");
+                if (searchCriteria.val() === 'WOOD_ID') {
                     searchInput.hide();
                     searchSelect.show();
-                    searchSelect.html("")
-                        .append($("<option></option>").attr("value", "").text("None"))
-                        .append($("<option></option>").attr("value", "ADMIN").text("ADMIN"))
-                        .append($("<option></option>").attr("value", "CLIENT").text("CLIENT"))
-                        .append($("<option></option>").attr("value", "MASTER").text("MASTER"))
-                    searchSelect.change();
-                } else {
-                    searchInput.val("");
-                    searchInput.show();
-                    searchSelect.hide();
+                    searchSelect.select2({
+                        language: '${sessionScope.locale}'.substring(0, 2),
+                        placeholder: '<fmt:message key="admin.bodies.wood" />',
+                        // theme: 'bootstrap',
+                        width: '10%',
+                        maximumInputLength: 30,
+                        ajax: {
+                            delay: 250,
+                            url: '/controller?command=get_woods',
+                            data: function (params) {
+                                return {
+                                    term: params.term || '',
+                                    page: params.page || 1,
+                                    pageSize: 10,
+                                    requestType: 'SELECT'
+                                }
+                            },
+                            processResults: function (data, params) {
+                                data = JSON.parse(data);
+                                let mappedData = $.map(data.results, function (item) {
+                                    item.id = item.entityId;
+                                    item.text = item.name;
+                                    return item;
+                                });
+                                params.page = params.page || 1;
+
+                                return {
+                                    results: mappedData,
+                                    pagination: {
+                                        more: data.paginationMore
+                                    }
+                                }
+                            }
+                        }
+                    });
                     table.search(searchInput.val()).draw();
+                } else {
+                    table.search(searchInput.val()).draw();
+                    searchSelect.html('');
+                    searchInput.show();
+                    searchSelect.select2('destroy');
+                    searchSelect.hide();
                 }
             });
 
-            searchSelect.change(function () {
-                table.search(searchSelect.val()).draw();
+            searchSelect.on('select2:select', function () {
+                let searchValue = $(this).val();
+                table.search(searchValue).draw();
             });
         }
 

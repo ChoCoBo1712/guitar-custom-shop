@@ -36,8 +36,15 @@ public class BodyDaoImpl implements BodyDao {
             "ORDER BY body_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_MULTIPLE_BY_NAME =
+            "SELECT body_id, name, id_wood " +
+            "FROM bodies " +
+            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
+            "ORDER BY body_id " +
+            "LIMIT ?, ?;";
+
     private static final String INSERT =
-            "INSERT INTO woods(name, id_wood) " +
+            "INSERT INTO bodies(name, id_wood) " +
             "VALUES(?, ?);";
 
     private static final String UPDATE =
@@ -69,7 +76,7 @@ public class BodyDaoImpl implements BodyDao {
     @Override
     public void update(Body entity) throws DaoException {
         executeUpdateOrDelete(
-                INSERT,
+                UPDATE,
                 entity.getName(),
                 entity.getWoodId(),
                 entity.getEntityId()
@@ -99,5 +106,10 @@ public class BodyDaoImpl implements BodyDao {
     @Override
     public List<Body> selectByWoodId(int offset, int length, String keyword) throws DaoException {
         return executeSelectMultiple(SELECT_MULTIPLE_BY_WOOD_ID, keyword, offset, length);
+    }
+
+    @Override
+    public List<Body> selectByName(int offset, int length, String keyword) throws DaoException {
+        return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME, keyword, offset, length);
     }
 }

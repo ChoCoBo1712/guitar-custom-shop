@@ -14,8 +14,6 @@ import static com.chocobo.customshop.model.dao.TableColumn.WOOD_NAME;
 
 public interface WoodDao extends BaseDao<Wood> {
 
-    Optional<Wood> selectByName(String name) throws DaoException;
-
     List<Wood> selectByName(int offset, int length, String keyword) throws DaoException;
 
     @Override

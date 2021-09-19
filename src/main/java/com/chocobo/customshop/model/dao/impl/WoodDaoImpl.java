@@ -1,19 +1,11 @@
 package com.chocobo.customshop.model.dao.impl;
 
 import com.chocobo.customshop.exception.DaoException;
-import com.chocobo.customshop.exception.DatabaseConnectionException;
-import com.chocobo.customshop.model.dao.UserDao;
 import com.chocobo.customshop.model.dao.WoodDao;
-import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.entity.Wood;
-import com.chocobo.customshop.model.pool.DatabaseConnectionPool;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.chocobo.customshop.model.dao.TableColumn.*;
 
 public class WoodDaoImpl implements WoodDao {
 
@@ -36,11 +28,6 @@ public class WoodDaoImpl implements WoodDao {
             "WHERE wood_id LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY wood_id " +
             "LIMIT ?, ?;";
-
-    private static final String SELECT_BY_NAME =
-            "SELECT wood_id, name " +
-            "FROM woods " +
-            "WHERE name = ?;";
 
     private static final String SELECT_MULTIPLE_BY_NAME =
             "SELECT wood_id, name " +
@@ -98,11 +85,6 @@ public class WoodDaoImpl implements WoodDao {
     @Override
     public List<Wood> selectAll(int offset, int length) throws DaoException {
         return executeSelectMultiple(SELECT_ALL, offset, length);
-    }
-
-    @Override
-    public Optional<Wood> selectByName(String name) throws DaoException {
-        return executeSelect(SELECT_BY_NAME, name);
     }
 
     @Override

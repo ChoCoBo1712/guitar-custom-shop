@@ -4,13 +4,10 @@ import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.dao.WoodDao;
 import com.chocobo.customshop.model.dao.impl.WoodDaoImpl;
-import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.WoodService;
-import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
 import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,17 +31,6 @@ public class WoodServiceImpl implements WoodService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-    }
-
-    @Override
-    public boolean isNameUnique(String name) throws ServiceException {
-        Optional<Wood> wood;
-        try {
-            wood = woodDao.selectByName(name);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return wood.isEmpty();
     }
 
     @Override

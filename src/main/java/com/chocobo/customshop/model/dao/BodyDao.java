@@ -13,6 +13,8 @@ public interface BodyDao extends BaseDao<Body> {
 
     List<Body> selectByWoodId(int offset, int length, String keyword) throws DaoException;
 
+    List<Body> selectByName(int offset, int length, String keyword) throws DaoException;
+
     @Override
     default Body buildEntityFromResultSet(ResultSet resultSet) throws SQLException {
         return (Body) Body.builder()

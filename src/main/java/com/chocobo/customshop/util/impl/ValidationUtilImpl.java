@@ -53,9 +53,6 @@ public class ValidationUtilImpl implements ValidationUtil {
     public Pair<Boolean, List<String>> validateName(String name) throws ServiceException {
         List<String> errorList = new ArrayList<>();
         boolean valid = validateInsert(name, errorList, NameValidator.getInstance());
-        if (errorList.contains(SERVICE_EXCEPTION)) {
-            throw new ServiceException("An error occurred during wood name validation");
-        }
         return Pair.of(valid, errorList);
     }
 
@@ -63,9 +60,6 @@ public class ValidationUtilImpl implements ValidationUtil {
     public Pair<Boolean, List<String>> validateNameUpdate(String name, String previousName) throws ServiceException {
         List<String> errorList = new ArrayList<>();
         boolean valid = validateUpdate(name, previousName, errorList, NameValidator.getInstance());
-        if (errorList.contains(SERVICE_EXCEPTION)) {
-            throw new ServiceException("An error occurred during wood name validation");
-        }
         return Pair.of(valid, errorList);
     }
 

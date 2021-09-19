@@ -73,7 +73,8 @@ public class BodyServiceImpl implements BodyService {
             switch (criteria) {
                 case NONE -> result = bodyDao.selectAll(start, length);
                 case ID -> result = bodyDao.selectById(start, length, keyword);
-                case ID_WOOD -> result = bodyDao.selectByWoodId(start, length, keyword);
+                case NAME -> result = bodyDao.selectByName(start, length, keyword);
+                case WOOD_ID -> result = bodyDao.selectByWoodId(start, length, keyword);
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
             return result;

@@ -31,17 +31,9 @@ public class NameValidator implements Validator<String> {
     public Pair<Boolean, String> validate(String name) {
         boolean valid = true;
         String error = "";
-        try {
-            if (!Pattern.matches(VALID_NAME_REGEX, name)) {
-                valid = false;
-                error = INVALID_NAME_PATTERN_ERROR;
-            } else if (!WoodServiceImpl.getInstance().isNameUnique(name)) {
-                valid = false;
-                error = DUPLICATE_NAME_ERROR;
-            }
-        } catch (ServiceException e) {
-            logger.error("An error occurred during name validation", e);
-            error = SERVICE_EXCEPTION;
+        if (!Pattern.matches(VALID_NAME_REGEX, name)) {
+            valid = false;
+            error = INVALID_NAME_PATTERN_ERROR;
         }
         return Pair.of(valid, error);
     }

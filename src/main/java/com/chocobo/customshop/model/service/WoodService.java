@@ -11,8 +11,6 @@ public interface WoodService {
 
     Optional<Wood> findById(long id) throws ServiceException;
 
-    boolean isNameUnique(String name) throws ServiceException;
-
     long insert(String name) throws ServiceException;
 
     void update(Wood wood) throws ServiceException;
