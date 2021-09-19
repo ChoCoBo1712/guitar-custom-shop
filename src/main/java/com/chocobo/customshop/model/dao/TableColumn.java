@@ -19,4 +19,9 @@ public final class TableColumn {
     public static final String WOOD_ID = "wood_id";
     public static final String WOOD_NAME = "name";
 
+    //body TABLE
+    public static final String BODY_ID = "body_id";
+    public static final String BODY_NAME = "name";
+    public static final String ID_WOOD = "id_wood";
+
 }

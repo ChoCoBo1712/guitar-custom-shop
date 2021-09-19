@@ -13,6 +13,9 @@ public final class PagePath {
     public static final String ADMIN_WOODS_JSP = "/pages/admin/wood/woods.jsp";
     public static final String ADMIN_CREATE_WOOD_JSP = "/pages/admin/wood/create_wood.jsp";
     public static final String ADMIN_EDIT_WOOD_JSP = "/pages/admin/wood/edit_wood.jsp";
+    public static final String ADMIN_BODIES_JSP = "/pages/admin/body/bodies.jsp";
+    public static final String ADMIN_CREATE_BODY_JSP = "/pages/admin/body/create_body.jsp";
+    public static final String ADMIN_EDIT_BODY_JSP = "/pages/admin/body/edit_body.jsp";
 
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
@@ -25,6 +28,9 @@ public final class PagePath {
     public static final String ADMIN_WOODS_URL = "/controller?command=go_to_woods_page";
     public static final String ADMIN_CREATE_WOOD_URL = "/controller?command=go_to_create_wood_page";
     public static final String ADMIN_EDIT_WOOD_URL = "/controller?command=go_to_edit_wood_page";
+    public static final String ADMIN_BODIES_URL = "/controller?command=go_to_bodies_page";
+    public static final String ADMIN_CREATE_BODY_URL = "/controller?command=go_to_create_body_page";
+    public static final String ADMIN_EDIT_BODY_URL = "/controller?command=go_to_edit_body_page";
 
     public static final String AMPERSAND = "&";
     public static final String EQUALS_SIGN = "=";

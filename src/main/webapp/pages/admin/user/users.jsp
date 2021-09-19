@@ -64,12 +64,12 @@
                     },
                 ],
                 initComplete: function () {
-                    dataTableInitComplete(table);
+                    onDataTableInitComplete(table);
                 }
             });
         } );
 
-        function dataTableInitComplete(table) {
+        function onDataTableInitComplete(table) {
             $("div.toolbar").html(`
                 <div class="input-group mb-3">
                 <button id="createButton" type="button" class="btn btn-secondary">

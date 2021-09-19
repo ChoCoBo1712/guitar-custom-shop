@@ -11,6 +11,7 @@ import com.chocobo.customshop.model.service.criteria.BodyFilterCriteria;
 import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BodyServiceImpl implements BodyService {
 
@@ -26,13 +27,22 @@ public class BodyServiceImpl implements BodyService {
     }
 
     @Override
+    public Optional<Body> findById(long id) throws ServiceException {
+        try {
+            return bodyDao.selectById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public List<Body> filter(int start, int length, BodyFilterCriteria criteria, String keyword) throws ServiceException {
         List<Body> result;
         try {
             switch (criteria) {
                 case NONE -> result = bodyDao.selectAll(start, length);
                 case ID -> result = bodyDao.selectById(start, length, keyword);
-                case WOOD_ID -> result = bodyDao.selectByName(start, length, keyword);
+                case ID_WOOD -> result = bodyDao.selectByWoodId(start, length, keyword);
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
             return result;

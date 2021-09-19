@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Body extends AbstractEntity {
 
-    private String shape;
+    private String name;
     private long woodId;
 
     private Body() {
@@ -15,8 +15,8 @@ public class Body extends AbstractEntity {
         return new Body().new BodyBuilder();
     }
 
-    public String getShape() {
-        return shape;
+    public String getName() {
+        return name;
     }
 
     public long getWoodId() {
@@ -33,7 +33,7 @@ public class Body extends AbstractEntity {
         }
 
         Body body = (Body) obj;
-        return super.equals(body) && Objects.equals(body.shape, shape) && body.woodId == woodId;
+        return super.equals(body) && Objects.equals(body.name, name) && body.woodId == woodId;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Body extends AbstractEntity {
         int prime = 31;
         int result = prime + super.hashCode();
 
-        result = prime * result + (shape != null ? shape.hashCode() : 0);
+        result = prime * result + (name != null ? name.hashCode() : 0);
         result = prime * result + Long.hashCode(woodId);
 
         return result;
@@ -51,7 +51,7 @@ public class Body extends AbstractEntity {
     public String toString() {
         StringBuilder builder = new StringBuilder("Body ");
         builder.append(super.toString()).append(": (");
-        builder.append("shape = ").append(shape).append(", ");
+        builder.append("name = ").append(name).append(", ");
         builder.append("wood id = ").append(woodId).append(")");
 
         return builder.toString();
@@ -63,8 +63,8 @@ public class Body extends AbstractEntity {
 
         }
 
-        public BodyBuilder setShape(String shape) {
-            Body.this.shape = shape;
+        public BodyBuilder setName(String name) {
+            Body.this.name = name;
             return this;
         }
 

@@ -1,7 +1,9 @@
 package com.chocobo.customshop.controller.command;
 
 import com.chocobo.customshop.controller.command.impl.*;
+import com.chocobo.customshop.controller.command.impl.admin.ajax.GetBodiesCommand;
 import com.chocobo.customshop.controller.command.impl.admin.ajax.GetWoodsCommand;
+import com.chocobo.customshop.controller.command.impl.admin.body.*;
 import com.chocobo.customshop.controller.command.impl.admin.user.*;
 import com.chocobo.customshop.controller.command.impl.admin.ajax.GetUsersCommand;
 import com.chocobo.customshop.controller.command.impl.admin.wood.*;
@@ -30,6 +32,9 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_WOODS_PAGE, new GoToWoodsPageCommand());
         commandMap.put(CommandType.GO_TO_CREATE_WOOD_PAGE, new GoToCreateWoodPageCommand());
         commandMap.put(CommandType.GO_TO_EDIT_WOOD_PAGE, new GoToEditWoodPageCommand());
+        commandMap.put(CommandType.GO_TO_BODIES_PAGE, new GoToBodiesPageCommand());
+        commandMap.put(CommandType.GO_TO_CREATE_BODY_PAGE, new GoToCreateBodyPageCommand());
+        commandMap.put(CommandType.GO_TO_EDIT_BODY_PAGE, new GoToEditBodyPageCommand());
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
@@ -44,6 +49,10 @@ public class CommandProvider {
         commandMap.put(CommandType.CREATE_WOOD, new CreateWoodCommand());
         commandMap.put(CommandType.UPDATE_WOOD, new UpdateWoodCommand());
         commandMap.put(CommandType.DELETE_WOOD, new DeleteWoodCommand());
+        commandMap.put(CommandType.GET_BODIES, new GetBodiesCommand());
+        commandMap.put(CommandType.CREATE_BODY, new CreateBodyCommand());
+        commandMap.put(CommandType.UPDATE_BODY, new UpdateBodyCommand());
+        commandMap.put(CommandType.DELETE_BODY, new DeleteBodyCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

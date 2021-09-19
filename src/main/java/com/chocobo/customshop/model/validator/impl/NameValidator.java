@@ -13,7 +13,7 @@ import static com.chocobo.customshop.controller.command.SessionAttribute.DUPLICA
 import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_NAME_PATTERN_ERROR;
 import static com.chocobo.customshop.util.ValidationUtil.SERVICE_EXCEPTION;
 
-public class WoodNameValidator implements Validator<String> {
+public class NameValidator implements Validator<String> {
 
     private static final Logger logger = LogManager.getLogger();
     private static Validator<String> instance;
@@ -22,7 +22,7 @@ public class WoodNameValidator implements Validator<String> {
 
     public static Validator<String> getInstance() {
         if (instance == null) {
-            instance = new WoodNameValidator();
+            instance = new NameValidator();
         }
         return instance;
     }
@@ -40,7 +40,7 @@ public class WoodNameValidator implements Validator<String> {
                 error = DUPLICATE_NAME_ERROR;
             }
         } catch (ServiceException e) {
-            logger.error("An error occurred during wood name validation", e);
+            logger.error("An error occurred during name validation", e);
             error = SERVICE_EXCEPTION;
         }
         return Pair.of(valid, error);
