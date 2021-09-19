@@ -69,7 +69,7 @@ public class Pickup extends AbstractEntity {
 
         @Override
         public Pickup build() {
-            return null;
+            return Pickup.this;
         }
     }
 }

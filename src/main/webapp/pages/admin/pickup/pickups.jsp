@@ -12,7 +12,7 @@
 <body>
     <jsp:include page="../shared/header.jsp" />
 
-    <table id="woods_table">
+    <table id="pickups_table">
         <thead>
         <th><fmt:message key="admin.pickups.id" /></th>
         <th><fmt:message key="admin.pickups.name" /></th>

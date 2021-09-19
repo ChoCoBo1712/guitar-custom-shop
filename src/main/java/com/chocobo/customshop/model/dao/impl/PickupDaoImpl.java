@@ -20,7 +20,7 @@ public class PickupDaoImpl implements PickupDao {
 
     private static final String SELECT_BY_ID =
             "SELECT pickup_id, name " +
-            "FROM pickup " +
+            "FROM pickups " +
             "WHERE pickup_id = ?;";
 
     private static final String SELECT_MULTIPLE_BY_ID =
