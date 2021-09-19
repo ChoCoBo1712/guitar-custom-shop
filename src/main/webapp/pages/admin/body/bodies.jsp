@@ -26,7 +26,7 @@
         <th><fmt:message key="admin.bodies.id" /></th>
         <th><fmt:message key="admin.bodies.name" /></th>
         <th><fmt:message key="admin.bodies.wood" /></th>
-        <th><fmt:message key="admin.users.actions" /></th>
+        <th><fmt:message key="admin.actions" /></th>
         </thead>
     </table>
 

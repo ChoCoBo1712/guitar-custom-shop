@@ -17,6 +17,9 @@ public enum CommandType {
     GO_TO_BODIES_PAGE,
     GO_TO_CREATE_BODY_PAGE,
     GO_TO_EDIT_BODY_PAGE,
+    GO_TO_PICKUPS_PAGE,
+    GO_TO_CREATE_PICKUP_PAGE,
+    GO_TO_EDIT_PICKUP_PAGE,
 
     // other commands
     REGISTER,
@@ -35,4 +38,8 @@ public enum CommandType {
     CREATE_BODY,
     UPDATE_BODY,
     DELETE_BODY,
+    GET_PICKUPS,
+    CREATE_PICKUP,
+    UPDATE_PICKUP,
+    DELETE_PICKUP,
 }

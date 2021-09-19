@@ -19,7 +19,7 @@
             <th><fmt:message key="admin.users.login" /></th>
             <th><fmt:message key="admin.users.role" /></th>
             <th><fmt:message key="admin.users.status" /></th>
-            <th><fmt:message key="admin.users.actions" /></th>
+            <th><fmt:message key="admin.actions" /></th>
         </thead>
     </table>
 

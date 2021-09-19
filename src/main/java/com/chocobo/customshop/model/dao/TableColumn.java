@@ -15,13 +15,16 @@ public final class TableColumn {
     public static final String USER_ROLE = "role";
     public static final String USER_STATUS = "status";
 
-    // wood TABLE
+    // woods TABLE
     public static final String WOOD_ID = "wood_id";
     public static final String WOOD_NAME = "name";
 
-    //body TABLE
+    // bodies TABLE
     public static final String BODY_ID = "body_id";
     public static final String BODY_NAME = "name";
     public static final String ID_WOOD = "id_wood";
 
+    // pickups TABLE
+    public static final String PICKUP_ID = "pickup_id";
+    public static final String PICKUP_NAME = "name";
 }

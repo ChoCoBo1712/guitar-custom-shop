@@ -15,7 +15,7 @@
     <form action="${pageContext.request.contextPath}/controller?command=update_wood" method="post">
         <input type="text" name="id" value="${requestScope.wood.entityId}" hidden>
         <input type="text" name="name" value="${requestScope.wood.name}"
-               placeholder=<fmt:message key="placeholder.name" /> required pattern="[a-zA-Z]{1,30}">
+               placeholder=<fmt:message key="placeholder.name" /> required pattern="[a-zA-Z\s]{1,30}">
         <br>
         <input type="submit" value=<fmt:message key="admin.edit" />>
     </form>

@@ -30,6 +30,7 @@ public final class RequestAttribute {
     public static final String PAGINATION_MORE = "paginationMore";
     public static final String RESULTS = "results";
     public static final String WOOD_ID = "woodId";
+    public static final String PICKUP = "pickup";
 
     private RequestAttribute() {
 
