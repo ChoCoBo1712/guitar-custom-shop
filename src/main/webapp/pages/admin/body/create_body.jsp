@@ -46,6 +46,7 @@
 
             $('#woodSelect').select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
+                placeholder: '<fmt:message key="admin.bodies.wood" />',
                 // theme: 'bootstrap',
                 width: '10%',
                 maximumInputLength: 50,

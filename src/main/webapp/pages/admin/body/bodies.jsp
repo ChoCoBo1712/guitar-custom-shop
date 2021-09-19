@@ -16,7 +16,7 @@
         <thead>
         <th><fmt:message key="admin.bodies.id" /></th>
         <th><fmt:message key="admin.bodies.name" /></th>
-        <th><fmt:message key="admin.bodies.wood_name" /></th>
+        <th><fmt:message key="admin.bodies.wood" /></th>
         <th><fmt:message key="admin.users.actions" /></th>
         </thead>
     </table>
@@ -82,7 +82,7 @@
                     <select id="searchCriteria" class="form-select">
                         <option value="ID"><fmt:message key="admin.bodies.id" /></option>
                         <option value="NAME"><fmt:message key="admin.bodies.name" /></option>
-                        <option value="WOOD_NAME"><fmt:message key="admin.bodies.wood_name" /></option>
+                        <option value="WOOD"><fmt:message key="admin.bodies.wood" /></option>
                     </select>
                     <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
                      placeholder=<fmt:message key="admin.search" />>
@@ -105,7 +105,7 @@
             });
 
             searchCriteria.change(function () {
-                if (searchCriteria.val() === 'WOOD_NAME') {
+                if (searchCriteria.val() === 'WOOD') {
                     searchInput.hide();
                     searchSelect.show();
                     searchSelect.html("")
