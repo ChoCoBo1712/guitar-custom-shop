@@ -73,6 +73,13 @@ public class Body extends AbstractEntity {
             return this;
         }
 
+        public BodyBuilder of(Body body) {
+            super.of(body);
+            Body.this.name = body.name;
+            Body.this.woodId = body.woodId;
+            return this;
+        }
+
         @Override
         public Body build() {
             return Body.this;

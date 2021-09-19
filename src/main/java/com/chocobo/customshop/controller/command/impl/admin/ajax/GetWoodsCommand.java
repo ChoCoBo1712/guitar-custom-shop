@@ -12,10 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.JSON;
@@ -78,6 +75,13 @@ public class GetWoodsCommand implements Command {
 
     private void processSelectRequest(HttpServletRequest request, Map<String, Object> responseMap)
             throws ServiceException {
+        String searchValue = request.getParameter(TERM);
+        int page = Integer.parseInt(request.getParameter(PAGE));
+        int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
+        int start = pageSize * (page - 1);
 
+        List<Wood> woods = woodService.filter(start, pageSize, WoodFilterCriteria.NAME, searchValue);
+        responseMap.put(RESULTS, woods);
+        responseMap.put(PAGINATION_MORE, (long) page * pageSize < woods.size());
     }
 }

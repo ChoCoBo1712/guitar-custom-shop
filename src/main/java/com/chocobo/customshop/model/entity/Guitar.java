@@ -135,8 +135,8 @@ public class Guitar extends AbstractEntity {
             return this;
         }
 
-        public GuitarBuilder setPickupSetId(long pickupSetId) {
-            Guitar.this.pickupId = pickupSetId;
+        public GuitarBuilder setPickupSetId(long pickupId) {
+            Guitar.this.pickupId = pickupId;
             return this;
         }
 
@@ -152,6 +152,19 @@ public class Guitar extends AbstractEntity {
 
         public GuitarBuilder setUserId(long userId) {
             Guitar.this.userId = userId;
+            return this;
+        }
+
+        public GuitarBuilder of(Guitar guitar) {
+            super.of(guitar);
+            Guitar.this.picturePath = guitar.picturePath;
+            Guitar.this.neckJoint = guitar.neckJoint;
+            Guitar.this.bodyId = guitar.bodyId;
+            Guitar.this.neckId = guitar.neckId;
+            Guitar.this.pickupId = guitar.pickupId;
+            Guitar.this.color = guitar.color;
+            Guitar.this.comment = guitar.comment;
+            Guitar.this.userId = guitar.userId;
             return this;
         }
 

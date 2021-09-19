@@ -112,7 +112,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void update(User entity) throws DaoException {
         executeUpdateOrDelete(
-                INSERT,
+                UPDATE,
                 entity.getEmail(),
                 entity.getLogin(),
                 entity.getPasswordHash(),

@@ -103,6 +103,15 @@ public class Neck extends AbstractEntity {
             return this;
         }
 
+        public NeckBuilder of(Neck neck) {
+            super.of(neck);
+            Neck.this.shape = neck.shape;
+            Neck.this.tunerSet = neck.tunerSet;
+            Neck.this.woodId = neck.woodId;
+            Neck.this.fretboardWoodId = neck.fretboardWoodId;
+            return this;
+        }
+
         @Override
         public Neck build() {
             return Neck.this;

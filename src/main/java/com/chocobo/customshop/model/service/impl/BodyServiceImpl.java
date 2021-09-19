@@ -36,6 +36,37 @@ public class BodyServiceImpl implements BodyService {
     }
 
     @Override
+    public long insert(String name, long woodId) throws ServiceException {
+        Body body = Body.builder()
+                .setName(name)
+                .setWoodId(woodId)
+                .build();
+        try {
+            return bodyDao.insert(body);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void update(Body body) throws ServiceException {
+        try {
+            bodyDao.update(body);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void delete(long id) throws ServiceException {
+        try {
+            bodyDao.delete(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public List<Body> filter(int start, int length, BodyFilterCriteria criteria, String keyword) throws ServiceException {
         List<Body> result;
         try {

@@ -10,8 +10,8 @@ public class Pickup extends AbstractEntity {
 
     }
 
-    public static PickupSetBuilder builder() {
-        return new Pickup().new PickupSetBuilder();
+    public static PickupBuilder builder() {
+        return new Pickup().new PickupBuilder();
     }
 
     public String getName() {
@@ -50,14 +50,20 @@ public class Pickup extends AbstractEntity {
         return builder.toString();
     }
 
-    public class PickupSetBuilder extends AbstractBuilder {
+    public class PickupBuilder extends AbstractBuilder {
 
-        private PickupSetBuilder() {
+        private PickupBuilder() {
 
         }
 
-        public PickupSetBuilder setName(String name) {
+        public PickupBuilder setName(String name) {
             Pickup.this.name = name;
+            return this;
+        }
+
+        public PickupBuilder of(Pickup pickup) {
+            super.of(pickup);
+            Pickup.this.name = pickup.name;
             return this;
         }
 

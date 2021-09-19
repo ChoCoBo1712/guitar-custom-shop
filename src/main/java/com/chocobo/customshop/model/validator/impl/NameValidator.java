@@ -18,7 +18,7 @@ public class NameValidator implements Validator<String> {
     private static final Logger logger = LogManager.getLogger();
     private static Validator<String> instance;
 
-    private static final String VALID_NAME_REGEX = "^\\p{Alpha}{1,30}$";
+    private static final String VALID_NAME_REGEX = "[a-zA-Z\s]{1,30}";
 
     public static Validator<String> getInstance() {
         if (instance == null) {

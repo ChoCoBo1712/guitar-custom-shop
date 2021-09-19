@@ -97,7 +97,7 @@
             searchSelect.hide();
 
             $('#createButton').click(function () {
-                window.location.href = "${pageContext.request.contextPath}/controller?command=go_to_create_wood_page";
+                window.location.href = "${pageContext.request.contextPath}/controller?command=go_to_create_body_page";
             });
 
             searchInput.keyup(function () {

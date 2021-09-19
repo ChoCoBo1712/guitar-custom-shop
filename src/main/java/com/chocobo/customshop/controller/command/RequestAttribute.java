@@ -24,6 +24,12 @@ public final class RequestAttribute {
     public static final String REQUEST_TYPE = "requestType";
     public static final String ENTITY = "entity";
     public static final String BODY = "body";
+    public static final String TERM = "term";
+    public static final String PAGE = "page";
+    public static final String PAGE_SIZE = "pageSize";
+    public static final String PAGINATION_MORE = "paginationMore";
+    public static final String RESULTS = "results";
+    public static final String WOOD_ID = "woodId";
 
     private RequestAttribute() {
 

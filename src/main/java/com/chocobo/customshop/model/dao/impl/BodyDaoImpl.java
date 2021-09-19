@@ -36,6 +36,20 @@ public class BodyDaoImpl implements BodyDao {
             "ORDER BY body_id " +
             "LIMIT ?, ?;";
 
+    private static final String INSERT =
+            "INSERT INTO woods(name, id_wood) " +
+            "VALUES(?, ?);";
+
+    private static final String UPDATE =
+            "UPDATE bodies " +
+            "SET name = ?, id_wood = ? " +
+            "WHERE body_id = ?;";
+
+    private static final String DELETE =
+            "UPDATE bodies " +
+            "SET deleted = 1 " +
+            "WHERE body_id = ?;";
+
     public static BodyDao getInstance() {
         if (instance == null) {
             instance = new BodyDaoImpl();
@@ -45,17 +59,26 @@ public class BodyDaoImpl implements BodyDao {
 
     @Override
     public long insert(Body entity) throws DaoException {
-        return 0;
+        return executeInsert(
+                INSERT,
+                entity.getName(),
+                entity.getWoodId()
+        );
     }
 
     @Override
     public void update(Body entity) throws DaoException {
-
+        executeUpdateOrDelete(
+                INSERT,
+                entity.getName(),
+                entity.getWoodId(),
+                entity.getEntityId()
+        );
     }
 
     @Override
     public void delete(long id) throws DaoException {
-
+        executeUpdateOrDelete(DELETE, id);
     }
 
     @Override
