@@ -14,8 +14,7 @@ public interface ValidationUtil {
     Pair<Boolean, List<String>> validateUserUpdate(String email, String login, String previousEmail, String previousLogin)
             throws ServiceException;
 
-    Pair<Boolean, List<String>> validateWoodCreation(String name) throws ServiceException;
+    Pair<Boolean, List<String>> validateName(String name) throws ServiceException;
 
-    Pair<Boolean, List<String>> validateWoodUpdate(String email, String previousname)
-            throws ServiceException;
+    Pair<Boolean, List<String>> validateNameUpdate(String email, String previousname) throws ServiceException;
 }

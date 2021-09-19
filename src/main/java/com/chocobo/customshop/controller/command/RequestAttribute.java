@@ -23,6 +23,7 @@ public final class RequestAttribute {
     public static final String NAME = "name";
     public static final String REQUEST_TYPE = "requestType";
     public static final String ENTITY = "entity";
+    public static final String BODY = "body";
 
     private RequestAttribute() {
 

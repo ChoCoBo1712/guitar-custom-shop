@@ -3,11 +3,8 @@ package com.chocobo.customshop.controller.command.impl.admin.wood;
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.entity.Wood;
-import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.WoodService;
-import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
 import com.chocobo.customshop.util.ValidationUtil;
 import com.chocobo.customshop.util.impl.ValidationUtilImpl;
@@ -48,7 +45,7 @@ public class UpdateWoodCommand implements Command {
                 Wood wood = optionalWood.get();
                 String previousName = wood.getName();
                 ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-                Pair<Boolean, List<String>> validationResult = validationUtil.validateWoodUpdate(name, previousName);
+                Pair<Boolean, List<String>> validationResult = validationUtil.validateNameUpdate(name, previousName);
                 if (validationResult.getLeft()) {
                     Wood updatedWood = Wood.builder().of(wood)
                             .setName(name)

@@ -41,6 +41,7 @@
                     url: '/controller?command=get_woods',
                     data: function (data) {
                         data.filterCriteria = $('#searchCriteria').val();
+                        data.requestType = 'DATATABLE';
                     }
                 },
                 columns: [

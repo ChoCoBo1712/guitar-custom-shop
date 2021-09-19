@@ -34,7 +34,7 @@ public class CreateWoodCommand implements Command {
         CommandResult result;
         try {
             ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationUtil.validateWoodCreation(name);
+            Pair<Boolean, List<String>> validationResult = validationUtil.validateName(name);
             if (validationResult.getLeft()) {
                 WoodServiceImpl.getInstance().insert(name);
                 result = new CommandResult(ADMIN_WOODS_URL, REDIRECT);

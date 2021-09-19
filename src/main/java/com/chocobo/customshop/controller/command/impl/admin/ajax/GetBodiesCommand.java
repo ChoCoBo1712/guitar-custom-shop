@@ -32,13 +32,13 @@ public class GetBodiesCommand implements Command {
         bodyService = BodyServiceImpl.getInstance();
         String requestTypeParameter = request.getParameter(REQUEST_TYPE);
         AjaxRequestType requestType = AjaxRequestType.valueOf(requestTypeParameter);
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> responseMap = new HashMap<>();
 
         try {
             switch (requestType) {
-                case DATATABLE -> processDatatablesRequest(request, response);
-                case FETCH -> processFetchRequest(request, response);
-                case SELECT -> processSelectRequest(request, response);
+                case DATATABLE -> processDatatablesRequest(request, responseMap);
+                case FETCH -> processFetchRequest(request, responseMap);
+                case SELECT -> processSelectRequest(request, responseMap);
                 default -> throw new ServiceException("Invalid request type: " + requestType);
             }
         } catch (ServiceException e) {
@@ -47,10 +47,10 @@ public class GetBodiesCommand implements Command {
         }
 
         Gson gson = new Gson();
-        return new CommandResult(gson.toJson(response), JSON);
+        return new CommandResult(gson.toJson(responseMap), JSON);
     }
 
-    private void processDatatablesRequest(HttpServletRequest request, Map<String, Object> response)
+    private void processDatatablesRequest(HttpServletRequest request, Map<String, Object> responseMap)
             throws ServiceException {
         int start = Integer.parseInt(request.getParameter(PAGINATION_START));
         int length = Integer.parseInt(request.getParameter(PAGINATION_LENGTH));
@@ -63,20 +63,20 @@ public class GetBodiesCommand implements Command {
                 : bodyService.filter(start, length, BodyFilterCriteria.valueOf(searchCriteria), searchValue);
 
         int recordsFetched = bodies.size();
-        response.put(DRAW, draw);
-        response.put(RECORDS_TOTAL, recordsFetched);
-        response.put(RECORDS_FILTERED, recordsFetched);
-        response.put(DATA, bodies);
+        responseMap.put(DRAW, draw);
+        responseMap.put(RECORDS_TOTAL, recordsFetched);
+        responseMap.put(RECORDS_FILTERED, recordsFetched);
+        responseMap.put(DATA, bodies);
     }
 
-    private void processFetchRequest(HttpServletRequest request, Map<String, Object> response)
+    private void processFetchRequest(HttpServletRequest request, Map<String, Object> responseMap)
             throws ServiceException {
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
         Optional<Body> body = bodyService.findById(entityId);
-        body.ifPresent(value -> response.put(ENTITY, value));
+        body.ifPresent(value -> responseMap.put(ENTITY, value));
     }
 
-    private void processSelectRequest(HttpServletRequest request, Map<String, Object> response)
+    private void processSelectRequest(HttpServletRequest request, Map<String, Object> responseMap)
             throws ServiceException {
 
     }

@@ -29,10 +29,10 @@
             let table = $('#bodies_table').DataTable( {
                 language: {
                     <c:if test="${sessionScope.locale == 'en_US'}">
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/en-gb.json'
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/en-gb.json'
                     </c:if>
                     <c:if test="${sessionScope.locale == 'ru_RU'}">
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/ru.json'
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/ru.json'
                     </c:if>
                 },
                 dom: '<"toolbar">tipr',
@@ -137,7 +137,7 @@
             })
         }
 
-        function fetchDepartment(id, callback) {
+        function fetchWood(id, callback) {
             let cachedWoods = JSON.parse(sessionStorage.getItem('cachedWoods'));
 
             if (cachedWoods === null) {
@@ -150,7 +150,7 @@
             } else {
                 $.ajax({
                     method: 'GET',
-                    url: '/controller?command=get_bodies',
+                    url: '/controller?command=get_woods',
                     data: {
                         id: id,
                         requestType: 'FETCH'

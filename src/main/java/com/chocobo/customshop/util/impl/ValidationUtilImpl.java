@@ -50,7 +50,7 @@ public class ValidationUtilImpl implements ValidationUtil {
     }
 
     @Override
-    public Pair<Boolean, List<String>> validateWoodCreation(String name) throws ServiceException {
+    public Pair<Boolean, List<String>> validateName(String name) throws ServiceException {
         List<String> errorList = new ArrayList<>();
         boolean valid = validateInsert(name, errorList, NameValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
@@ -60,7 +60,7 @@ public class ValidationUtilImpl implements ValidationUtil {
     }
 
     @Override
-    public Pair<Boolean, List<String>> validateWoodUpdate(String name, String previousName) throws ServiceException {
+    public Pair<Boolean, List<String>> validateNameUpdate(String name, String previousName) throws ServiceException {
         List<String> errorList = new ArrayList<>();
         boolean valid = validateUpdate(name, previousName, errorList, NameValidator.getInstance());
         if (errorList.contains(SERVICE_EXCEPTION)) {
