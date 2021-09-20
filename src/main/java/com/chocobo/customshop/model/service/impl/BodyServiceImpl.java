@@ -9,6 +9,7 @@ import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.BodyService;
 import com.chocobo.customshop.model.service.criteria.BodyFilterCriteria;
 import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Optional;
@@ -67,17 +68,31 @@ public class BodyServiceImpl implements BodyService {
     }
 
     @Override
-    public List<Body> filter(int start, int length, BodyFilterCriteria criteria, String keyword) throws ServiceException {
-        List<Body> result;
+    public Pair<Long, List<Body>> filter(int start, int length, BodyFilterCriteria criteria, String keyword)
+            throws ServiceException {
+        long count;
+        List<Body> resultList;
         try {
             switch (criteria) {
-                case NONE -> result = bodyDao.selectAll(start, length);
-                case ID -> result = bodyDao.selectById(start, length, keyword);
-                case NAME -> result = bodyDao.selectByName(start, length, keyword);
-                case WOOD_ID -> result = bodyDao.selectByWoodId(start, length, keyword);
+                case NONE -> {
+                    resultList = bodyDao.selectAll(start, length);
+                    count = bodyDao.selectCountAll();
+                }
+                case ID -> {
+                    resultList = bodyDao.selectById(start, length, keyword);
+                    count = bodyDao.selectCountById(keyword);
+                }
+                case NAME -> {
+                    resultList = bodyDao.selectByName(start, length, keyword);
+                    count = bodyDao.selectCountByName(keyword);
+                }
+                case WOOD_ID -> {
+                    resultList = bodyDao.selectByWoodId(start, length, keyword);
+                    count = bodyDao.selectCountByWoodId(keyword);
+                }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
-            return result;
+            return Pair.of(count, resultList);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

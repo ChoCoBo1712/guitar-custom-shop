@@ -6,10 +6,10 @@ import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Pickup;
 import com.chocobo.customshop.model.service.PickupService;
 import com.chocobo.customshop.model.service.criteria.PickupFilterCriteria;
-import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
 import com.chocobo.customshop.model.service.impl.PickupServiceImpl;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,11 +59,12 @@ public class GetPickupsCommand implements Command {
         String searchCriteria = request.getParameter(FILTER_CRITERIA);
         String searchValue = request.getParameter(SEARCH_VALUE);
 
-        List<Pickup> pickups = searchValue.isEmpty()
+        Pair<Long, List<Pickup>> pair = searchValue.isEmpty()
                 ? pickupService.filter(start, length, PickupFilterCriteria.NONE, null)
                 : pickupService.filter(start, length, PickupFilterCriteria.valueOf(searchCriteria), searchValue);
 
-        int recordsFetched = pickups.size();
+        long recordsFetched = pair.getLeft();
+        List<Pickup> pickups = pair.getRight();
         responseMap.put(DRAW, draw);
         responseMap.put(RECORDS_TOTAL, recordsFetched);
         responseMap.put(RECORDS_FILTERED, recordsFetched);
@@ -84,8 +85,10 @@ public class GetPickupsCommand implements Command {
         int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
         int start = pageSize * (page - 1);
 
-        List<Pickup> pickups = pickupService.filter(start, pageSize, PickupFilterCriteria.NAME, searchValue);
+        Pair<Long, List<Pickup>> pair = pickupService.filter(start, pageSize, PickupFilterCriteria.NAME, searchValue);
+        long recordsFetched = pair.getLeft();
+        List<Pickup> pickups = pair.getRight();
         responseMap.put(RESULTS, pickups);
-        responseMap.put(PAGINATION_MORE, (long) page * pageSize < pickups.size());
+        responseMap.put(PAGINATION_MORE, (long) page * pageSize < recordsFetched);
     }
 }

@@ -44,7 +44,17 @@ public class NeckDaoImpl implements NeckDao {
     }
 
     @Override
+    public long selectCountById(String keyword) throws DaoException {
+        return 0;
+    }
+
+    @Override
     public List<Neck> selectAll(int offset, int length) throws DaoException {
         return null;
+    }
+
+    @Override
+    public long selectCountAll() throws DaoException {
+        return 0;
     }
 }

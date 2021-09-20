@@ -4,13 +4,16 @@ import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.dao.UserDao;
 import com.chocobo.customshop.model.dao.impl.UserDaoImpl;
+import com.chocobo.customshop.model.entity.Body;
 import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.entity.User.UserRole;
 import com.chocobo.customshop.model.entity.User.UserStatus;
+import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
 import com.chocobo.customshop.util.HashingUtil;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.util.impl.HashingUtilImpl;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,19 +123,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> filter(int start, int length, UserFilterCriteria criteria, String keyword) throws ServiceException {
-        List<User> result;
+    public Pair<Long, List<User>> filter(int start, int length, UserFilterCriteria criteria, String keyword)
+            throws ServiceException {
+        long count;
+        List<User> resultList;
         try {
             switch (criteria) {
-                case NONE -> result = userDao.selectAll(start, length);
-                case ID -> result = userDao.selectById(start, length, keyword);
-                case EMAIL -> result = userDao.selectByEmail(start, length, keyword);
-                case LOGIN -> result = userDao.selectByLogin(start, length, keyword);
-                case ROLE -> result = userDao.selectByRole(start, length, keyword);
-                case STATUS -> result = userDao.selectByStatus(start, length, keyword);
+                case NONE -> {
+                    resultList = userDao.selectAll(start, length);
+                    count = userDao.selectCountAll();
+                }
+                case ID -> {
+                    resultList = userDao.selectById(start, length, keyword);
+                    count = userDao.selectCountById(keyword);
+                }
+                case EMAIL -> {
+                    resultList = userDao.selectByEmail(start, length, keyword);
+                    count = userDao.selectCountByEmail(keyword);
+                }
+                case LOGIN -> {
+                    resultList = userDao.selectByLogin(start, length, keyword);
+                    count = userDao.selectCountByLogin(keyword);
+                }
+                case ROLE -> {
+                    resultList = userDao.selectByRole(start, length, keyword);
+                    count = userDao.selectCountByRole(keyword);
+                }
+                case STATUS -> {
+                    resultList = userDao.selectByStatus(start, length, keyword);
+                    count = userDao.selectCountByStatus(keyword);
+                }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
-            return result;
+            return Pair.of(count, resultList);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

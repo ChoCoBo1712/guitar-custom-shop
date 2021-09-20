@@ -26,7 +26,11 @@ public interface BaseDao<T extends AbstractEntity> {
 
     List<T> selectById(int offset, int length, String keyword) throws DaoException;
 
+    long selectCountById(String keyword) throws DaoException;
+
     List<T> selectAll(int offset, int length) throws DaoException;
+
+    long selectCountAll() throws DaoException;
 
     T buildEntityFromResultSet(ResultSet resultSet) throws SQLException;
 
@@ -58,7 +62,7 @@ public interface BaseDao<T extends AbstractEntity> {
         T entity = null;
         try (
             Connection connection = DatabaseConnectionPool.getInstance().getConnection();
-            PreparedStatement statement = prepareStatement(sql, connection, Statement.RETURN_GENERATED_KEYS, params)
+            PreparedStatement statement = prepareStatement(sql, connection, Statement.NO_GENERATED_KEYS, params)
         ) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -74,7 +78,7 @@ public interface BaseDao<T extends AbstractEntity> {
         List<T> entityList = new ArrayList<>();
         try (
             Connection connection = DatabaseConnectionPool.getInstance().getConnection();
-            PreparedStatement statement = prepareStatement(sql, connection, Statement.RETURN_GENERATED_KEYS, params)
+            PreparedStatement statement = prepareStatement(sql, connection, Statement.NO_GENERATED_KEYS, params)
         ) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -82,6 +86,22 @@ public interface BaseDao<T extends AbstractEntity> {
                 entityList.add(entity);
             }
             return entityList;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    default long executeSelectCount(String sql, Object... params) throws DaoException {
+        long count = 0;
+        try (
+            Connection connection = DatabaseConnectionPool.getInstance().getConnection();
+            PreparedStatement statement = prepareStatement(sql, connection, Statement.NO_GENERATED_KEYS, params)
+        ) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getLong(1);
+            }
+            return count;
         } catch (DatabaseConnectionException | SQLException e) {
             throw new DaoException(e);
         }

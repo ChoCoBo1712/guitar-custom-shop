@@ -16,6 +16,8 @@ public interface WoodDao extends BaseDao<Wood> {
 
     List<Wood> selectByName(int offset, int length, String keyword) throws DaoException;
 
+    long selectCountByName(String keyword) throws DaoException;
+
     @Override
     default Wood buildEntityFromResultSet(ResultSet resultSet) throws SQLException {
         return (Wood) Wood.builder()

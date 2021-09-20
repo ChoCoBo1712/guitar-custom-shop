@@ -4,11 +4,14 @@ import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.dao.PickupDao;
 import com.chocobo.customshop.model.dao.impl.PickupDaoImpl;
+import com.chocobo.customshop.model.entity.Body;
 import com.chocobo.customshop.model.entity.Pickup;
+import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.PickupService;
 import com.chocobo.customshop.model.service.criteria.PickupFilterCriteria;
 import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,16 +69,27 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
-    public List<Pickup> filter(int start, int length, PickupFilterCriteria criteria, String keyword) throws ServiceException {
-        List<Pickup> result;
+    public Pair<Long, List<Pickup>> filter(int start, int length, PickupFilterCriteria criteria, String keyword)
+            throws ServiceException {
+        long count;
+        List<Pickup> resultList;
         try {
             switch (criteria) {
-                case NONE -> result = pickupDao.selectAll(start, length);
-                case ID -> result = pickupDao.selectById(start, length, keyword);
-                case NAME -> result = pickupDao.selectByName(start, length, keyword);
+                case NONE -> {
+                    resultList = pickupDao.selectAll(start, length);
+                    count = pickupDao.selectCountAll();
+                }
+                case ID -> {
+                    resultList = pickupDao.selectById(start, length, keyword);
+                    count = pickupDao.selectCountById(keyword);
+                }
+                case NAME -> {
+                    resultList = pickupDao.selectByName(start, length, keyword);
+                    count = pickupDao.selectCountByName(keyword);
+                }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
-            return result;
+            return Pair.of(count, resultList);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

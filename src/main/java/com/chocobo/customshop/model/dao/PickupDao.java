@@ -14,6 +14,8 @@ public interface PickupDao extends BaseDao<Pickup> {
 
     List<Pickup> selectByName(int offset, int length, String keyword) throws DaoException;
 
+    long selectCountByName(String keyword) throws DaoException;
+
     @Override
     default Pickup buildEntityFromResultSet(ResultSet resultSet) throws SQLException {
         return (Pickup) Pickup.builder()

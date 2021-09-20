@@ -25,6 +25,11 @@ public class UserDaoImpl implements UserDao {
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_COUNT_ALL =
+            "SELECT COUNT(user_id) " +
+            "FROM users " +
+            "WHERE status <> 'DELETED';";
+
     private static final String SELECT_BY_ID =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
@@ -36,6 +41,11 @@ public class UserDaoImpl implements UserDao {
             "WHERE user_id LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
+
+    private static final String SELECT_COUNT_BY_ID =
+            "SELECT COUNT(user_id) " +
+            "FROM users " +
+            "WHERE user_id LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
 
     private static final String SELECT_BY_EMAIL =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
@@ -49,6 +59,11 @@ public class UserDaoImpl implements UserDao {
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_COUNT_BY_EMAIL =
+            "SELECT COUNT(user_id) " +
+            "FROM users " +
+            "WHERE email LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+
     private static final String SELECT_BY_LOGIN =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
@@ -61,6 +76,11 @@ public class UserDaoImpl implements UserDao {
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_COUNT_BY_ROLE =
+            "SELECT COUNT(user_id) " +
+            "FROM users " +
+            "WHERE role LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+
     private static final String SELECT_MULTIPLE_BY_STATUS =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
@@ -68,12 +88,22 @@ public class UserDaoImpl implements UserDao {
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_COUNT_BY_STATUS =
+            "SELECT COUNT(user_id) " +
+            "FROM users " +
+            "WHERE status LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+
     private static final String SELECT_MULTIPLE_BY_LOGIN =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
             "WHERE login LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
+
+    private static final String SELECT_COUNT_BY_LOGIN =
+            "SELECT COUNT(user_id) " +
+            "FROM users " +
+            "WHERE login LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
 
     private static final String INSERT =
             "INSERT INTO users(email, login, password_hash, salt, role, status) " +
@@ -139,8 +169,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public long selectCountById(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_ID, keyword);
+    }
+
+    @Override
     public List<User> selectAll(int offset, int length) throws DaoException {
         return executeSelectMultiple(SELECT_ALL, offset, length);
+    }
+
+    @Override
+    public long selectCountAll() throws DaoException {
+        return executeSelectCount(SELECT_COUNT_ALL);
     }
 
     @Override
@@ -154,6 +194,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public long selectCountByEmail(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_EMAIL, keyword);
+    }
+
+    @Override
     public Optional<User> selectByLogin(String login) throws DaoException {
         return executeSelect(SELECT_BY_LOGIN, login);
     }
@@ -164,12 +209,27 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public long selectCountByLogin(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_LOGIN, keyword);
+    }
+
+    @Override
     public List<User> selectByRole(int offset, int length, String keyword) throws DaoException {
         return executeSelectMultiple(SELECT_MULTIPLE_BY_ROLE, keyword, offset, length);
     }
 
     @Override
+    public long selectCountByRole(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_ROLE, keyword);
+    }
+
+    @Override
     public List<User> selectByStatus(int offset, int length, String keyword) throws DaoException {
         return executeSelectMultiple(SELECT_MULTIPLE_BY_STATUS, keyword, offset, length);
+    }
+
+    @Override
+    public long selectCountByStatus(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_STATUS, keyword);
     }
 }

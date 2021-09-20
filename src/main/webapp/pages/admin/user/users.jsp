@@ -44,6 +44,7 @@
                     url: '/controller?command=get_users',
                     data: function (data) {
                         data.filterCriteria = $('#searchCriteria').val();
+                        data.requestType = 'DATATABLE';
                     }
                 },
                 columns: [

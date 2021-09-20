@@ -44,7 +44,17 @@ public class GuitarDaoImpl implements GuitarDao {
     }
 
     @Override
+    public long selectCountById(String keyword) throws DaoException {
+        return 0;
+    }
+
+    @Override
     public List<Guitar> selectAll(int offset, int length) throws DaoException {
         return null;
+    }
+
+    @Override
+    public long selectCountAll() throws DaoException {
+        return 0;
     }
 }

@@ -9,10 +9,14 @@ import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.JSON;
@@ -55,11 +59,12 @@ public class GetWoodsCommand implements Command {
         String searchCriteria = request.getParameter(FILTER_CRITERIA);
         String searchValue = request.getParameter(SEARCH_VALUE);
 
-        List<Wood> woods = searchValue.isEmpty()
+        Pair<Long, List<Wood>> pair = searchValue.isEmpty()
                 ? woodService.filter(start, length, WoodFilterCriteria.NONE, null)
                 : woodService.filter(start, length, WoodFilterCriteria.valueOf(searchCriteria), searchValue);
 
-        int recordsFetched = woods.size();
+        long recordsFetched = pair.getLeft();
+        List<Wood> woods = pair.getRight();
         responseMap.put(DRAW, draw);
         responseMap.put(RECORDS_TOTAL, recordsFetched);
         responseMap.put(RECORDS_FILTERED, recordsFetched);
@@ -80,8 +85,10 @@ public class GetWoodsCommand implements Command {
         int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
         int start = pageSize * (page - 1);
 
-        List<Wood> woods = woodService.filter(start, pageSize, WoodFilterCriteria.NAME, searchValue);
+        Pair<Long, List<Wood>> pair = woodService.filter(start, pageSize, WoodFilterCriteria.NAME, searchValue);
+        long recordsFetched = pair.getLeft();
+        List<Wood> woods = pair.getRight();
         responseMap.put(RESULTS, woods);
-        responseMap.put(PAGINATION_MORE, (long) page * pageSize < woods.size());
+        responseMap.put(PAGINATION_MORE, (long) page * pageSize < recordsFetched);
     }
 }

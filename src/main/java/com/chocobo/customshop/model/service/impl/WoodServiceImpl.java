@@ -4,9 +4,11 @@ import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.dao.WoodDao;
 import com.chocobo.customshop.model.dao.impl.WoodDaoImpl;
+import com.chocobo.customshop.model.entity.Body;
 import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.WoodService;
 import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,16 +66,27 @@ public class WoodServiceImpl implements WoodService {
     }
 
     @Override
-    public List<Wood> filter(int start, int length, WoodFilterCriteria criteria, String keyword) throws ServiceException {
-        List<Wood> result;
+    public Pair<Long, List<Wood>> filter(int start, int length, WoodFilterCriteria criteria, String keyword)
+            throws ServiceException {
+        long count;
+        List<Wood> resultList;
         try {
             switch (criteria) {
-                case NONE -> result = woodDao.selectAll(start, length);
-                case ID -> result = woodDao.selectById(start, length, keyword);
-                case NAME -> result = woodDao.selectByName(start, length, keyword);
+                case NONE -> {
+                    resultList = woodDao.selectAll(start, length);
+                    count = woodDao.selectCountAll();
+                }
+                case ID -> {
+                    resultList = woodDao.selectById(start, length, keyword);
+                    count = woodDao.selectCountById(keyword);
+                }
+                case NAME -> {
+                    resultList = woodDao.selectByName(start, length, keyword);
+                    count = woodDao.selectCountByName(keyword);
+                }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
-            return result;
+            return Pair.of(count, resultList);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

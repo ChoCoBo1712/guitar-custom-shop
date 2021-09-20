@@ -15,7 +15,13 @@ public class BodyDaoImpl implements BodyDao {
             "SELECT body_id, name, id_wood " +
             "FROM bodies " +
             "WHERE deleted <> 1 " +
+            "ORDER BY body_id " +
             "LIMIT ?, ?;";
+
+    private static final String SELECT_COUNT_ALL =
+            "SELECT COUNT(body_id) " +
+            "FROM bodies " +
+            "WHERE deleted <> 1;";
 
     private static final String SELECT_BY_ID =
             "SELECT body_id, name, id_wood " +
@@ -29,6 +35,11 @@ public class BodyDaoImpl implements BodyDao {
             "ORDER BY body_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_COUNT_BY_ID =
+            "SELECT COUNT(body_id) " +
+            "FROM bodies " +
+            "WHERE body_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+
     private static final String SELECT_MULTIPLE_BY_WOOD_ID =
             "SELECT body_id, name, id_wood " +
             "FROM bodies " +
@@ -36,12 +47,22 @@ public class BodyDaoImpl implements BodyDao {
             "ORDER BY body_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_COUNT_BY_WOOD_ID =
+            "SELECT COUNT(body_id) " +
+            "FROM bodies " +
+            "WHERE id_wood LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+
     private static final String SELECT_MULTIPLE_BY_NAME =
             "SELECT body_id, name, id_wood " +
             "FROM bodies " +
             "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY body_id " +
             "LIMIT ?, ?;";
+
+    private static final String SELECT_COUNT_BY_NAME =
+            "SELECT COUNT(body_id) " +
+            "FROM bodies " +
+            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String INSERT =
             "INSERT INTO bodies(name, id_wood) " +
@@ -99,8 +120,18 @@ public class BodyDaoImpl implements BodyDao {
     }
 
     @Override
+    public long selectCountById(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_ID, keyword);
+    }
+
+    @Override
     public List<Body> selectAll(int offset, int length) throws DaoException {
         return executeSelectMultiple(SELECT_ALL, offset, length);
+    }
+
+    @Override
+    public long selectCountAll() throws DaoException {
+        return executeSelectCount(SELECT_COUNT_ALL);
     }
 
     @Override
@@ -109,7 +140,17 @@ public class BodyDaoImpl implements BodyDao {
     }
 
     @Override
+    public long selectCountByWoodId(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_WOOD_ID, keyword);
+    }
+
+    @Override
     public List<Body> selectByName(int offset, int length, String keyword) throws DaoException {
         return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME, keyword, offset, length);
+    }
+
+    @Override
+    public long selectCountByName(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_NAME, keyword);
     }
 }

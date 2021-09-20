@@ -2,7 +2,10 @@ package com.chocobo.customshop.model.service;
 
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Pickup;
+import com.chocobo.customshop.model.entity.User;
+import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.criteria.PickupFilterCriteria;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,5 +20,6 @@ public interface PickupService {
 
     void delete(long id) throws ServiceException;
 
-    List<Pickup> filter(int start, int length, PickupFilterCriteria criteria, String keyword) throws ServiceException;
+    Pair<Long, List<Pickup>> filter(int start, int length, PickupFilterCriteria criteria, String keyword)
+            throws ServiceException;
 }

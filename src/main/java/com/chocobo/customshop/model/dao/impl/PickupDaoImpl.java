@@ -16,7 +16,13 @@ public class PickupDaoImpl implements PickupDao {
             "SELECT pickup_id, name " +
             "FROM pickups " +
             "WHERE deleted <> 1 " +
+            "ORDER BY pickup_id " +
             "LIMIT ?, ?;";
+
+    private static final String SELECT_COUNT_ALL =
+            "SELECT COUNT(pickup_id) " +
+            "FROM pickups " +
+            "WHERE deleted <> 1;";
 
     private static final String SELECT_BY_ID =
             "SELECT pickup_id, name " +
@@ -30,12 +36,22 @@ public class PickupDaoImpl implements PickupDao {
             "ORDER BY pickup_id " +
             "LIMIT ?, ?;";
 
+    private static final String SELECT_COUNT_BY_ID =
+            "SELECT COUNT(pickup_id) " +
+            "FROM pickups " +
+            "WHERE pickup_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+
     private static final String SELECT_MULTIPLE_BY_NAME =
             "SELECT pickup_id, name " +
             "FROM pickups " +
             "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY pickup_id " +
             "LIMIT ?, ?;";
+
+    private static final String SELECT_COUNT_BY_NAME =
+            "SELECT COUNT(pickup_id) " +
+            "FROM pickups " +
+            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String INSERT =
             "INSERT INTO pickups(name) " +
@@ -84,12 +100,27 @@ public class PickupDaoImpl implements PickupDao {
     }
 
     @Override
+    public long selectCountById(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_ID, keyword);
+    }
+
+    @Override
     public List<Pickup> selectAll(int offset, int length) throws DaoException {
         return executeSelectMultiple(SELECT_ALL, offset, length);
     }
 
     @Override
+    public long selectCountAll() throws DaoException {
+        return executeSelectCount(SELECT_COUNT_ALL);
+    }
+
+    @Override
     public List<Pickup> selectByName(int offset, int length, String keyword) throws DaoException {
         return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME, keyword, offset, length);
+    }
+
+    @Override
+    public long selectCountByName(String keyword) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_NAME, keyword);
     }
 }

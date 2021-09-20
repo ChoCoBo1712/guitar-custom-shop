@@ -18,13 +18,21 @@ public interface UserDao extends BaseDao<User> {
 
     List<User> selectByEmail(int offset, int length, String keyword) throws DaoException;
 
+    long selectCountByEmail(String keyword) throws DaoException;
+
     Optional<User> selectByLogin(String login) throws DaoException;
 
     List<User> selectByLogin(int offset, int length, String keyword) throws DaoException;
 
+    long selectCountByLogin(String keyword) throws DaoException;
+
     List<User> selectByRole(int offset, int length, String keyword) throws DaoException;
 
+    long selectCountByRole(String keyword) throws DaoException;
+
     List<User> selectByStatus(int offset, int length, String keyword) throws DaoException;
+
+    long selectCountByStatus(String keyword) throws DaoException;
 
     @Override
     default User buildEntityFromResultSet(ResultSet resultSet) throws SQLException {

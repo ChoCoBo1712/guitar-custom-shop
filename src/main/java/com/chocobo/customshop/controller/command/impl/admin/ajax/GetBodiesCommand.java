@@ -9,6 +9,7 @@ import com.chocobo.customshop.model.service.criteria.BodyFilterCriteria;
 import com.chocobo.customshop.model.service.impl.BodyServiceImpl;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,11 +59,12 @@ public class GetBodiesCommand implements Command {
         String searchCriteria = request.getParameter(FILTER_CRITERIA);
         String searchValue = request.getParameter(SEARCH_VALUE);
 
-        List<Body> bodies = searchValue.isEmpty()
+        Pair<Long, List<Body>> pair = searchValue.isEmpty()
                 ? bodyService.filter(start, length, BodyFilterCriteria.NONE, null)
                 : bodyService.filter(start, length, BodyFilterCriteria.valueOf(searchCriteria), searchValue);
 
-        int recordsFetched = bodies.size();
+        long recordsFetched = pair.getLeft();
+        List<Body> bodies = pair.getRight();
         responseMap.put(DRAW, draw);
         responseMap.put(RECORDS_TOTAL, recordsFetched);
         responseMap.put(RECORDS_FILTERED, recordsFetched);
@@ -78,6 +80,15 @@ public class GetBodiesCommand implements Command {
 
     private void processSelectRequest(HttpServletRequest request, Map<String, Object> responseMap)
             throws ServiceException {
+        String searchValue = request.getParameter(TERM);
+        int page = Integer.parseInt(request.getParameter(PAGE));
+        int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
+        int start = pageSize * (page - 1);
 
+        Pair<Long, List<Body>> pair = bodyService.filter(start, pageSize, BodyFilterCriteria.NAME, searchValue);
+        long recordsFetched = pair.getLeft();
+        List<Body> bodies = pair.getRight();
+        responseMap.put(RESULTS, bodies);
+        responseMap.put(PAGINATION_MORE, (long) page * pageSize < recordsFetched);
     }
 }
