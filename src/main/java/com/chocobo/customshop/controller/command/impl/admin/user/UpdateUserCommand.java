@@ -63,8 +63,8 @@ public class UpdateUserCommand implements Command {
                 } else {
                     List<String> errorAttributesList = validationResult.getRight();
                     errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
-                    String currentEditUserPageUrl = ADMIN_EDIT_USER_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
-                    result = new CommandResult(currentEditUserPageUrl, REDIRECT);
+                    String currentEditPageUrl = ADMIN_EDIT_USER_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
+                    result = new CommandResult(currentEditPageUrl, REDIRECT);
                 }
             } else {
                 logger.error("Requested user not found, id = " + entityId);

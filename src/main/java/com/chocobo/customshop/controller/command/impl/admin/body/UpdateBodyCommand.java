@@ -59,8 +59,8 @@ public class UpdateBodyCommand implements Command {
                 } else {
                     List<String> errorAttributesList = validationResult.getRight();
                     errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
-                    String currentEditWoodPageUrl = ADMIN_EDIT_BODY_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
-                    result = new CommandResult(currentEditWoodPageUrl, REDIRECT);
+                    String currentEditPageUrl = ADMIN_EDIT_BODY_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
+                    result = new CommandResult(currentEditPageUrl, REDIRECT);
                 }
             } else {
                 logger.error("Requested body not found, id = " + entityId);
