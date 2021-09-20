@@ -125,7 +125,8 @@
             });
 
             searchCriteria.change(function () {
-                searchInput.val("");
+                searchInput.val('');
+                searchSelect.html('');
                 if (searchCriteria.val() === 'WOOD_ID') {
                     searchInput.hide();
                     searchSelect.show();
@@ -205,30 +206,30 @@
                     });
                     table.search(searchInput.val()).draw();
                 } else if (searchCriteria.val() === 'TUNER') {
+                    table.search(searchInput.val()).draw();
                     searchInput.hide();
                     searchSelect.show();
-                    searchSelect.html("")
+                    searchSelect.html('')
                         .append($("<option></option>").attr("value", "").text("None"))
                         .append($("<option></option>").attr("value", "NON_LOCKING").text("NON_LOCKING"))
                         .append($("<option></option>").attr("value", "LOCKING").text("LOCKING"))
-                    searchSelect.change();
+                    searchSelect.select2('destroy');
                 }
                 else {
                     table.search(searchInput.val()).draw();
-                    searchSelect.html('');
                     searchInput.show();
-                    searchSelect.select2('destroy');
                     searchSelect.hide();
+                    searchSelect.select2('destroy');
                 }
+            });
+
+            searchSelect.change(function () {
+                table.search(searchSelect.val()).draw();
             });
 
             searchSelect.on('select2:select', function () {
                 let searchValue = $(this).val();
                 table.search(searchValue).draw();
-            });
-
-            searchSelect.change(function () {
-                table.search(searchSelect.val()).draw();
             });
         }
 
@@ -242,7 +243,7 @@
             });
 
             table.rows().data().each(function (value, index) {
-                fetchWood(value.woodId, function (entity) {
+                fetchWood(value.fretboardWoodId, function (entity) {
                     let woodName = entity.name;
                     let cell = table.cell(index, 4).node();
                     $(cell).find('a').text(woodName);

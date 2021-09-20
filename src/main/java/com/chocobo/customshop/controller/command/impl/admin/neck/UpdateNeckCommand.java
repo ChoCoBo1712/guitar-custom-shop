@@ -56,7 +56,7 @@ public class UpdateNeckCommand implements Command {
                             .setFretboardId(fretboardWoodId)
                             .build();
                     neckService.update(updatedNeck);
-                    result = new CommandResult(ADMIN_NECKS_JSP, REDIRECT);
+                    result = new CommandResult(ADMIN_NECKS_URL, REDIRECT);
                 } else {
                     List<String> errorAttributesList = validationResult.getRight();
                     errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));

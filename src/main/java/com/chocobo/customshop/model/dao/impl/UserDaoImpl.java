@@ -72,26 +72,26 @@ public class UserDaoImpl implements UserDao {
     private static final String SELECT_MULTIPLE_BY_ROLE =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
-            "WHERE role LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
+            "WHERE role LIKE ? AND status <> 'DELETED' " +
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
 
     private static final String SELECT_COUNT_BY_ROLE =
             "SELECT COUNT(user_id) " +
             "FROM users " +
-            "WHERE role LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+            "WHERE role LIKE ? AND status <> 'DELETED';";
 
     private static final String SELECT_MULTIPLE_BY_STATUS =
             "SELECT user_id, email, login, password_hash, salt, role, status " +
             "FROM users " +
-            "WHERE status LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
+            "WHERE status LIKE ? AND status <> 'DELETED' " +
             "ORDER BY user_id " +
             "LIMIT ?, ?;";
 
     private static final String SELECT_COUNT_BY_STATUS =
             "SELECT COUNT(user_id) " +
             "FROM users " +
-            "WHERE status LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+            "WHERE status LIKE ? AND status <> 'DELETED';";
 
     private static final String SELECT_MULTIPLE_BY_LOGIN =
             "SELECT user_id, email, login, password_hash, salt, role, status " +

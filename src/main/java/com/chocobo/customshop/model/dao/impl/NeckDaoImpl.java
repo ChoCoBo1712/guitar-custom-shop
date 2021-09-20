@@ -79,14 +79,14 @@ public class NeckDaoImpl implements NeckDao {
     private static final String SELECT_MULTIPLE_BY_TUNER =
             "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
-            "WHERE tuner LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
+            "WHERE tuner LIKE ? AND deleted <> 1 " +
             "ORDER BY neck_id " +
             "LIMIT ?, ?;";
 
     private static final String SELECT_COUNT_BY_TUNER =
             "SELECT COUNT(neck_id) " +
             "FROM necks " +
-            "WHERE tuner LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+            "WHERE tuner LIKE ? AND deleted <> 1;";
 
     private static final String INSERT =
             "INSERT INTO necks(name, tuner, id_neck_wood, id_fretboard_wood) " +
@@ -114,9 +114,9 @@ public class NeckDaoImpl implements NeckDao {
         return executeInsert(
                 INSERT,
                 entity.getName(),
-                entity.getTuner(),
+                entity.getTuner().toString(),
                 entity.getWoodId(),
-                entity.getFretboardId()
+                entity.getFretboardWoodId()
         );
     }
 
@@ -125,9 +125,9 @@ public class NeckDaoImpl implements NeckDao {
         executeUpdateOrDelete(
                 UPDATE,
                 entity.getName(),
-                entity.getTuner(),
+                entity.getTuner().toString(),
                 entity.getWoodId(),
-                entity.getFretboardId(),
+                entity.getFretboardWoodId(),
                 entity.getEntityId()
         );
     }

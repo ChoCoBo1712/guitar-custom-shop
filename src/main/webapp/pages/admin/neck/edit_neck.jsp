@@ -131,14 +131,14 @@
             if (!isNaN(Number.parseInt(woodId))) {
                 fetchWood(woodId, function (entity) {
                     let option = new Option(entity.name, entity.entityId);
-                    select.append(option).trigger('change');
+                    woodSelect.append(option).trigger('change');
                 });
             }
 
             if (!isNaN(Number.parseInt(fretboardWoodId))) {
                 fetchWood(fretboardWoodId, function (entity) {
                     let option = new Option(entity.name, entity.entityId);
-                    select.append(option).trigger('change');
+                    fretboardWoodSelect.append(option).trigger('change');
                 });
             }
 

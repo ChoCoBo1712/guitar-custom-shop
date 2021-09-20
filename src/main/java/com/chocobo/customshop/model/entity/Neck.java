@@ -34,7 +34,7 @@ public class Neck extends AbstractEntity {
         return woodId;
     }
 
-    public long getFretboardId() {
+    public long getFretboardWoodId() {
         return fretboardWoodId;
     }
 
