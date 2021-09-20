@@ -1,17 +1,16 @@
-package com.chocobo.customshop.controller.command.impl.admin.body;
+package com.chocobo.customshop.controller.command.impl.admin.neck;
 
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
-import com.chocobo.customshop.controller.command.PagePath;
 import jakarta.servlet.http.HttpServletRequest;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.FORWARD;
-import static com.chocobo.customshop.controller.command.PagePath.*;
+import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_NECK_JSP;
 
-public class GoToCreateBodyPageCommand implements Command {
+public class GoToCreateNeckPageCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        return new CommandResult(ADMIN_CREATE_BODY_JSP, FORWARD);
+        return new CommandResult(ADMIN_CREATE_NECK_JSP, FORWARD);
     }
 }

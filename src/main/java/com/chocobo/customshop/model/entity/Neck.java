@@ -4,13 +4,13 @@ import java.util.Objects;
 
 public class Neck extends AbstractEntity {
 
-    public enum TunerSet {
+    public enum Tuner {
         LOCKING,
         NON_LOCKING
     }
 
-    private String shape;
-    private TunerSet tunerSet;
+    private String name;
+    private Tuner tuner;
     private long woodId;
     private long fretboardWoodId;
 
@@ -22,12 +22,12 @@ public class Neck extends AbstractEntity {
         return new Neck().new NeckBuilder();
     }
 
-    public String getShape() {
-        return shape;
+    public String getName() {
+        return name;
     }
 
-    public TunerSet getTunerSet() {
-        return tunerSet;
+    public Tuner getTuner() {
+        return tuner;
     }
 
     public long getWoodId() {
@@ -48,7 +48,7 @@ public class Neck extends AbstractEntity {
         }
 
         Neck neck = (Neck) obj;
-        return super.equals(neck) && Objects.equals(neck.shape, shape) && Objects.equals(neck.tunerSet, tunerSet)
+        return super.equals(neck) && Objects.equals(neck.name, this.name) && Objects.equals(neck.tuner, tuner)
                 && neck.woodId == woodId && neck.fretboardWoodId == fretboardWoodId;
     }
 
@@ -57,8 +57,8 @@ public class Neck extends AbstractEntity {
         int prime = 31;
         int result = prime + super.hashCode();
 
-        result = prime * result + (shape != null ? shape.hashCode() : 0);
-        result = prime * result + (tunerSet != null ? tunerSet.hashCode() : 0);
+        result = prime * result + (name != null ? name.hashCode() : 0);
+        result = prime * result + (tuner != null ? tuner.hashCode() : 0);
         result = prime * result + Long.hashCode(woodId);
         result = prime * result + Long.hashCode(fretboardWoodId);
 
@@ -69,8 +69,8 @@ public class Neck extends AbstractEntity {
     public String toString() {
         StringBuilder builder = new StringBuilder("Neck ");
         builder.append(super.toString()).append(": (");
-        builder.append("shape = ").append(shape).append(", ");
-        builder.append("tuner = ").append(tunerSet).append(", ");
+        builder.append("name = ").append(name).append(", ");
+        builder.append("tuner = ").append(tuner).append(", ");
         builder.append("wood id = ").append(woodId).append(", ");
         builder.append("fretboard id = ").append(fretboardWoodId).append(")");
 
@@ -83,13 +83,13 @@ public class Neck extends AbstractEntity {
 
         }
 
-        public NeckBuilder setShape(String shape) {
-            Neck.this.shape = shape;
+        public NeckBuilder setName(String name) {
+            Neck.this.name = name;
             return this;
         }
 
-        public NeckBuilder setTunerSet(TunerSet tunerSet) {
-            Neck.this.tunerSet = tunerSet;
+        public NeckBuilder setTuner(Tuner tuner) {
+            Neck.this.tuner = tuner;
             return this;
         }
 
@@ -105,8 +105,8 @@ public class Neck extends AbstractEntity {
 
         public NeckBuilder of(Neck neck) {
             super.of(neck);
-            Neck.this.shape = neck.shape;
-            Neck.this.tunerSet = neck.tunerSet;
+            Neck.this.name = neck.name;
+            Neck.this.tuner = neck.tuner;
             Neck.this.woodId = neck.woodId;
             Neck.this.fretboardWoodId = neck.fretboardWoodId;
             return this;

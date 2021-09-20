@@ -1,13 +1,11 @@
 package com.chocobo.customshop.controller.command;
 
 import com.chocobo.customshop.controller.command.impl.*;
-import com.chocobo.customshop.controller.command.impl.admin.ajax.GetBodiesCommand;
-import com.chocobo.customshop.controller.command.impl.admin.ajax.GetPickupsCommand;
-import com.chocobo.customshop.controller.command.impl.admin.ajax.GetWoodsCommand;
+import com.chocobo.customshop.controller.command.impl.admin.ajax.*;
 import com.chocobo.customshop.controller.command.impl.admin.body.*;
+import com.chocobo.customshop.controller.command.impl.admin.neck.*;
 import com.chocobo.customshop.controller.command.impl.admin.pickup.*;
 import com.chocobo.customshop.controller.command.impl.admin.user.*;
-import com.chocobo.customshop.controller.command.impl.admin.ajax.GetUsersCommand;
 import com.chocobo.customshop.controller.command.impl.admin.wood.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,6 +38,9 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_PICKUPS_PAGE, new GoToPickupsPageCommand());
         commandMap.put(CommandType.GO_TO_CREATE_PICKUP_PAGE, new GoToCreatePickupPageCommand());
         commandMap.put(CommandType.GO_TO_EDIT_PICKUP_PAGE, new GoToEditPickupPageCommand());
+        commandMap.put(CommandType.GO_TO_NECKS_PAGE, new GoToNecksPageCommand());
+        commandMap.put(CommandType.GO_TO_CREATE_NECK_PAGE, new GoToCreateNeckPageCommand());
+        commandMap.put(CommandType.GO_TO_EDIT_NECK_PAGE, new GoToEditNeckPageCommand());
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
@@ -62,6 +63,10 @@ public class CommandProvider {
         commandMap.put(CommandType.CREATE_PICKUP, new CreatePickupCommand());
         commandMap.put(CommandType.UPDATE_PICKUP, new UpdatePickupCommand());
         commandMap.put(CommandType.DELETE_PICKUP, new DeletePickupCommand());
+        commandMap.put(CommandType.GET_NECKS, new GetNecksCommand());
+        commandMap.put(CommandType.CREATE_NECK, new CreateNeckCommand());
+        commandMap.put(CommandType.UPDATE_NECK, new UpdateNeckCommand());
+        commandMap.put(CommandType.DELETE_NECK, new DeleteNeckCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

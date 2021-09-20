@@ -20,6 +20,9 @@ public enum CommandType {
     GO_TO_PICKUPS_PAGE,
     GO_TO_CREATE_PICKUP_PAGE,
     GO_TO_EDIT_PICKUP_PAGE,
+    GO_TO_NECKS_PAGE,
+    GO_TO_CREATE_NECK_PAGE,
+    GO_TO_EDIT_NECK_PAGE,
 
     // other commands
     REGISTER,
@@ -42,4 +45,8 @@ public enum CommandType {
     CREATE_PICKUP,
     UPDATE_PICKUP,
     DELETE_PICKUP,
+    GET_NECKS,
+    CREATE_NECK,
+    UPDATE_NECK,
+    DELETE_NECK,
 }

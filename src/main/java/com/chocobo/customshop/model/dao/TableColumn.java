@@ -27,4 +27,10 @@ public final class TableColumn {
     // pickups TABLE
     public static final String PICKUP_ID = "pickup_id";
     public static final String PICKUP_NAME = "name";
+
+    // necks TABLE
+    public static final String NECK_ID = "neck_id";
+    public static final String NECK_NAME = "name";
+    public static final String ID_FRETBOARD_WOOD = "id_fretboard_wood";
+    public static final String NECK_TUNER = "tuner";
 }

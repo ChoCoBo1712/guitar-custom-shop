@@ -19,6 +19,9 @@ public final class PagePath {
     public static final String ADMIN_PICKUPS_JSP = "/pages/admin/pickup/pickups.jsp";
     public static final String ADMIN_CREATE_PICKUP_JSP = "/pages/admin/pickup/create_pickup.jsp";
     public static final String ADMIN_EDIT_PICKUP_JSP = "/pages/admin/pickup/edit_pickup.jsp";
+    public static final String ADMIN_NECKS_JSP = "/pages/admin/neck/necks.jsp";
+    public static final String ADMIN_CREATE_NECK_JSP = "/pages/admin/neck/create_neck.jsp";
+    public static final String ADMIN_EDIT_NECK_JSP = "/pages/admin/neck/edit_neck.jsp";
 
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
@@ -37,6 +40,9 @@ public final class PagePath {
     public static final String ADMIN_PICKUPS_URL = "/controller?command=go_to_pickups_page";
     public static final String ADMIN_CREATE_PICKUP_URL = "/controller?command=go_to_create_pickup_page";
     public static final String ADMIN_EDIT_PICKUP_URL = "/controller?command=go_to_edit_pickup_page";
+    public static final String ADMIN_NECKS_URL = "/controller?command=go_to_necks_page";
+    public static final String ADMIN_CREATE_NECK_URL = "/controller?command=go_to_create_neck_page";
+    public static final String ADMIN_EDIT_NECK_URL = "/controller?command=go_to_edit_neck_page";
 
     public static final String AMPERSAND = "&";
     public static final String EQUALS_SIGN = "=";
