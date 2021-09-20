@@ -204,7 +204,16 @@
                         }
                     });
                     table.search(searchInput.val()).draw();
-                } else {
+                } else if (searchCriteria.val() === 'TUNER') {
+                    searchInput.hide();
+                    searchSelect.show();
+                    searchSelect.html("")
+                        .append($("<option></option>").attr("value", "").text("None"))
+                        .append($("<option></option>").attr("value", "NON_LOCKING").text("NON_LOCKING"))
+                        .append($("<option></option>").attr("value", "LOCKING").text("LOCKING"))
+                    searchSelect.change();
+                }
+                else {
                     table.search(searchInput.val()).draw();
                     searchSelect.html('');
                     searchInput.show();
@@ -216,6 +225,10 @@
             searchSelect.on('select2:select', function () {
                 let searchValue = $(this).val();
                 table.search(searchValue).draw();
+            });
+
+            searchSelect.change(function () {
+                table.search(searchSelect.val()).draw();
             });
         }
 

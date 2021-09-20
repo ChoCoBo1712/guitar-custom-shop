@@ -12,7 +12,7 @@ public class NeckDaoImpl implements NeckDao {
     private static NeckDao instance;
 
     private static final String SELECT_ALL =
-            "SELECT neck_id, name, tuner, id_wood, id_fretboard_wood " +
+            "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
             "WHERE deleted <> 1 " +
             "ORDER BY neck_id " +
@@ -24,12 +24,12 @@ public class NeckDaoImpl implements NeckDao {
             "WHERE deleted <> 1;";
 
     private static final String SELECT_BY_ID =
-            "SELECT neck_id, name, tuner, id_wood, id_fretboard_wood " +
+            "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
             "WHERE neck_id = ?;";
 
     private static final String SELECT_MULTIPLE_BY_ID =
-            "SELECT neck_id, name, tuner, id_wood, id_fretboard_wood " +
+            "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
             "WHERE neck_id LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY neck_id " +
@@ -41,19 +41,19 @@ public class NeckDaoImpl implements NeckDao {
             "WHERE neck_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_WOOD_ID =
-            "SELECT neck_id, name, tuner, id_wood, id_fretboard_wood " +
+            "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
-            "WHERE id_wood LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
+            "WHERE id_neck_wood LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY neck_id " +
             "LIMIT ?, ?;";
 
     private static final String SELECT_COUNT_BY_WOOD_ID =
             "SELECT COUNT(neck_id) " +
             "FROM necks " +
-            "WHERE id_wood LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+            "WHERE id_neck_wood LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_FRETBOARD_WOOD_ID =
-            "SELECT neck_id, name, tuner, id_wood, id_fretboard_wood " +
+            "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
             "WHERE id_fretboard_wood LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY neck_id " +
@@ -65,7 +65,7 @@ public class NeckDaoImpl implements NeckDao {
             "WHERE id_fretboard_wood LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_NAME =
-            "SELECT neck_id, name, tuner, id_wood, id_fretboard_wood " +
+            "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
             "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY neck_id " +
@@ -77,7 +77,7 @@ public class NeckDaoImpl implements NeckDao {
             "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_TUNER =
-            "SELECT neck_id, name, tuner, id_wood, id_fretboard_wood " +
+            "SELECT neck_id, name, tuner, id_neck_wood, id_fretboard_wood " +
             "FROM necks " +
             "WHERE tuner LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY neck_id " +
@@ -89,12 +89,12 @@ public class NeckDaoImpl implements NeckDao {
             "WHERE tuner LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String INSERT =
-            "INSERT INTO necks(name, tuner, id_wood, id_fretboard_wood) " +
+            "INSERT INTO necks(name, tuner, id_neck_wood, id_fretboard_wood) " +
             "VALUES(?, ?, ?, ?);";
 
     private static final String UPDATE =
             "UPDATE necks " +
-            "SET name = ?, tuner = ?, id_wood = ?, id_fretboard_wood = ? " +
+            "SET name = ?, tuner = ?, id_neck_wood = ?, id_fretboard_wood = ? " +
             "WHERE neck_id = ?;";
 
     private static final String DELETE =

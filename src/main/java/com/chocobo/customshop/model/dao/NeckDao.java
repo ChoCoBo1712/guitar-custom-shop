@@ -34,7 +34,7 @@ public interface NeckDao extends BaseDao<Neck> {
         return (Neck) Neck.builder()
                 .setName(resultSet.getString(NECK_NAME))
                 .setTuner(Tuner.valueOf(resultSet.getString(NECK_TUNER)))
-                .setWoodId(resultSet.getLong(ID_WOOD))
+                .setWoodId(resultSet.getLong(ID_NECK_WOOD))
                 .setFretboardId(resultSet.getLong(ID_FRETBOARD_WOOD))
                 .setEntityId(resultSet.getLong(NECK_ID))
                 .build();

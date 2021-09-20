@@ -31,6 +31,7 @@ public final class TableColumn {
     // necks TABLE
     public static final String NECK_ID = "neck_id";
     public static final String NECK_NAME = "name";
+    public static final String ID_NECK_WOOD = "id_neck_wood";
     public static final String ID_FRETBOARD_WOOD = "id_fretboard_wood";
     public static final String NECK_TUNER = "tuner";
 }
