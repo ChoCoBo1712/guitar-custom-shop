@@ -50,7 +50,6 @@ public interface GuitarDao extends BaseDao<Guitar> {
                 .setUserId(resultSet.getLong(ID_USER))
                 .setColor(resultSet.getString(COLOR))
                 .setNeckJoint(Guitar.NeckJoint.valueOf(resultSet.getString(NECK_JOINT)))
-                .setComment(resultSet.getString(COMMENT))
                 .setPicturePath(resultSet.getString(PICTURE_PATH))
                 .setEntityId(resultSet.getLong(GUITAR_ID))
                 .build();

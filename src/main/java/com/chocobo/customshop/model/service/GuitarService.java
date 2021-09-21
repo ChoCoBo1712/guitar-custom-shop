@@ -13,8 +13,8 @@ public interface GuitarService {
 
     Optional<Guitar> findById(long id) throws ServiceException;
 
-    long insert(String name, String picturePath, long bodyId, long neckId, long pickupId, long userId, String color, NeckJoint neckJoint,
-                String comment) throws ServiceException;
+    long insert(String name, String picturePath, long bodyId, long neckId, long pickupId, long userId, String color,
+                NeckJoint neckJoint) throws ServiceException;
 
     void update(Guitar guitar) throws ServiceException;
 

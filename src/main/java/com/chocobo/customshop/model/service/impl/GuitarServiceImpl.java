@@ -38,7 +38,7 @@ public class GuitarServiceImpl implements GuitarService {
 
     @Override
     public long insert(String name, String picturePath, long bodyId, long neckId, long pickupId, long userId, String color,
-                       NeckJoint neckJoint, String comment) throws ServiceException {
+                       NeckJoint neckJoint) throws ServiceException {
         Guitar guitar = Guitar.builder()
                 .setName(name)
                 .setPicturePath(picturePath)
@@ -48,7 +48,6 @@ public class GuitarServiceImpl implements GuitarService {
                 .setUserId(userId)
                 .setColor(color)
                 .setNeckJoint(neckJoint)
-                .setComment(comment)
                 .build();
         try {
             return guitarDao.insert(guitar);

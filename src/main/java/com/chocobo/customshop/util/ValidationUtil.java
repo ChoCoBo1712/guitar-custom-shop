@@ -14,7 +14,12 @@ public interface ValidationUtil {
     Pair<Boolean, List<String>> validateUserUpdate(String email, String login, String previousEmail, String previousLogin)
             throws ServiceException;
 
-    Pair<Boolean, List<String>> validateName(String name) throws ServiceException;
+    Pair<Boolean, List<String>> validateName(String name);
 
-    Pair<Boolean, List<String>> validateNameUpdate(String email, String previousname) throws ServiceException;
+    Pair<Boolean, List<String>> validateNameUpdate(String email, String previousname);
+
+    Pair<Boolean, List<String>> validateNameAndColor(String name, String color);
+
+    Pair<Boolean, List<String>> validateNameAndColorUpdate(String name, String previousName, String color,
+                                                           String previousColor);
 }

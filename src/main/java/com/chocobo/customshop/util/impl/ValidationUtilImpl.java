@@ -50,16 +50,35 @@ public class ValidationUtilImpl implements ValidationUtil {
     }
 
     @Override
-    public Pair<Boolean, List<String>> validateName(String name) throws ServiceException {
+    public Pair<Boolean, List<String>> validateName(String name) {
         List<String> errorList = new ArrayList<>();
         boolean valid = validateInsert(name, errorList, NameValidator.getInstance());
         return Pair.of(valid, errorList);
     }
 
     @Override
-    public Pair<Boolean, List<String>> validateNameUpdate(String name, String previousName) throws ServiceException {
+    public Pair<Boolean, List<String>> validateNameUpdate(String name, String previousName) {
         List<String> errorList = new ArrayList<>();
         boolean valid = validateUpdate(name, previousName, errorList, NameValidator.getInstance());
+        return Pair.of(valid, errorList);
+    }
+
+    @Override
+    public Pair<Boolean, List<String>> validateNameAndColor(String name, String color) {
+        List<String> errorList = new ArrayList<>();
+        Validator<String> nameValidator = NameValidator.getInstance();
+        boolean valid = validateInsert(name, errorList, nameValidator);
+        valid &= validateInsert(color, errorList, nameValidator);
+        return Pair.of(valid, errorList);
+    }
+
+    @Override
+    public Pair<Boolean, List<String>> validateNameAndColorUpdate(String name, String previousName, String color,
+                                                                  String previousColor) {
+        List<String> errorList = new ArrayList<>();
+        Validator<String> nameValidator = NameValidator.getInstance();
+        boolean valid = validateUpdate(name, previousName, errorList, nameValidator);
+        valid &= validateUpdate(color, previousColor, errorList, nameValidator);
         return Pair.of(valid, errorList);
     }
 

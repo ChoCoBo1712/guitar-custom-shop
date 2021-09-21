@@ -1,6 +1,90 @@
 package com.chocobo.customshop.controller.command.impl.admin.guitar;
 
 import com.chocobo.customshop.controller.command.Command;
+import com.chocobo.customshop.controller.command.CommandResult;
+import com.chocobo.customshop.controller.command.RequestAttribute;
+import com.chocobo.customshop.exception.ServiceException;
+import com.chocobo.customshop.model.entity.Guitar;
+import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
+import com.chocobo.customshop.model.entity.Neck;
+import com.chocobo.customshop.model.service.GuitarService;
+import com.chocobo.customshop.model.service.NeckService;
+import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
+import com.chocobo.customshop.model.service.impl.NeckServiceImpl;
+import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.util.impl.ValidationUtilImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
+import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
+import static com.chocobo.customshop.controller.command.PagePath.*;
+import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class UpdateGuitarCommand implements Command {
+
+    private static final Logger logger = LogManager.getLogger();
+
+    @Override
+    public CommandResult execute(HttpServletRequest request) {
+        GuitarService guitarService = GuitarServiceImpl.getInstance();
+        HttpSession session = request.getSession();
+
+        String name = request.getParameter(NAME);
+        long bodyId = Long.parseLong(request.getParameter(BODY_ID));
+        long neckId = Long.parseLong(request.getParameter(RequestAttribute.NECK_ID));
+        long pickupId = Long.parseLong(request.getParameter(PICKUP_ID));
+        long userId = Long.parseLong(request.getParameter(USER_ID));
+        String color = request.getParameter(COLOR);
+        NeckJoint neckJoint = NeckJoint.valueOf(request.getParameter(NECK_JOINT));
+        String picturePath = request.getParameter(PICTURE_PATH);
+        long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
+
+        CommandResult result;
+        try {
+            Optional<Guitar> optionalGuitar = guitarService.findById(entityId);
+            if (optionalGuitar.isPresent()) {
+                Guitar guitar = optionalGuitar.get();
+                String previousName = guitar.getName();
+                String previousColor = guitar.getColor();
+                ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
+                Pair<Boolean, List<String>> validationResult = validationUtil
+                        .validateNameAndColorUpdate(name, previousName, color, previousColor);
+                if (validationResult.getLeft()) {
+                    Guitar updatedGuitar = Guitar.builder().of(guitar)
+                            .setName(name)
+                            .setBodyId(bodyId)
+                            .setNeckId(neckId)
+                            .setPickupId(pickupId)
+                            .setUserId(userId)
+                            .setColor(color)
+                            .setNeckJoint(neckJoint)
+                            .setPicturePath(picturePath)
+                            .build();
+                    guitarService.update(updatedGuitar);
+                    result = new CommandResult(ADMIN_GUITARS_URL, REDIRECT);
+                } else {
+                    List<String> errorAttributesList = validationResult.getRight();
+                    errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                    String currentEditPageUrl = ADMIN_EDIT_GUITAR_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
+                    result = new CommandResult(currentEditPageUrl, REDIRECT);
+                }
+            } else {
+                logger.error("Requested guitar not found, id = " + entityId);
+                result = new CommandResult(SC_NOT_FOUND, ERROR);
+            }
+        } catch (ServiceException e) {
+            logger.error("An error occurred during update guitar command execution", e);
+            return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
+        }
+        return result;
+    }
 }

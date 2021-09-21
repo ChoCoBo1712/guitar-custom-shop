@@ -17,7 +17,6 @@ public class Guitar extends AbstractEntity {
     private long neckId;
     private long pickupId;
     private String color;
-    private String comment;
     private long userId;
 
     private Guitar() {
@@ -56,9 +55,6 @@ public class Guitar extends AbstractEntity {
         return color;
     }
 
-    public String getComment() {
-        return comment;
-    }
 
     public long getUserId() {
         return userId;
@@ -78,7 +74,7 @@ public class Guitar extends AbstractEntity {
                 && Objects.equals(guitar.neckJoint, neckJoint) && Objects.equals(guitar.name, name)
                 && guitar.bodyId == bodyId && guitar.neckId == neckId
                 && guitar.pickupId == pickupId && Objects.equals(guitar.color, color)
-                && Objects.equals(guitar.comment, comment) && guitar.userId == userId;
+                && guitar.userId == userId;
     }
 
     @Override
@@ -93,7 +89,6 @@ public class Guitar extends AbstractEntity {
         result = prime * result + Long.hashCode(neckId);
         result = prime * result + Long.hashCode(pickupId);
         result = prime * result + (color != null ? color.hashCode() : 0);
-        result = prime * result + (comment != null ? comment.hashCode() : 0);
         result = prime * result + Long.hashCode(userId);
 
         return result;
@@ -110,7 +105,6 @@ public class Guitar extends AbstractEntity {
         builder.append("neck id = ").append(neckId).append(", ");
         builder.append("pickup id = ").append(pickupId).append(", ");
         builder.append("color = ").append(color).append(", ");
-        builder.append("comment = ").append(comment).append(", ");
         builder.append("user id = ").append(userId).append(")");
 
         return builder.toString();
@@ -157,11 +151,6 @@ public class Guitar extends AbstractEntity {
             return this;
         }
 
-        public GuitarBuilder setComment(String comment) {
-            Guitar.this.comment = comment;
-            return this;
-        }
-
         public GuitarBuilder setUserId(long userId) {
             Guitar.this.userId = userId;
             return this;
@@ -176,7 +165,6 @@ public class Guitar extends AbstractEntity {
             Guitar.this.neckId = guitar.neckId;
             Guitar.this.pickupId = guitar.pickupId;
             Guitar.this.color = guitar.color;
-            Guitar.this.comment = guitar.comment;
             Guitar.this.userId = guitar.userId;
             return this;
         }

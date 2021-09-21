@@ -12,12 +12,12 @@ public class GuitarDaoImpl implements GuitarDao {
     private static GuitarDao instance;
 
     private static final String INSERT =
-            "INSERT INTO guitars(name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment) " +
+            "INSERT INTO guitars(name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String UPDATE =
             "UPDATE guitars " +
-            "SET name = ?, picture_path = ?, id_body = ?, id_neck = ?, id_pickup = ?, id_user = ?, color = ?, neck_joint = ?, comment = ? " +
+            "SET name = ?, picture_path = ?, id_body = ?, id_neck = ?, id_pickup = ?, id_user = ?, color = ?, neck_joint = ? " +
             "WHERE guitar_id = ?;";
 
     private static final String DELETE =
@@ -26,12 +26,12 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE guitar_id = ?;";
 
     private static final String SELECT_BY_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE guitar_id = ?;";
 
     private static final String SELECT_MULTIPLE_BY_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE guitar_id LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -43,7 +43,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE guitar_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_ALL =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -55,7 +55,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_NAME =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -67,7 +67,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_BODY_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE id_body LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -79,7 +79,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE id_body LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_NECK_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE id_neck LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -91,7 +91,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE id_neck LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_PICKUP_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE id_pickup LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -103,7 +103,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE id_pickup LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_USER_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE id_user LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -115,7 +115,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE id_user LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_COLOR =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE color LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
             "ORDER BY guitar_id " +
@@ -127,7 +127,7 @@ public class GuitarDaoImpl implements GuitarDao {
             "WHERE color LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
 
     private static final String SELECT_MULTIPLE_BY_NECK_JOINT =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint, comment " +
+            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
             "FROM guitars " +
             "WHERE neck_joint LIKE ? AND deleted <> 1 " +
             "ORDER BY guitar_id " +

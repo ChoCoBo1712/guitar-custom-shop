@@ -34,6 +34,14 @@ public final class RequestAttribute {
     public static final String NECK = "neck";
     public static final String TUNER = "tuner";
     public static final String FRETBOARD_WOOD_ID = "fretboardWoodId";
+    public static final String BODY_ID = "bodyId";
+    public static final String NECK_ID = "neckId";
+    public static final String PICKUP_ID = "pickupId";
+    public static final String USER_ID = "userId";
+    public static final String COLOR = "color";
+    public static final String NECK_JOINT = "neckJoint";
+    public static final String PICTURE_PATH = "picturePath";
+    public static final String GUITAR = "guitar";
 
     private RequestAttribute() {
 
