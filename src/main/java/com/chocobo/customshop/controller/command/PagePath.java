@@ -22,6 +22,9 @@ public final class PagePath {
     public static final String ADMIN_NECKS_JSP = "/pages/admin/neck/necks.jsp";
     public static final String ADMIN_CREATE_NECK_JSP = "/pages/admin/neck/create_neck.jsp";
     public static final String ADMIN_EDIT_NECK_JSP = "/pages/admin/neck/edit_neck.jsp";
+    public static final String ADMIN_GUITARS_JSP = "/pages/admin/guitar/guitars.jsp";
+    public static final String ADMIN_CREATE_GUITAR_JSP = "/pages/admin/guitar/create_guitar.jsp";
+    public static final String ADMIN_EDIT_GUITAR_JSP = "/pages/admin/guitar/edit_guitar.jsp";
 
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
@@ -43,6 +46,9 @@ public final class PagePath {
     public static final String ADMIN_NECKS_URL = "/controller?command=go_to_necks_page";
     public static final String ADMIN_CREATE_NECK_URL = "/controller?command=go_to_create_neck_page";
     public static final String ADMIN_EDIT_NECK_URL = "/controller?command=go_to_edit_neck_page";
+    public static final String ADMIN_GUITARS_URL = "/controller?command=go_to_guitars_page";
+    public static final String ADMIN_CREATE_GUITAR_URL = "/controller?command=go_to_create_guitar_page";
+    public static final String ADMIN_EDIT_GUITAR_URL = "/controller?command=go_to_edit_guitar_page";
 
     public static final String AMPERSAND = "&";
     public static final String EQUALS_SIGN = "=";

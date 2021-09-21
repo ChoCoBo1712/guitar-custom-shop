@@ -23,6 +23,9 @@ public enum CommandType {
     GO_TO_NECKS_PAGE,
     GO_TO_CREATE_NECK_PAGE,
     GO_TO_EDIT_NECK_PAGE,
+    GO_TO_GUITARS_PAGE,
+    GO_TO_CREATE_GUITAR_PAGE,
+    GO_TO_EDIT_GUITAR_PAGE,
 
     // other commands
     REGISTER,
@@ -49,4 +52,8 @@ public enum CommandType {
     CREATE_NECK,
     UPDATE_NECK,
     DELETE_NECK,
+    GET_GUITARS,
+    CREATE_GUITAR,
+    UPDATE_GUITAR,
+    DELETE_GUITAR,
 }

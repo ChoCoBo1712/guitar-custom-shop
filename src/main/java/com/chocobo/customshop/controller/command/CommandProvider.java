@@ -3,6 +3,7 @@ package com.chocobo.customshop.controller.command;
 import com.chocobo.customshop.controller.command.impl.*;
 import com.chocobo.customshop.controller.command.impl.admin.ajax.*;
 import com.chocobo.customshop.controller.command.impl.admin.body.*;
+import com.chocobo.customshop.controller.command.impl.admin.guitar.*;
 import com.chocobo.customshop.controller.command.impl.admin.neck.*;
 import com.chocobo.customshop.controller.command.impl.admin.pickup.*;
 import com.chocobo.customshop.controller.command.impl.admin.user.*;
@@ -41,6 +42,9 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_NECKS_PAGE, new GoToNecksPageCommand());
         commandMap.put(CommandType.GO_TO_CREATE_NECK_PAGE, new GoToCreateNeckPageCommand());
         commandMap.put(CommandType.GO_TO_EDIT_NECK_PAGE, new GoToEditNeckPageCommand());
+        commandMap.put(CommandType.GO_TO_GUITARS_PAGE, new GoToGuitarsPageCommand());
+        commandMap.put(CommandType.GO_TO_CREATE_GUITAR_PAGE, new GoToCreateGuitarPageCommand());
+        commandMap.put(CommandType.GO_TO_EDIT_GUITAR_PAGE, new GoToEditGuitarPageCommand());
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
@@ -67,6 +71,10 @@ public class CommandProvider {
         commandMap.put(CommandType.CREATE_NECK, new CreateNeckCommand());
         commandMap.put(CommandType.UPDATE_NECK, new UpdateNeckCommand());
         commandMap.put(CommandType.DELETE_NECK, new DeleteNeckCommand());
+        commandMap.put(CommandType.GET_GUITARS, new GetGuitarsCommand());
+        commandMap.put(CommandType.CREATE_GUITAR, new CreateGuitarCommand());
+        commandMap.put(CommandType.UPDATE_GUITAR, new UpdateGuitarCommand());
+        commandMap.put(CommandType.DELETE_GUITAR, new DeleteGuitarCommand());
     }
 
     public static Optional<Command> getCommand(String action) {
