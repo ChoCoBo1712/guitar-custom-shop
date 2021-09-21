@@ -34,4 +34,16 @@ public final class TableColumn {
     public static final String ID_NECK_WOOD = "id_neck_wood";
     public static final String ID_FRETBOARD_WOOD = "id_fretboard_wood";
     public static final String NECK_TUNER = "tuner";
+
+    // guitar TABLE
+    public static final String GUITAR_ID = "guitar_id";
+    public static final String GUITAR_NAME = "name";
+    public static final String PICTURE_PATH = "picture_path";
+    public static final String COLOR = "color";
+    public static final String ID_BODY = "id_body";
+    public static final String ID_NECK = "id_neck";
+    public static final String ID_PICKUP = "id_pickup";
+    public static final String ID_USER = "id_user";
+    public static final String NECK_JOINT = "neck_joint";
+    public static final String COMMENT = "comment";
 }

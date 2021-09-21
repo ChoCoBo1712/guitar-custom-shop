@@ -10,6 +10,7 @@ public class Guitar extends AbstractEntity {
         NECK_THROUGH
     }
 
+    private String name;
     private String picturePath;
     private NeckJoint neckJoint;
     private long bodyId;
@@ -25,6 +26,10 @@ public class Guitar extends AbstractEntity {
 
     public static GuitarBuilder builder() {
         return new Guitar().new GuitarBuilder();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getPicturePath() {
@@ -70,7 +75,7 @@ public class Guitar extends AbstractEntity {
 
         Guitar guitar = (Guitar) obj;
         return super.equals(guitar) && Objects.equals(guitar.picturePath, picturePath)
-                && Objects.equals(guitar.neckJoint, neckJoint)
+                && Objects.equals(guitar.neckJoint, neckJoint) && Objects.equals(guitar.name, name)
                 && guitar.bodyId == bodyId && guitar.neckId == neckId
                 && guitar.pickupId == pickupId && Objects.equals(guitar.color, color)
                 && Objects.equals(guitar.comment, comment) && guitar.userId == userId;
@@ -81,6 +86,7 @@ public class Guitar extends AbstractEntity {
         int prime = 31;
         int result = prime + super.hashCode();
 
+        result = prime * result + (name != null ? name.hashCode() : 0);
         result = prime * result + (picturePath != null ? picturePath.hashCode() : 0);
         result = prime * result + (neckJoint != null ? neckJoint.hashCode() : 0);
         result = prime * result + Long.hashCode(bodyId);
@@ -97,11 +103,12 @@ public class Guitar extends AbstractEntity {
     public String toString() {
         StringBuilder builder = new StringBuilder("Guitar ");
         builder.append(super.toString()).append(": (");
+        builder.append("name = ").append(picturePath).append(", ");
         builder.append("picture path = ").append(picturePath).append(", ");
         builder.append("neck joint = ").append(neckJoint).append(", ");
         builder.append("body id = ").append(bodyId).append(", ");
         builder.append("neck id = ").append(neckId).append(", ");
-        builder.append("pickup set id = ").append(pickupId).append(", ");
+        builder.append("pickup id = ").append(pickupId).append(", ");
         builder.append("color = ").append(color).append(", ");
         builder.append("comment = ").append(comment).append(", ");
         builder.append("user id = ").append(userId).append(")");
@@ -113,6 +120,11 @@ public class Guitar extends AbstractEntity {
 
         private GuitarBuilder() {
 
+        }
+
+        public GuitarBuilder setName(String name) {
+            Guitar.this.name = name;
+            return this;
         }
 
         public GuitarBuilder setPicturePath(String picturePath) {
@@ -135,7 +147,7 @@ public class Guitar extends AbstractEntity {
             return this;
         }
 
-        public GuitarBuilder setPickupSetId(long pickupId) {
+        public GuitarBuilder setPickupId(long pickupId) {
             Guitar.this.pickupId = pickupId;
             return this;
         }
@@ -157,6 +169,7 @@ public class Guitar extends AbstractEntity {
 
         public GuitarBuilder of(Guitar guitar) {
             super.of(guitar);
+            Guitar.this.name = guitar.name;
             Guitar.this.picturePath = guitar.picturePath;
             Guitar.this.neckJoint = guitar.neckJoint;
             Guitar.this.bodyId = guitar.bodyId;
