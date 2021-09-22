@@ -44,6 +44,7 @@
         sessionStorage.removeItem('cachedNecks');
         sessionStorage.removeItem('cachedPickups');
         sessionStorage.removeItem('cachedUsers');
+
         let table = $('#guitars_table').DataTable( {
             language: {
                 <c:if test="${sessionScope.locale == 'en_US'}">
@@ -126,7 +127,7 @@
                             <option value="PICKUP_ID"><fmt:message key="admin.guitars.pickup" /></option>
                             <option value="NECK_JOINT"><fmt:message key="admin.guitars.neck_joint" /></option>
                             <option value="COLOR"><fmt:message key="admin.guitars.color" /></option>
-                            <option value="USER"><fmt:message key="admin.guitars.user" /></option>
+                            <option value="USER_ID"><fmt:message key="admin.guitars.user" /></option>
                         </select>
                         <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
                          placeholder=<fmt:message key="admin.search" />>
@@ -292,7 +293,7 @@
                             data = JSON.parse(data);
                             let mappedData = $.map(data.results, function (item) {
                                 item.id = item.entityId;
-                                item.text = item.name;
+                                item.text = item.login;
                                 return item;
                             });
                             params.page = params.page || 1;
@@ -363,7 +364,7 @@
 
         table.rows().data().each(function (value, index) {
             fetchUser(value.userId, function (entity) {
-                let userName = entity.name;
+                let userName = entity.login;
                 let cell = table.cell(index, 8).node();
                 $(cell).find('a').text(userName);
             });

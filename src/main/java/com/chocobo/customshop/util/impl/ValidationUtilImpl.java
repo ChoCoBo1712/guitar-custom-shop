@@ -2,10 +2,7 @@ package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.validator.Validator;
-import com.chocobo.customshop.model.validator.impl.UserEmailValidator;
-import com.chocobo.customshop.model.validator.impl.UserLoginValidator;
-import com.chocobo.customshop.model.validator.impl.UserPasswordValidator;
-import com.chocobo.customshop.model.validator.impl.NameValidator;
+import com.chocobo.customshop.model.validator.impl.*;
 import com.chocobo.customshop.util.ValidationUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -66,9 +63,8 @@ public class ValidationUtilImpl implements ValidationUtil {
     @Override
     public Pair<Boolean, List<String>> validateNameAndColor(String name, String color) {
         List<String> errorList = new ArrayList<>();
-        Validator<String> nameValidator = NameValidator.getInstance();
-        boolean valid = validateInsert(name, errorList, nameValidator);
-        valid &= validateInsert(color, errorList, nameValidator);
+        boolean valid = validateInsert(name, errorList, NameValidator.getInstance());
+        valid &= validateInsert(color, errorList, ColorValidator.getInstance());
         return Pair.of(valid, errorList);
     }
 
@@ -76,9 +72,8 @@ public class ValidationUtilImpl implements ValidationUtil {
     public Pair<Boolean, List<String>> validateNameAndColorUpdate(String name, String previousName, String color,
                                                                   String previousColor) {
         List<String> errorList = new ArrayList<>();
-        Validator<String> nameValidator = NameValidator.getInstance();
-        boolean valid = validateUpdate(name, previousName, errorList, nameValidator);
-        valid &= validateUpdate(color, previousColor, errorList, nameValidator);
+        boolean valid = validateUpdate(name, previousName, errorList, NameValidator.getInstance());
+        valid &= validateUpdate(color, previousColor, errorList, ColorValidator.getInstance());
         return Pair.of(valid, errorList);
     }
 

@@ -11,7 +11,7 @@ public final class SessionAttribute {
     public static final String INVALID_LOGIN_PATTERN_ERROR = "invalidLoginPatternError";
     public static final String INVALID_PASSWORD_PATTERN_ERROR = "invalidPasswordPatternError";
     public static final String INVALID_NAME_PATTERN_ERROR = "invalidNamePatternError";
-    public static final String DUPLICATE_NAME_ERROR = "duplicateNameError";
+    public static final String INVALID_COLOR_PATTERN_ERROR = "invalidColorPatternError";
 
     private SessionAttribute() {
 

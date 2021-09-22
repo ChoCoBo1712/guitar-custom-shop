@@ -24,7 +24,7 @@ public class EntryFilter implements Filter {
         request.setAttribute(INVALID_LOGIN_PATTERN_ERROR, session.getAttribute(INVALID_LOGIN_PATTERN_ERROR));
         request.setAttribute(INVALID_PASSWORD_PATTERN_ERROR, session.getAttribute(INVALID_PASSWORD_PATTERN_ERROR));
         request.setAttribute(INVALID_NAME_PATTERN_ERROR, session.getAttribute(INVALID_NAME_PATTERN_ERROR));
-        request.setAttribute(DUPLICATE_NAME_ERROR, session.getAttribute(DUPLICATE_NAME_ERROR));
+        request.setAttribute(INVALID_COLOR_PATTERN_ERROR, session.getAttribute(INVALID_COLOR_PATTERN_ERROR));
 
         session.removeAttribute(LOGIN_ERROR);
         session.removeAttribute(DUPLICATE_EMAIL_ERROR);
@@ -33,7 +33,7 @@ public class EntryFilter implements Filter {
         session.removeAttribute(INVALID_LOGIN_PATTERN_ERROR);
         session.removeAttribute(INVALID_PASSWORD_PATTERN_ERROR);
         session.removeAttribute(INVALID_NAME_PATTERN_ERROR);
-        session.removeAttribute(DUPLICATE_NAME_ERROR);
+        session.removeAttribute(INVALID_COLOR_PATTERN_ERROR);
 
         chain.doFilter(request, response);
     }
