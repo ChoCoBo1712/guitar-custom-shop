@@ -69,7 +69,7 @@
             columns: [
                 { data: 'entityId'},
                 { data: 'name'},
-                { data: 'picture'},
+                { data: 'picturePath'},
                 {
                     data: null,
                     render: function (row) {
@@ -415,7 +415,7 @@
         } else {
             $.ajax({
                 method: 'GET',
-                url: '/controller?command=get_necls',
+                url: '/controller?command=get_necks',
                 data: {
                     id: id,
                     requestType: 'FETCH'

@@ -13,7 +13,7 @@ public class GuitarDaoImpl implements GuitarDao {
 
     private static final String INSERT =
             "INSERT INTO guitars(name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            "VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String UPDATE =
             "UPDATE guitars " +
@@ -147,12 +147,33 @@ public class GuitarDaoImpl implements GuitarDao {
 
     @Override
     public long insert(Guitar entity) throws DaoException {
-        return executeInsert(INSERT, entity);
+        return executeInsert(
+                INSERT,
+                entity.getName(),
+                entity.getPicturePath(),
+                entity.getBodyId(),
+                entity.getNeckId(),
+                entity.getPickupId(),
+                entity.getUserId(),
+                entity.getColor(),
+                entity.getNeckJoint().toString()
+        );
     }
 
     @Override
     public void update(Guitar entity) throws DaoException {
-        executeUpdateOrDelete(UPDATE, entity);
+        executeUpdateOrDelete(
+                UPDATE,
+                entity.getName(),
+                entity.getPicturePath(),
+                entity.getBodyId(),
+                entity.getNeckId(),
+                entity.getPickupId(),
+                entity.getUserId(),
+                entity.getColor(),
+                entity.getNeckJoint().toString(),
+                entity.getEntityId()
+        );
     }
 
     @Override

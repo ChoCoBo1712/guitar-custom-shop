@@ -204,7 +204,7 @@
                         data = JSON.parse(data);
                         let mappedData = $.map(data.results, function (item) {
                             item.id = item.entityId;
-                            item.text = item.name;
+                            item.text = item.login;
                             return item;
                         });
                         params.page = params.page || 1;
@@ -220,28 +220,28 @@
             });
 
             if (!isNaN(Number.parseInt(bodyId))) {
-                fetchBody(woodId, function (entity) {
+                fetchBody(bodyId, function (entity) {
                     let option = new Option(entity.name, entity.entityId);
                     bodySelect.append(option).trigger('change');
                 });
             }
 
             if (!isNaN(Number.parseInt(neckId))) {
-                fetchNeck(fretboardWoodId, function (entity) {
+                fetchNeck(neckId, function (entity) {
                     let option = new Option(entity.name, entity.entityId);
                     neckSelect.append(option).trigger('change');
                 });
             }
 
             if (!isNaN(Number.parseInt(pickupId))) {
-                fetchPickup(fretboardWoodId, function (entity) {
+                fetchPickup(pickupId, function (entity) {
                     let option = new Option(entity.name, entity.entityId);
                     pickupSelect.append(option).trigger('change');
                 });
             }
 
             if (!isNaN(Number.parseInt(userId))) {
-                fetchUser(fretboardWoodId, function (entity) {
+                fetchUser(userId, function (entity) {
                     let option = new Option(entity.login, entity.entityId);
                     userSelect.append(option).trigger('change');
                 });
@@ -291,7 +291,7 @@
                 } else {
                     $.ajax({
                         method: 'GET',
-                        url: '/controller?command=get_necls',
+                        url: '/controller?command=get_necks',
                         data: {
                             id: id,
                             requestType: 'FETCH'

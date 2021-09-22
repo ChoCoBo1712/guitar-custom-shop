@@ -194,7 +194,7 @@
                         data = JSON.parse(data);
                         let mappedData = $.map(data.results, function (item) {
                             item.id = item.entityId;
-                            item.text = item.name;
+                            item.text = item.login;
                             return item;
                         });
                         params.page = params.page || 1;
