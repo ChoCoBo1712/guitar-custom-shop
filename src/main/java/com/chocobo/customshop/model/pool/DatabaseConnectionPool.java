@@ -73,8 +73,8 @@ public class DatabaseConnectionPool {
             poolCheckDelay = Integer.parseInt(poolProperties.getProperty(POOL_CHECK_DELAY_PROPERTY));
             poolCheckPeriod = Integer.parseInt(poolProperties.getProperty(POOL_CHECK_PERIOD_PROPERTY));
 
-            availableConnections = new ArrayBlockingQueue<>(minPoolSize);
-            usedConnections = new ArrayDeque<>(minPoolSize);
+            availableConnections = new ArrayBlockingQueue<>(maxPoolSize);
+            usedConnections = new ArrayDeque<>(maxPoolSize);
 
             for (int i = 0; i < minPoolSize; i++) {
                 Connection connection = ConnectionFactory.createConnection();
@@ -123,14 +123,15 @@ public class DatabaseConnectionPool {
         try {
             poolLock.lock();
 
+            boolean removed = false;
             try {
+                removed = usedConnections.remove(connection);
                 availableConnections.put(connection);
             } catch (InterruptedException e) {
                 logger.error("Unexpected exception", e);
                 Thread.currentThread().interrupt();
             }
-
-            return usedConnections.remove(connection);
+            return removed;
         } finally {
             poolLock.unlock();
         }
@@ -141,19 +142,16 @@ public class DatabaseConnectionPool {
             poolLock.lock();
             for (int i = 0; i < availableConnections.size(); i++) {
                 try {
-                    ProxyConnection connection = (ProxyConnection) availableConnections.take();
+                    ProxyConnection connection = (ProxyConnection) availableConnections.remove();
                     connection.closeInnerConnection();
                 } catch (SQLException e) {
                     logger.error("Failed to close connection", e);
-                } catch (InterruptedException e) {
-                    logger.error("Unexpected exception", e);
-                    Thread.currentThread().interrupt();
                 }
             }
 
             for (int i = 0; i < usedConnections.size(); i++) {
-                ProxyConnection connection = (ProxyConnection) usedConnections.remove();
                 try {
+                    ProxyConnection connection = (ProxyConnection) usedConnections.remove();
                     connection.closeInnerConnection();
                 } catch (SQLException e) {
                     logger.error("Failed to close connection", e);

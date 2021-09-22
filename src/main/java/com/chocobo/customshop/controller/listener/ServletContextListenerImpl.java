@@ -19,7 +19,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        DatabaseConnectionPool.getInstance().destroy();
         logger.info("Connection pool destroyed");
+        DatabaseConnectionPool.getInstance().destroy();
     }
 }

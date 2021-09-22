@@ -39,8 +39,8 @@ public class PoolTimerTask extends TimerTask {
                     long lifetimeDuration = Duration.between(lifetimeStart, currentTimestamp).toMillis();
 
                     if (lifetimeDuration >= connectionLifetime) {
+                        availableConnections.remove(connection);
                         proxyConnection.closeInnerConnection();
-                        availableConnections.take();
                     }
 
                     if (availableConnections.size() == minPoolSize) {
@@ -53,17 +53,12 @@ public class PoolTimerTask extends TimerTask {
                     availableConnections.add(ConnectionFactory.createConnection());
                 }
             }
-
         } catch (SQLException e) {
             logger.error("Failed to close connection", e);
-        } catch (InterruptedException e) {
-            logger.error("Unexpected exception", e);
-            Thread.currentThread().interrupt();
         } catch (DatabaseConnectionException e) {
             logger.error("Failed to establish connection", e);
         } finally {
             poolLock.unlock();
         }
     }
-
 }
