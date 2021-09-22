@@ -27,7 +27,7 @@
         <br>
         <select name="tuner" id="tuner_select">
             <option selected value="NON_LOCKING">NON_LOCKING</option>
-            <option value="LOCKING" selected>LOCKING</option>
+            <option value="LOCKING">LOCKING</option>
         </select>
         <br>
         <select name="woodId" id="woodSelect" required></select>
@@ -39,10 +39,6 @@
 
     <c:if test="${requestScope.invalidNamePatternError}">
         <p><fmt:message key="error.invalid_name" /></p>
-    </c:if>
-
-    <c:if test="${requestScope.duplicateNameError}">
-        <p><fmt:message key="error.duplicate_name" /></p>
     </c:if>
 
     <jsp:include page="../shared/footer.jsp" />

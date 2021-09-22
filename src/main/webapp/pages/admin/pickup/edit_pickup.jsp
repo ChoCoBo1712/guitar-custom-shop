@@ -24,10 +24,6 @@
     <p><fmt:message key="error.invalid_name" /></p>
 </c:if>
 
-<c:if test="${requestScope.duplicateNameError}">
-    <p><fmt:message key="error.duplicate_name" /></p>
-</c:if>
-
 <jsp:include page="../shared/footer.jsp" />
 
 </body>
