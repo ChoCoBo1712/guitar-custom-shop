@@ -21,13 +21,12 @@
 <body>
     <jsp:include page="../shared/header.jsp" />
 
-    <form action="${pageContext.request.contextPath}/controller?command=update_guitar" method="post">
+    <form action="${pageContext.request.contextPath}/controller?command=update_guitar" method="post" enctype="multipart/form-data">
         <input type="text" name="id" value="${requestScope.guitar.entityId}" hidden>
         <input type="text" name="name" value="${requestScope.guitar.name}"
                placeholder=<fmt:message key="placeholder.name" /> required pattern="[a-zA-Z0-9\s\-]{1,30}">
         <br>
-        <input type="text" name="picturePath" value="${requestScope.guitar.picturePath}"
-               placeholder=<fmt:message key="placeholder.picture_path" /> required pattern="[a-zA-Z0-9\s\-]{1,30}">
+        <input type="file" name="picturePath">
         <br>
         <select name="bodyId" id="bodySelect" required></select>
         <br>
@@ -36,9 +35,9 @@
         <select name="pickupId" id="pickupSelect" required></select>
         <br>
         <select name="neckJoint" id="neck_joint_select">
-            <option value="BOLT_ON">NON_LOCKING</option>
-            <option value="SET_NECK">LOCKING</option>
-            <option value="NECK_THROUGH">LOCKING</option>
+            <option value="BOLT_ON">BOLT_ON</option>
+            <option value="SET_NECK">SET_NECK</option>
+            <option value="NECK_THROUGH">NECK_THROUGH</option>
         </select>
         <br>
         <input type="text" name="color" value="${requestScope.guitar.color}"

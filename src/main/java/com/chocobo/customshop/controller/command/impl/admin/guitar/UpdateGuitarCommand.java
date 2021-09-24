@@ -6,19 +6,20 @@ import com.chocobo.customshop.controller.command.RequestAttribute;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Guitar;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
-import com.chocobo.customshop.model.entity.Neck;
 import com.chocobo.customshop.model.service.GuitarService;
-import com.chocobo.customshop.model.service.NeckService;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
-import com.chocobo.customshop.model.service.impl.NeckServiceImpl;
 import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
 import com.chocobo.customshop.util.impl.ValidationUtilImpl;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,6 @@ public class UpdateGuitarCommand implements Command {
         long userId = Long.parseLong(request.getParameter(USER_ID));
         String color = request.getParameter(COLOR);
         NeckJoint neckJoint = NeckJoint.valueOf(request.getParameter(NECK_JOINT));
-        String picturePath = request.getParameter(PICTURE_PATH);
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
 
         CommandResult result;
@@ -59,6 +59,9 @@ public class UpdateGuitarCommand implements Command {
                 Pair<Boolean, List<String>> validationResult = validationUtil
                         .validateNameAndColorUpdate(name, previousName, color, previousColor);
                 if (validationResult.getLeft()) {
+                    Part part = request.getPart(PICTURE_PATH);
+                    String picturePath = ImageUploadUtilImpl.getInstance().uploadImage(part);
+
                     Guitar updatedGuitar = Guitar.builder().of(guitar)
                             .setName(name)
                             .setBodyId(bodyId)
@@ -84,6 +87,9 @@ public class UpdateGuitarCommand implements Command {
         } catch (ServiceException e) {
             logger.error("An error occurred during update guitar command execution", e);
             return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
+        } catch (ServletException | IOException e) {
+            logger.error("An error occurred during uploading file", e);
+            result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
         return result;
     }

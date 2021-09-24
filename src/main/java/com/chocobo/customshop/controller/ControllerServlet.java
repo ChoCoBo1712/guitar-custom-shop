@@ -4,6 +4,7 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandProvider;
 import com.chocobo.customshop.controller.command.CommandResult;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -19,7 +21,13 @@ import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 @WebServlet(urlPatterns = "/controller")
-public class Controller extends HttpServlet {
+@MultipartConfig(
+        fileSizeThreshold = 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10
+)
+public class ControllerServlet extends HttpServlet {
+
 
     private static final Logger logger = LogManager.getLogger();
 

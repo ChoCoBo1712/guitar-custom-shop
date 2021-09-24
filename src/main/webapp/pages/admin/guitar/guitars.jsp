@@ -69,7 +69,12 @@
             columns: [
                 { data: 'entityId'},
                 { data: 'name'},
-                { data: 'picturePath'},
+                {
+                    data: 'picturePath',
+                    render: function (data) {
+                        return '<img src="'+ data +'" alt="Guitar picture">'
+                    }
+                },
                 {
                     data: null,
                     render: function (row) {

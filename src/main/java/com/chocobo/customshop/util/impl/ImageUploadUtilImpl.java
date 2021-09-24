@@ -1,0 +1,62 @@
+package com.chocobo.customshop.util.impl;
+
+import com.chocobo.customshop.exception.ServiceException;
+import com.chocobo.customshop.util.ImageUploadUtil;
+import jakarta.servlet.http.Part;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+public class ImageUploadUtilImpl implements ImageUploadUtil {
+
+    private static final Logger logger = LogManager.getLogger();
+    private static ImageUploadUtil instance;
+
+    private static final String DEFAULT_IMAGE_NAME = "default.jpg";
+    private static final String IMAGE_URL = "controller/images/";
+    private static final String UPLOAD_PROPERTIES_NAME = "properties/upload.properties";
+    private static final String DIRECTORY_PROPERTY = "directory";
+
+    private static final Properties uploadProperties;
+    public static final String uploadDirectory;
+
+    static {
+        ClassLoader classLoader = MailUtilImpl.class.getClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream(UPLOAD_PROPERTIES_NAME)) {
+            uploadProperties = new Properties();
+            uploadProperties.load(inputStream);
+            uploadDirectory = uploadProperties.getProperty(DIRECTORY_PROPERTY);
+        } catch (IOException e) {
+            logger.fatal("Couldn't read upload properties file", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ImageUploadUtil getInstance() {
+        if (instance == null) {
+            instance = new ImageUploadUtilImpl();
+        }
+        return instance;
+    }
+
+    @Override
+    public String uploadImage(Part part) throws ServiceException {
+        String picturePath;
+        if (!part.getName().isEmpty()) {
+            try {
+                part.write(uploadDirectory + part.getSubmittedFileName());
+                picturePath = IMAGE_URL + part.getSubmittedFileName();
+            } catch (IOException e) {
+                logger.error("An error occurred during uploading file", e);
+                throw new ServiceException(e);
+            }
+        } else {
+            picturePath = IMAGE_URL + DEFAULT_IMAGE_NAME;
+            logger.info("Default image is chosen");
+        }
+        return picturePath;
+    }
+}
