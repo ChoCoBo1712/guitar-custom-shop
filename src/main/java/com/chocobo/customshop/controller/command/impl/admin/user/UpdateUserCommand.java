@@ -9,15 +9,12 @@ import com.chocobo.customshop.model.entity.User.UserStatus;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
-import com.chocobo.customshop.model.validator.impl.PartValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;

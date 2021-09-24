@@ -7,19 +7,16 @@ import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
-import com.chocobo.customshop.model.validator.impl.PartValidator;
+import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
@@ -27,7 +24,6 @@ import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_GU
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_GUITARS_URL;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
-import static com.chocobo.customshop.model.validator.Validator.SERVICE_EXCEPTION;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateGuitarCommand implements Command {
@@ -53,7 +49,7 @@ public class CreateGuitarCommand implements Command {
 
             boolean valid = NameValidator.getInstance().validate(name);
             valid &= NameValidator.getInstance().validate(color);
-            valid &= PartValidator.getInstance().validate(part);
+            valid &= ImagePartValidator.getInstance().validate(part);
 
             if (valid) {
                 String picturePath = ImageUploadUtilImpl.getInstance().uploadImage(part);

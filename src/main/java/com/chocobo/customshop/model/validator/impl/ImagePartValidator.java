@@ -4,7 +4,7 @@ import com.chocobo.customshop.model.validator.Validator;
 import jakarta.servlet.http.Part;
 import org.apache.commons.lang3.StringUtils;
 
-public class PartValidator implements Validator<Part> {
+public class ImagePartValidator implements Validator<Part> {
 
     private static Validator<Part> instance;
 
@@ -13,7 +13,7 @@ public class PartValidator implements Validator<Part> {
 
     public static Validator<Part> getInstance() {
         if (instance == null) {
-            instance = new PartValidator();
+            instance = new ImagePartValidator();
         }
         return instance;
     }

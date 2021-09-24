@@ -9,20 +9,17 @@ import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.GuitarService;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
-import com.chocobo.customshop.model.validator.impl.PartValidator;
+import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
@@ -30,7 +27,6 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
-import static com.chocobo.customshop.model.validator.Validator.SERVICE_EXCEPTION;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -63,7 +59,7 @@ public class UpdateGuitarCommand implements Command {
 
                 boolean valid = StringUtils.equals(name, previousName) || NameValidator.getInstance().validate(name);
                 valid &= StringUtils.equals(color, previousColor) || NameValidator.getInstance().validate(color);
-                valid &= PartValidator.getInstance().validate(part);
+                valid &= ImagePartValidator.getInstance().validate(part);
 
                 if (valid) {
                     String picturePath = ImageUploadUtilImpl.getInstance().uploadImage(part);
