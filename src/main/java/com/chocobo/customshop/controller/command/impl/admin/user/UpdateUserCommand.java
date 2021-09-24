@@ -8,10 +8,11 @@ import com.chocobo.customshop.model.entity.User.UserRole;
 import com.chocobo.customshop.model.entity.User.UserStatus;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
-import com.chocobo.customshop.util.ValidationUtil;
-import com.chocobo.customshop.util.impl.ValidationUtilImpl;
+import com.chocobo.customshop.model.validator.impl.NameValidator;
+import com.chocobo.customshop.model.validator.impl.PartValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,7 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -48,10 +50,28 @@ public class UpdateUserCommand implements Command {
                 User user = optionalUser.get();
                 String previousEmail = user.getEmail();
                 String previousLogin = user.getLogin();
-                ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-                Pair<Boolean, List<String>> validationResult = validationUtil
-                        .validateUserUpdate(email, login, previousEmail, previousLogin);
-                if (validationResult.getLeft()) {
+
+                boolean emailsMatch = StringUtils.equals(email, previousEmail);
+                boolean loginsMatch = StringUtils.equals(login, previousLogin);
+
+                boolean valid = emailsMatch || NameValidator.getInstance().validate(email);
+                valid &= loginsMatch || NameValidator.getInstance().validate(login);
+
+                if (valid) {
+                    boolean duplicate = false;
+
+                    if (!emailsMatch && !userService.isEmailUnique(email)) {
+                        duplicate = true;
+                        session.setAttribute(DUPLICATE_EMAIL_ERROR, true);
+                    }
+                    if (!loginsMatch && !userService.isLoginUnique(login)) {
+                        duplicate = true;
+                        session.setAttribute(DUPLICATE_LOGIN_ERROR, true);
+                    }
+                    if (duplicate) {
+                        return new CommandResult(ADMIN_CREATE_USER_URL, REDIRECT);
+                    }
+
                     User updatedUser = User.builder().of(user)
                             .setEmail(email)
                             .setLogin(login)
@@ -61,8 +81,7 @@ public class UpdateUserCommand implements Command {
                     userService.update(updatedUser);
                     result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
                 } else {
-                    List<String> errorAttributesList = validationResult.getRight();
-                    errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                    session.setAttribute(VALIDATION_ERROR, true);
                     String currentEditPageUrl = ADMIN_EDIT_USER_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
                     result = new CommandResult(currentEditPageUrl, REDIRECT);
                 }

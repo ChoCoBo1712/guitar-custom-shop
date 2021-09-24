@@ -6,10 +6,10 @@ import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.WoodService;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
-import com.chocobo.customshop.util.ValidationUtil;
-import com.chocobo.customshop.util.impl.ValidationUtilImpl;
+import com.chocobo.customshop.model.validator.impl.NameValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +23,7 @@ import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.PagePath.EQUALS_SIGN;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.ENTITY_ID;
+import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -44,17 +45,17 @@ public class UpdateWoodCommand implements Command {
             if (optionalWood.isPresent()) {
                 Wood wood = optionalWood.get();
                 String previousName = wood.getName();
-                ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-                Pair<Boolean, List<String>> validationResult = validationUtil.validateNameUpdate(name, previousName);
-                if (validationResult.getLeft()) {
+
+                boolean valid = StringUtils.equals(name, previousName) || NameValidator.getInstance().validate(name);
+
+                if (valid) {
                     Wood updatedWood = Wood.builder().of(wood)
                             .setName(name)
                             .build();
                     woodService.update(updatedWood);
                     result = new CommandResult(ADMIN_WOODS_URL, REDIRECT);
                 } else {
-                    List<String> errorAttributesList = validationResult.getRight();
-                    errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                    session.setAttribute(VALIDATION_ERROR, true);
                     String currentEditPageUrl = ADMIN_EDIT_WOOD_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
                     result = new CommandResult(currentEditPageUrl, REDIRECT);
                 }

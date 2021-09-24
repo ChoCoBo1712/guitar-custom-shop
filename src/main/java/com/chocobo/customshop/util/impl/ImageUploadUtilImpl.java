@@ -3,6 +3,8 @@ package com.chocobo.customshop.util.impl;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.util.ImageUploadUtil;
 import jakarta.servlet.http.Part;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,12 +18,14 @@ public class ImageUploadUtilImpl implements ImageUploadUtil {
     private static ImageUploadUtil instance;
 
     private static final String DEFAULT_IMAGE_NAME = "default.jpg";
-    private static final String IMAGE_URL = "controller/images/";
+    private static final String IMAGES_URL = "images/";
     private static final String UPLOAD_PROPERTIES_NAME = "properties/upload.properties";
     private static final String DIRECTORY_PROPERTY = "directory";
+    private static final String RANDOM_STRING_LENGTH_PROPERTY = "randomStringLength";
 
     private static final Properties uploadProperties;
     public static final String uploadDirectory;
+    public static final int randomStringLength;
 
     static {
         ClassLoader classLoader = MailUtilImpl.class.getClassLoader();
@@ -29,6 +33,7 @@ public class ImageUploadUtilImpl implements ImageUploadUtil {
             uploadProperties = new Properties();
             uploadProperties.load(inputStream);
             uploadDirectory = uploadProperties.getProperty(DIRECTORY_PROPERTY);
+            randomStringLength = Integer.parseInt(uploadProperties.getProperty(RANDOM_STRING_LENGTH_PROPERTY));
         } catch (IOException e) {
             logger.fatal("Couldn't read upload properties file", e);
             throw new RuntimeException(e);
@@ -45,16 +50,18 @@ public class ImageUploadUtilImpl implements ImageUploadUtil {
     @Override
     public String uploadImage(Part part) throws ServiceException {
         String picturePath;
-        if (!part.getName().isEmpty()) {
+        String fileName = part.getSubmittedFileName();
+        if (!fileName.isEmpty()) {
             try {
-                part.write(uploadDirectory + part.getSubmittedFileName());
-                picturePath = IMAGE_URL + part.getSubmittedFileName();
+                String randomName = RandomStringUtils.randomAlphanumeric(randomStringLength) + fileName;
+                part.write(uploadDirectory + randomName);
+                picturePath = IMAGES_URL + randomName;
             } catch (IOException e) {
                 logger.error("An error occurred during uploading file", e);
                 throw new ServiceException(e);
             }
         } else {
-            picturePath = IMAGE_URL + DEFAULT_IMAGE_NAME;
+            picturePath = IMAGES_URL + DEFAULT_IMAGE_NAME;
             logger.info("Default image is chosen");
         }
         return picturePath;

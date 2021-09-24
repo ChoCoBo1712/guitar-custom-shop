@@ -8,18 +8,20 @@ import com.chocobo.customshop.model.entity.Guitar;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.GuitarService;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
-import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.model.validator.impl.NameValidator;
+import com.chocobo.customshop.model.validator.impl.PartValidator;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
-import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,8 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
+import static com.chocobo.customshop.model.validator.Validator.SERVICE_EXCEPTION;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -52,16 +56,17 @@ public class UpdateGuitarCommand implements Command {
         try {
             Optional<Guitar> optionalGuitar = guitarService.findById(entityId);
             if (optionalGuitar.isPresent()) {
+                Part part = request.getPart(PICTURE_PATH);
                 Guitar guitar = optionalGuitar.get();
                 String previousName = guitar.getName();
                 String previousColor = guitar.getColor();
-                ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-                Pair<Boolean, List<String>> validationResult = validationUtil
-                        .validateNameAndColorUpdate(name, previousName, color, previousColor);
-                if (validationResult.getLeft()) {
-                    Part part = request.getPart(PICTURE_PATH);
-                    String picturePath = ImageUploadUtilImpl.getInstance().uploadImage(part);
 
+                boolean valid = StringUtils.equals(name, previousName) || NameValidator.getInstance().validate(name);
+                valid &= StringUtils.equals(color, previousColor) || NameValidator.getInstance().validate(color);
+                valid &= PartValidator.getInstance().validate(part);
+
+                if (valid) {
+                    String picturePath = ImageUploadUtilImpl.getInstance().uploadImage(part);
                     Guitar updatedGuitar = Guitar.builder().of(guitar)
                             .setName(name)
                             .setBodyId(bodyId)
@@ -75,8 +80,7 @@ public class UpdateGuitarCommand implements Command {
                     guitarService.update(updatedGuitar);
                     result = new CommandResult(ADMIN_GUITARS_URL, REDIRECT);
                 } else {
-                    List<String> errorAttributesList = validationResult.getRight();
-                    errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                    session.setAttribute(VALIDATION_ERROR, true);
                     String currentEditPageUrl = ADMIN_EDIT_GUITAR_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
                     result = new CommandResult(currentEditPageUrl, REDIRECT);
                 }

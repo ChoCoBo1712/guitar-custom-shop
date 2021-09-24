@@ -7,10 +7,10 @@ import com.chocobo.customshop.model.entity.Neck;
 import com.chocobo.customshop.model.entity.Neck.Tuner;
 import com.chocobo.customshop.model.service.NeckService;
 import com.chocobo.customshop.model.service.impl.NeckServiceImpl;
-import com.chocobo.customshop.util.ValidationUtil;
-import com.chocobo.customshop.util.impl.ValidationUtilImpl;
+import com.chocobo.customshop.model.validator.impl.NameValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +22,7 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -46,9 +47,10 @@ public class UpdateNeckCommand implements Command {
             if (optionalNeck.isPresent()) {
                 Neck neck = optionalNeck.get();
                 String previousName = neck.getName();
-                ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-                Pair<Boolean, List<String>> validationResult = validationUtil.validateNameUpdate(name, previousName);
-                if (validationResult.getLeft()) {
+
+                boolean valid = StringUtils.equals(name, previousName) || NameValidator.getInstance().validate(name);
+
+                if (valid) {
                     Neck updatedNeck = Neck.builder().of(neck)
                             .setName(name)
                             .setTuner(tuner)
@@ -58,8 +60,7 @@ public class UpdateNeckCommand implements Command {
                     neckService.update(updatedNeck);
                     result = new CommandResult(ADMIN_NECKS_URL, REDIRECT);
                 } else {
-                    List<String> errorAttributesList = validationResult.getRight();
-                    errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                    session.setAttribute(VALIDATION_ERROR, true);
                     String currentEditPageUrl = ADMIN_EDIT_NECK_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
                     result = new CommandResult(currentEditPageUrl, REDIRECT);
                 }

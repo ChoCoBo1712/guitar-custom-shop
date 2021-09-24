@@ -19,13 +19,15 @@
     </c:if>
 </head>
 <body>
+
     <jsp:include page="../shared/header.jsp" />
 
-    <form action="${pageContext.request.contextPath}/controller?command=create_guitar" method="post" enctype="multipart/form-data">
+    <form id="create_guitar_form" action="${pageContext.request.contextPath}/controller?command=create_guitar"
+          method="post" enctype="multipart/form-data">
         <input type="text" name="name" placeholder=<fmt:message key="placeholder.name" /> required
                pattern="[a-zA-Z0-9\s\-]{1,30}">
         <br>
-        <input type="file" name="picturePath">
+        <input type="file" name="picturePath" id="file_input" accept="image/png, image/jpeg">
         <br>
         <select name="bodyId" id="bodySelect" required></select>
         <br>
@@ -47,12 +49,8 @@
         <input type="submit" value=<fmt:message key="admin.create" />>
     </form>
 
-    <c:if test="${requestScope.invalidNamePatternError}">
-        <p><fmt:message key="error.invalid_name" /></p>
-    </c:if>
-
-    <c:if test="${requestScope.invalidColorPatternError}">
-        <p><fmt:message key="error.invalid_color" /></p>
+    <c:if test="${requestScope.validationError}">
+        <p><fmt:message key="error.validation_error" /></p>
     </c:if>
 
     <jsp:include page="../shared/footer.jsp" />
@@ -206,6 +204,20 @@
                         }
                     }
                 }
+            });
+
+            let form = $('#create_guitar_form');
+            form.submit( function () {
+                let fileInput = $('#file_input');
+                let files = fileInput.prop('files');
+                for (let i = 0; i < files.length; i++) {
+                    let type = files[i].type;
+                    if (type !== "image/jpeg" && type !== "image/png") {
+                        alert('Invalid file type! Choose .png or .jpeg file.')
+                        return false;
+                    }
+                }
+                return true;
             });
         });
     </script>

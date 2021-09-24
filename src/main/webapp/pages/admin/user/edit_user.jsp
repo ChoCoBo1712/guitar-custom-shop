@@ -34,20 +34,16 @@
         <input type="submit" value=<fmt:message key="admin.edit" />>
     </form>
 
-    <c:if test="${requestScope.invalidEmailPatternError}">
-        <p><fmt:message key="error.invalid_email" /></p>
-    </c:if>
-
     <c:if test="${requestScope.duplicateEmailError}">
         <p><fmt:message key="error.duplicate_email" /></p>
     </c:if>
 
-    <c:if test="${requestScope.invalidLoginPatternError}">
-        <p><fmt:message key="error.invalid_login" /></p>
-    </c:if>
-
     <c:if test="${requestScope.duplicateLoginError}">
         <p><fmt:message key="error.duplicate_login" /></p>
+    </c:if>
+
+    <c:if test="${requestScope.validationError}">
+        <p><fmt:message key="error.validation_error" /></p>
     </c:if>
 
     <jsp:include page="../shared/footer.jsp" />

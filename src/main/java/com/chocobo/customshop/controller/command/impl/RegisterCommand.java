@@ -3,13 +3,15 @@ package com.chocobo.customshop.controller.command.impl;
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
+import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
+import com.chocobo.customshop.model.validator.impl.EmailValidator;
+import com.chocobo.customshop.model.validator.impl.LoginValidator;
+import com.chocobo.customshop.model.validator.impl.PasswordValidator;
 import com.chocobo.customshop.util.MailUtil;
 import com.chocobo.customshop.util.TokenUtil;
-import com.chocobo.customshop.util.ValidationUtil;
 import com.chocobo.customshop.util.impl.MailUtilImpl;
 import com.chocobo.customshop.util.impl.TokenUtilImpl;
-import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.tuple.Pair;
@@ -20,9 +22,9 @@ import java.util.List;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.controller.command.PagePath.REGISTER_SUCCESS_URL;
-import static com.chocobo.customshop.controller.command.PagePath.REGISTER_URL;
+import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static com.chocobo.customshop.model.entity.User.UserRole.CLIENT;
 import static com.chocobo.customshop.model.entity.User.UserStatus.NOT_CONFIRMED;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -47,9 +49,26 @@ public class RegisterCommand implements Command {
 
         CommandResult result;
         try {
-            ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login, password);
-            if (validationResult.getLeft()) {
+            boolean valid = EmailValidator.getInstance().validate(email);
+            valid &= LoginValidator.getInstance().validate(login);
+            valid &= PasswordValidator.getInstance().validate(password);
+
+            if (valid) {
+                UserService userService = UserServiceImpl.getInstance();
+                boolean duplicate = false;
+
+                if (!userService.isEmailUnique(email)) {
+                    duplicate = true;
+                    session.setAttribute(DUPLICATE_EMAIL_ERROR, true);
+                }
+                if (!userService.isLoginUnique(login)) {
+                    duplicate = true;
+                    session.setAttribute(DUPLICATE_LOGIN_ERROR, true);
+                }
+                if (duplicate) {
+                    return new CommandResult(ADMIN_CREATE_USER_URL, REDIRECT);
+                }
+
                 long userId = UserServiceImpl.getInstance().register(email, login, password, CLIENT, NOT_CONFIRMED);
 
                 MailUtil mailUtil = MailUtilImpl.getInstance();
@@ -64,8 +83,7 @@ public class RegisterCommand implements Command {
                 mailUtil.sendMail(email, mailSubject, mailBody);
                 result = new CommandResult(REGISTER_SUCCESS_URL, REDIRECT);
             } else {
-                List<String> errorAttributesList = validationResult.getRight();
-                errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                session.setAttribute(VALIDATION_ERROR, true);
                 result = new CommandResult(REGISTER_URL, REDIRECT);
             }
         } catch (ServiceException e) {

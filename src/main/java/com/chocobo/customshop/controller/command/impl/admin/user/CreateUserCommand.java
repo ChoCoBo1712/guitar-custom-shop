@@ -5,9 +5,9 @@ import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User.UserRole;
 import com.chocobo.customshop.model.entity.User.UserStatus;
+import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
-import com.chocobo.customshop.util.ValidationUtil;
-import com.chocobo.customshop.util.impl.ValidationUtilImpl;
+import com.chocobo.customshop.model.validator.impl.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.tuple.Pair;
@@ -21,6 +21,7 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_USER_URL;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_USERS_URL;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateUserCommand implements Command {
@@ -39,14 +40,30 @@ public class CreateUserCommand implements Command {
 
         CommandResult result;
         try {
-            ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationUtil.validateUserCreation(email, login, password);
-            if (validationResult.getLeft()) {
-                UserServiceImpl.getInstance().register(email, login, password, role, status);
+            boolean valid = EmailValidator.getInstance().validate(email);
+            valid &= LoginValidator.getInstance().validate(login);
+            valid &= PasswordValidator.getInstance().validate(password);
+
+            if (valid) {
+                UserService userService = UserServiceImpl.getInstance();
+                boolean duplicate = false;
+
+                if (!userService.isEmailUnique(email)) {
+                    duplicate = true;
+                    session.setAttribute(DUPLICATE_EMAIL_ERROR, true);
+                }
+                if (!userService.isLoginUnique(login)) {
+                    duplicate = true;
+                    session.setAttribute(DUPLICATE_LOGIN_ERROR, true);
+                }
+                if (duplicate) {
+                    return new CommandResult(ADMIN_CREATE_USER_URL, REDIRECT);
+                }
+
+                userService.register(email, login, password, role, status);
                 result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
             } else {
-                List<String> errorAttributesList = validationResult.getRight();
-                errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                session.setAttribute(VALIDATION_ERROR, true);
                 result = new CommandResult(ADMIN_CREATE_USER_URL, REDIRECT);
             }
         } catch (ServiceException e) {

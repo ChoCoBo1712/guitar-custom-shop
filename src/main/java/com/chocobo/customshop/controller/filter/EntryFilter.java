@@ -20,20 +20,12 @@ public class EntryFilter implements Filter {
         request.setAttribute(LOGIN_ERROR, session.getAttribute(LOGIN_ERROR));
         request.setAttribute(DUPLICATE_EMAIL_ERROR, session.getAttribute(DUPLICATE_EMAIL_ERROR));
         request.setAttribute(DUPLICATE_LOGIN_ERROR, session.getAttribute(DUPLICATE_LOGIN_ERROR));
-        request.setAttribute(INVALID_EMAIL_PATTERN_ERROR, session.getAttribute(INVALID_EMAIL_PATTERN_ERROR));
-        request.setAttribute(INVALID_LOGIN_PATTERN_ERROR, session.getAttribute(INVALID_LOGIN_PATTERN_ERROR));
-        request.setAttribute(INVALID_PASSWORD_PATTERN_ERROR, session.getAttribute(INVALID_PASSWORD_PATTERN_ERROR));
-        request.setAttribute(INVALID_NAME_PATTERN_ERROR, session.getAttribute(INVALID_NAME_PATTERN_ERROR));
-        request.setAttribute(INVALID_COLOR_PATTERN_ERROR, session.getAttribute(INVALID_COLOR_PATTERN_ERROR));
+        request.setAttribute(VALIDATION_ERROR, session.getAttribute(VALIDATION_ERROR));
 
         session.removeAttribute(LOGIN_ERROR);
         session.removeAttribute(DUPLICATE_EMAIL_ERROR);
         session.removeAttribute(DUPLICATE_LOGIN_ERROR);
-        session.removeAttribute(INVALID_EMAIL_PATTERN_ERROR);
-        session.removeAttribute(INVALID_LOGIN_PATTERN_ERROR);
-        session.removeAttribute(INVALID_PASSWORD_PATTERN_ERROR);
-        session.removeAttribute(INVALID_NAME_PATTERN_ERROR);
-        session.removeAttribute(INVALID_COLOR_PATTERN_ERROR);
+        session.removeAttribute(VALIDATION_ERROR);
 
         chain.doFilter(request, response);
     }

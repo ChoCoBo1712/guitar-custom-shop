@@ -1,11 +1,8 @@
 package com.chocobo.customshop.model.validator.impl;
 
 import com.chocobo.customshop.model.validator.Validator;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.regex.Pattern;
-
-import static com.chocobo.customshop.controller.command.SessionAttribute.INVALID_COLOR_PATTERN_ERROR;
 
 public class ColorValidator implements Validator<String> {
 
@@ -21,13 +18,7 @@ public class ColorValidator implements Validator<String> {
     }
 
     @Override
-    public Pair<Boolean, String> validate(String name) {
-        boolean valid = true;
-        String error = "";
-        if (!Pattern.matches(VALID_COLOR_REGEX, name)) {
-            valid = false;
-            error = INVALID_COLOR_PATTERN_ERROR;
-        }
-        return Pair.of(valid, error);
+    public boolean validate(String name) {
+        return Pattern.matches(VALID_COLOR_REGEX, name);
     }
 }

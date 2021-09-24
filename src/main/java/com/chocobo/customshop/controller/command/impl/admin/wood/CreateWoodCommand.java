@@ -4,8 +4,7 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
-import com.chocobo.customshop.util.ValidationUtil;
-import com.chocobo.customshop.util.impl.ValidationUtilImpl;
+import com.chocobo.customshop.model.validator.impl.NameValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.tuple.Pair;
@@ -19,6 +18,7 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_WOOD_URL;
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_WOODS_URL;
 import static com.chocobo.customshop.controller.command.RequestAttribute.NAME;
+import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateWoodCommand implements Command {
@@ -33,14 +33,13 @@ public class CreateWoodCommand implements Command {
 
         CommandResult result;
         try {
-            ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
-            Pair<Boolean, List<String>> validationResult = validationUtil.validateName(name);
-            if (validationResult.getLeft()) {
+            boolean valid = NameValidator.getInstance().validate(name);
+
+            if (valid) {
                 WoodServiceImpl.getInstance().insert(name);
                 result = new CommandResult(ADMIN_WOODS_URL, REDIRECT);
             } else {
-                List<String> errorAttributesList = validationResult.getRight();
-                errorAttributesList.forEach(errorAttribute -> session.setAttribute(errorAttribute, true));
+                session.setAttribute(VALIDATION_ERROR, true);
                 result = new CommandResult(ADMIN_CREATE_WOOD_URL, REDIRECT);
             }
         } catch (ServiceException e) {
