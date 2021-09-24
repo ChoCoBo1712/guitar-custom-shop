@@ -8,6 +8,7 @@ import com.chocobo.customshop.model.entity.Guitar;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.GuitarService;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
+import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
@@ -56,9 +57,10 @@ public class UpdateGuitarCommand implements Command {
                 Guitar guitar = optionalGuitar.get();
                 String previousName = guitar.getName();
                 String previousColor = guitar.getColor();
+                Validator<String> nameValidator = NameValidator.getInstance();
 
-                boolean valid = StringUtils.equals(name, previousName) || NameValidator.getInstance().validate(name);
-                valid &= StringUtils.equals(color, previousColor) || NameValidator.getInstance().validate(color);
+                boolean valid = StringUtils.equals(name, previousName) || nameValidator.validate(name);
+                valid &= StringUtils.equals(color, previousColor) || nameValidator.validate(color);
                 valid &= ImagePartValidator.getInstance().validate(part);
 
                 if (valid) {

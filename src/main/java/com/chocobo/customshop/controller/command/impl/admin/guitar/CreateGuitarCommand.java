@@ -6,6 +6,7 @@ import com.chocobo.customshop.controller.command.RequestAttribute;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
+import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
@@ -46,9 +47,10 @@ public class CreateGuitarCommand implements Command {
         CommandResult result;
         try {
             Part part = request.getPart(PICTURE_PATH);
+            Validator<String> nameValidator = NameValidator.getInstance();
 
-            boolean valid = NameValidator.getInstance().validate(name);
-            valid &= NameValidator.getInstance().validate(color);
+            boolean valid = nameValidator.validate(name);
+            valid &= nameValidator.validate(color);
             valid &= ImagePartValidator.getInstance().validate(part);
 
             if (valid) {
