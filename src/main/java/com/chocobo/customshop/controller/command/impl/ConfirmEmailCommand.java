@@ -51,7 +51,6 @@ public class ConfirmEmailCommand implements Command {
                     userService.update(updatedUser);
                 }
             }
-
             return new CommandResult(ACTIVATION_SUCCESS_URL, REDIRECT);
         } catch (ServiceException e) {
             logger.error("An error occurred during confirm email command execution", e);

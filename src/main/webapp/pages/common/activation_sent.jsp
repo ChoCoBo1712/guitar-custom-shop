@@ -5,12 +5,12 @@
 
 <html>
 <head>
-    <title><fmt:message key="register_success.title" /></title>
+    <title><fmt:message key="activation_sent.title" /></title>
 </head>
 <body>
     <jsp:include page="shared/header.jsp" />
 
-    <p><fmt:message key="register_success.message" /></p>
+    <p><fmt:message key="activation_sent.message" /></p>
 
     <jsp:include page="shared/footer.jsp" />
 </body>

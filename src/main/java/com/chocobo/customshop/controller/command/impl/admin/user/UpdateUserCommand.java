@@ -22,6 +22,7 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.*;
+import static com.chocobo.customshop.controller.command.SessionAttribute.USER;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -76,6 +77,7 @@ public class UpdateUserCommand implements Command {
                             .setStatus(status)
                             .build();
                     userService.update(updatedUser);
+
                     result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
                 } else {
                     session.setAttribute(VALIDATION_ERROR, true);

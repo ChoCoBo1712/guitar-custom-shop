@@ -57,4 +57,5 @@ public enum CommandType {
     CREATE_GUITAR,
     UPDATE_GUITAR,
     DELETE_GUITAR,
+    SEND_CONFIRMATION_LINK,
 }

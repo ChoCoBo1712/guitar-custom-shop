@@ -77,6 +77,7 @@ public class CommandProvider {
         commandMap.put(CommandType.CREATE_GUITAR, new CreateGuitarCommand());
         commandMap.put(CommandType.UPDATE_GUITAR, new UpdateGuitarCommand());
         commandMap.put(CommandType.DELETE_GUITAR, new DeleteGuitarCommand());
+        commandMap.put(CommandType.SEND_CONFIRMATION_LINK, new SendConfirmationLinkCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

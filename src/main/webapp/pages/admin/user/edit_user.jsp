@@ -16,10 +16,10 @@
     <form action="${pageContext.request.contextPath}/controller?command=update_user" method="post">
         <input type="text" name="id" value="${requestScope.user.entityId}" hidden>
         <input type="email" name="email" value="${requestScope.user.email}"
-               placeholder=<fmt:message key="placeholder.email" /> required maxlength="50">
+               placeholder=<fmt:message key="placeholder.email" /> required minlength="5" maxlength="50">
         <br>
         <input type="text" name="login" value="${requestScope.user.login}"
-               placeholder=<fmt:message key="placeholder.login" /> required minlength="6" pattern="[0-9a-zA-Z]{8,20}">
+               placeholder=<fmt:message key="placeholder.login" /> required pattern="[0-9a-zA-Z]{6,20}">
         <br>
         <select name="role" id="role_select">
             <option value="ADMIN">ADMIN</option>

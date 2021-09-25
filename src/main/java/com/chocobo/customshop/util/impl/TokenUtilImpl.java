@@ -77,6 +77,5 @@ public class TokenUtilImpl implements TokenUtil {
         } catch (JwtException | NumberFormatException e) {
             throw new ServiceException("Got invalid token", e);
         }
-
     }
 }

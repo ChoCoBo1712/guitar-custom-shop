@@ -7,32 +7,29 @@
 <html>
 <head>
     <title><fmt:message key="profile.title" /></title>
-    <jsp:include page="shared/head.html" />
 </head>
 <body>
     <jsp:include page="shared/header.jsp" />
 
-    <form action="${pageContext.request.contextPath}/controller?command=update_user" method="post">
+    <form action="" method="post">
         <input type="text" name="id" value="${sessionScope.user.entityId}" hidden>
         <input type="email" name="email" value="${sessionScope.user.email}"
-               placeholder=<fmt:message key="placeholder.email" /> required maxlength="50">
+               placeholder=<fmt:message key="placeholder.email" /> required minlength="5" maxlength="50">
         <br>
         <input type="text" name="login" value="${sessionScope.user.login}"
-               placeholder=<fmt:message key="placeholder.login" /> required minlength="6" pattern="[0-9a-zA-Z]{8,20}">
-        <br>
-        <select name="role" id="role_select">
-            <option value="ADMIN">ADMIN</option>
-            <option value="CLIENT">CLIENT</option>
-            <option value="MASTER">MASTER</option>
-        </select>
-        <br>
-        <select name="status" id="status_select">
-            <option value="NOT_CONFIRMED">NOT_CONFIRMED</option>
-            <option value="CONFIRMED">CONFIRMED</option>
-        </select>
+               placeholder=<fmt:message key="placeholder.login" /> required pattern="[0-9a-zA-Z]{6,20}">
         <br>
         <input type="submit" value=<fmt:message key="admin.edit" />>
     </form>
+
+    <div>${sessionScope.user.role}</div>
+    <div>${sessionScope.user.status}</div>
+
+    <c:if test="${sessionScope.user.status != 'CONFIRMED'}">
+        <a href="${pageContext.request.contextPath}/controller?command=send_confirmation_link">
+            <fmt:message key="profile.resend_link" />
+        </a>
+    </c:if>
 
     <c:if test="${requestScope.duplicateEmailError}">
         <p><fmt:message key="error.duplicate_email" /></p>
@@ -48,11 +45,5 @@
 
     <jsp:include page="shared/footer.jsp" />
 
-    <script>
-        $(document).ready( function () {
-            $('#role_select').val('${sessionScope.user.role}')
-            $('#status_select').val('${sessionScope.user.status}')
-        });
-    </script>
 </body>
 </html>

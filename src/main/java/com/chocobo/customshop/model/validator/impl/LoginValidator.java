@@ -11,7 +11,7 @@ public class LoginValidator implements Validator<String> {
     private static final Logger logger = LogManager.getLogger();
     private static Validator<String> instance;
 
-    private static final String VALID_LOGIN_REGEX = "^\\p{Alnum}{8,20}$";
+    private static final String VALID_LOGIN_REGEX = "^\\p{Alnum}{6,20}$";
 
     public static Validator<String> getInstance() {
         if (instance == null) {

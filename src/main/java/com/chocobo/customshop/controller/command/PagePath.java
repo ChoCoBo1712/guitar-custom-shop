@@ -5,7 +5,7 @@ public final class PagePath {
     public static final String INDEX_JSP = "/pages/common/index.jsp";
     public static final String LOGIN_JSP = "/pages/common/login.jsp";
     public static final String REGISTER_JSP = "/pages/common/register.jsp";
-    public static final String REGISTER_SUCCESS_JSP = "/pages/common/register_success.jsp";
+    public static final String ACTIVATION_SENT_JSP = "/pages/common/activation_sent.jsp";
     public static final String ACTIVATION_SUCCESS_JSP = "/pages/common/activation_success.jsp";
     public static final String ADMIN_USERS_JSP = "/pages/admin/user/users.jsp";
     public static final String ADMIN_EDIT_USER_JSP = "/pages/admin/user/edit_user.jsp";

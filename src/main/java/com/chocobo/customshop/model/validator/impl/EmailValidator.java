@@ -11,7 +11,7 @@ public class EmailValidator implements Validator<String> {
     private static final Logger logger = LogManager.getLogger();
     private static Validator<String> instance;
 
-    private static final String VALID_EMAIL_REGEX = "^[\\w.]+@[\\w.]+$";
+    private static final String VALID_EMAIL_REGEX = "^[\\w.]+@[\\w.]+${5,50}";
 
     public static Validator<String> getInstance() {
         if (instance == null) {
