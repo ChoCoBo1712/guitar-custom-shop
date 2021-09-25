@@ -19,6 +19,7 @@
     </c:if>
 </head>
 <body>
+    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
     <table id="bodies_table">
@@ -30,7 +31,7 @@
         </thead>
     </table>
 
-    <jsp:include page="../shared/footer.jsp" />
+    <jsp:include page="../../common/shared/footer.jsp" />
 
     <script>
         $(document).ready( function () {

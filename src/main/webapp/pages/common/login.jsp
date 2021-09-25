@@ -9,6 +9,8 @@
     <title><fmt:message key="login.title" /></title>
 </head>
 <body>
+    <jsp:include page="shared/header.jsp" />
+
     <form action="${pageContext.request.contextPath}/controller?command=login" method="post">
         <input type="text" name="login" placeholder=<fmt:message key="placeholder.login" /> required>
         <br>
@@ -20,5 +22,7 @@
     <c:if test="${requestScope.loginError}">
         <p><fmt:message key="login.error" /></p>
     </c:if>
+
+    <jsp:include page="shared/footer.jsp" />
 </body>
 </html>

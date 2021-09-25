@@ -6,19 +6,18 @@
 
 <html>
 <head>
-    <title><fmt:message key="admin.edit_user.title" /></title>
-    <jsp:include page="../shared/head.html" />
+    <title><fmt:message key="profile.title" /></title>
+    <jsp:include page="shared/head.html" />
 </head>
 <body>
-    <jsp:include page="../../common/shared/header.jsp" />
-    <jsp:include page="../shared/header.jsp" />
+    <jsp:include page="shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=update_user" method="post">
-        <input type="text" name="id" value="${requestScope.user.entityId}" hidden>
-        <input type="email" name="email" value="${requestScope.user.email}"
+        <input type="text" name="id" value="${sessionScope.user.entityId}" hidden>
+        <input type="email" name="email" value="${sessionScope.user.email}"
                placeholder=<fmt:message key="placeholder.email" /> required maxlength="50">
         <br>
-        <input type="text" name="login" value="${requestScope.user.login}"
+        <input type="text" name="login" value="${sessionScope.user.login}"
                placeholder=<fmt:message key="placeholder.login" /> required minlength="6" pattern="[0-9a-zA-Z]{8,20}">
         <br>
         <select name="role" id="role_select">
@@ -47,7 +46,7 @@
         <p><fmt:message key="error.validation_error" /></p>
     </c:if>
 
-    <jsp:include page="../../common/shared/footer.jsp" />
+    <jsp:include page="shared/footer.jsp" />
 
     <script>
         $(document).ready( function () {
@@ -55,6 +54,5 @@
             $('#status_select').val('${sessionScope.user.status}')
         });
     </script>
-
 </body>
 </html>

@@ -19,7 +19,7 @@
     </c:if>
 </head>
 <body>
-
+    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
     <form id="create_guitar_form" action="${pageContext.request.contextPath}/controller?command=create_guitar"
@@ -53,7 +53,7 @@
         <p><fmt:message key="error.validation_error" /></p>
     </c:if>
 
-    <jsp:include page="../shared/footer.jsp" />
+    <jsp:include page="../../common/shared/footer.jsp" />
 
     <script>
         $(document).ready( function () {

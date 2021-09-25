@@ -26,6 +26,7 @@ public enum CommandType {
     GO_TO_GUITARS_PAGE,
     GO_TO_CREATE_GUITAR_PAGE,
     GO_TO_EDIT_GUITAR_PAGE,
+    GO_TO_PROFILE_PAGE,
 
     // other commands
     REGISTER,

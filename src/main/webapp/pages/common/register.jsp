@@ -9,6 +9,8 @@
     <title><fmt:message key="register.title" /></title>
 </head>
 <body>
+    <jsp:include page="shared/header.jsp" />
+
     <form action="${pageContext.request.contextPath}/controller?command=register" method="post">
         <input type="email" name="email" placeholder=<fmt:message key="placeholder.email" /> required maxlength="50">
         <br>
@@ -21,24 +23,18 @@
         <input type="submit" value=<fmt:message key="register.submit" />>
     </form>
 
-    <c:if test="${requestScope.invalidEmailPatternError}">
-        <p><fmt:message key="error.invalid_email" /></p>
-    </c:if>
-
     <c:if test="${requestScope.duplicateEmailError}">
         <p><fmt:message key="error.duplicate_email" /></p>
-    </c:if>
-
-    <c:if test="${requestScope.invalidLoginPatternError}">
-        <p><fmt:message key="error.invalid_login" /></p>
     </c:if>
 
     <c:if test="${requestScope.duplicateLoginError}">
         <p><fmt:message key="error.duplicate_login" /></p>
     </c:if>
 
-    <c:if test="${requestScope.invalidPasswordPatternError}">
-        <p><fmt:message key="error.invalid_password" /></p>
+    <c:if test="${requestScope.validationError}">
+        <p><fmt:message key="error.validation_error" /></p>
     </c:if>
+
+    <jsp:include page="shared/footer.jsp" />
 </body>
 </html>

@@ -25,6 +25,7 @@ public final class PagePath {
     public static final String ADMIN_GUITARS_JSP = "/pages/admin/guitar/guitars.jsp";
     public static final String ADMIN_CREATE_GUITAR_JSP = "/pages/admin/guitar/create_guitar.jsp";
     public static final String ADMIN_EDIT_GUITAR_JSP = "/pages/admin/guitar/edit_guitar.jsp";
+    public static final String PROFILE_JSP = "/pages/common/profile.jsp";
 
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
@@ -49,6 +50,7 @@ public final class PagePath {
     public static final String ADMIN_GUITARS_URL = "/controller?command=go_to_guitars_page";
     public static final String ADMIN_CREATE_GUITAR_URL = "/controller?command=go_to_create_guitar_page";
     public static final String ADMIN_EDIT_GUITAR_URL = "/controller?command=go_to_edit_guitar_page";
+    public static final String PROFILE_URL = "/controller?command=go_to_profile_page";
 
     public static final String AMPERSAND = "&";
     public static final String EQUALS_SIGN = "=";

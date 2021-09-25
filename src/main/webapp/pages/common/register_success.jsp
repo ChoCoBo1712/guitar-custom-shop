@@ -8,7 +8,10 @@
     <title><fmt:message key="register_success.title" /></title>
 </head>
 <body>
-    <a href="${pageContext.request.contextPath}/controller?command=go_to_index_page"><fmt:message key="pages.home" /></a>
+    <jsp:include page="shared/header.jsp" />
+
     <p><fmt:message key="register_success.message" /></p>
+
+    <jsp:include page="shared/footer.jsp" />
 </body>
 </html>

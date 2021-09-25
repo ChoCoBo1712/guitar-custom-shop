@@ -45,6 +45,8 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_GUITARS_PAGE, new GoToGuitarsPageCommand());
         commandMap.put(CommandType.GO_TO_CREATE_GUITAR_PAGE, new GoToCreateGuitarPageCommand());
         commandMap.put(CommandType.GO_TO_EDIT_GUITAR_PAGE, new GoToEditGuitarPageCommand());
+        commandMap.put(CommandType.GO_TO_PROFILE_PAGE, new GoToProfilePageCommand());
+
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());

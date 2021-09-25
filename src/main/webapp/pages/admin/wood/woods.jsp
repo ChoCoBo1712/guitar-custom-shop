@@ -10,6 +10,7 @@
     <jsp:include page="../shared/head.html" />
 </head>
 <body>
+    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
     <table id="woods_table">
@@ -20,7 +21,7 @@
         </thead>
     </table>
 
-    <jsp:include page="../shared/footer.jsp" />
+    <jsp:include page="../../common/shared/footer.jsp" />
 
     <script>
         $(document).ready( function () {

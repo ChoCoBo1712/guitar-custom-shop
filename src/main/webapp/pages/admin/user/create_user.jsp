@@ -10,6 +10,7 @@
     <jsp:include page="../shared/head.html" />
 </head>
 <body>
+    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=create_user" method="post">
@@ -47,7 +48,7 @@
         <p><fmt:message key="error.validation_error" /></p>
     </c:if>
 
-    <jsp:include page="../shared/footer.jsp" />
+    <jsp:include page="../../common/shared/footer.jsp" />
 
 </body>
 </html>

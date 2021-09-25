@@ -10,6 +10,7 @@
     <jsp:include page="../shared/head.html" />
 </head>
 <body>
+    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=create_wood" method="post">
@@ -19,11 +20,11 @@
         <input type="submit" value=<fmt:message key="admin.create" />>
     </form>
 
-    <c:if test="${requestScope.invalidNamePatternError}">
-        <p><fmt:message key="error.invalid_name" /></p>
+    <c:if test="${requestScope.validationError}">
+        <p><fmt:message key="error.validation_error" /></p>
     </c:if>
 
-    <jsp:include page="../shared/footer.jsp" />
+    <jsp:include page="../../common/shared/footer.jsp" />
 
 </body>
 </html>
