@@ -14,11 +14,11 @@ import com.chocobo.customshop.util.impl.MailUtilImpl;
 import com.chocobo.customshop.util.impl.TokenUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
@@ -27,6 +27,8 @@ import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static com.chocobo.customshop.model.entity.User.UserRole.CLIENT;
 import static com.chocobo.customshop.model.entity.User.UserStatus.NOT_CONFIRMED;
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.EMAIL_CLAIM;
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.ID_CLAIM;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class RegisterCommand implements Command {
@@ -76,7 +78,10 @@ public class RegisterCommand implements Command {
 
                 String mailSubject = mailUtil.getMailProperty(SUBJECT_PROPERTY);
                 String bodyTemplate = mailUtil.getMailProperty(BODY_PROPERTY);
-                String confirmationUrl = URL_BLANK + tokenUtil.generateToken(userId, email);
+                Map<String, Object> claimsMap = new HashMap<>();
+                claimsMap.put(ID_CLAIM, userId);
+                claimsMap.put(EMAIL_CLAIM, email);
+                String confirmationUrl = URL_BLANK + tokenUtil.generateToken(claimsMap);
                 String confirmationLink = request.getScheme() + PROTOCOL_DELIMITER + request.getServerName() + confirmationUrl;
 
                 String mailBody = String.format(bodyTemplate, confirmationLink);

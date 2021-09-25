@@ -4,10 +4,10 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
-import com.chocobo.customshop.util.TokenUtil;
 import com.chocobo.customshop.model.service.UserService;
-import com.chocobo.customshop.util.impl.TokenUtilImpl;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
+import com.chocobo.customshop.util.TokenUtil;
+import com.chocobo.customshop.util.impl.TokenUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -21,14 +21,13 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.ACTIVATION_SUCCESS_URL;
 import static com.chocobo.customshop.controller.command.RequestAttribute.TOKEN;
 import static com.chocobo.customshop.model.entity.User.UserStatus.CONFIRMED;
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.EMAIL_CLAIM;
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.ID_CLAIM;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class ConfirmEmailCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
-
-    private static final String ID_CLAIM = "id";
-    private static final String EMAIL_CLAIM = "email";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {

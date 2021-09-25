@@ -13,10 +13,15 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.REGISTER_SUCCESS_URL;
 import static com.chocobo.customshop.controller.command.SessionAttribute.USER;
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.EMAIL_CLAIM;
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.ID_CLAIM;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class SendConfirmationLinkCommand implements Command {
@@ -43,7 +48,10 @@ public class SendConfirmationLinkCommand implements Command {
 
             String mailSubject = mailUtil.getMailProperty(SUBJECT_PROPERTY);
             String bodyTemplate = mailUtil.getMailProperty(BODY_PROPERTY);
-            String confirmationUrl = URL_BLANK + tokenUtil.generateToken(userId, email);
+            Map<String, Object> claimsMap = new HashMap<>();
+            claimsMap.put(ID_CLAIM, userId);
+            claimsMap.put(EMAIL_CLAIM, email);
+            String confirmationUrl = URL_BLANK + tokenUtil.generateToken(claimsMap);
             String confirmationLink = request.getScheme() + PROTOCOL_DELIMITER + request.getServerName() + confirmationUrl;
 
             String mailBody = String.format(bodyTemplate, confirmationLink);

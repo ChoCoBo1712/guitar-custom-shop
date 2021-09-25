@@ -3,6 +3,7 @@ package com.chocobo.customshop.util.impl;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.util.TokenUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -13,6 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class TokenUtilImpl implements TokenUtil {
@@ -23,8 +29,8 @@ public class TokenUtilImpl implements TokenUtil {
     private static final String TOKEN_PROPERTIES_NAME = "properties/token.properties";
     private static final String SECRET_KEY_PROPERTY = "secretKey";
     private static final String VALIDITY_TIME_PROPERTY = "validityTime";
-    private static final String ID_CLAIM = "id";
-    private static final String EMAIL_CLAIM = "email";
+    public static final String ID_CLAIM = "id";
+    public static final String EMAIL_CLAIM = "email";
 
     private static final Key secretKey;
     private static final int validityTime;
@@ -51,18 +57,18 @@ public class TokenUtilImpl implements TokenUtil {
     }
 
     @Override
-    public String generateToken(long userId, String email) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.HOUR, validityTime);
-        Date expirationTime = calendar.getTime();
+    public String generateToken(Map<String, Object> claimsMap) {
+        Instant expirationInstant = LocalDateTime.now(Clock.systemUTC())
+                .plus(validityTime, ChronoUnit.HOURS)
+                .toInstant(ZoneOffset.UTC);
+        Date expirationTime = Date.from(expirationInstant);
 
-        return Jwts.builder()
-                .claim(ID_CLAIM, userId)
-                .claim(EMAIL_CLAIM, email)
+        JwtBuilder builder = Jwts.builder()
                 .signWith(secretKey)
-                .setExpiration(expirationTime)
-                .compact();
+                .setExpiration(expirationTime);
+        claimsMap.forEach(builder::claim);
+
+        return builder.compact();
     }
 
     @Override

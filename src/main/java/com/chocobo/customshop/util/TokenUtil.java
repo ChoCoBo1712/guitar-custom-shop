@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface TokenUtil {
 
-    String generateToken(long userId, String email);
+    String generateToken(Map<String, Object> claimsMap);
 
     Map<String, Object> parseToken(String token) throws ServiceException;
 }
