@@ -22,6 +22,6 @@ public class EmailValidator implements Validator<String> {
 
     @Override
     public boolean validate(String email) {
-        return !Pattern.matches(VALID_EMAIL_REGEX, email);
+        return Pattern.matches(VALID_EMAIL_REGEX, email);
     }
 }

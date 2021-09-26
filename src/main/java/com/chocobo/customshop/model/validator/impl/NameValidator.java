@@ -19,6 +19,6 @@ public class NameValidator implements Validator<String> {
 
     @Override
     public boolean validate(String name) {
-        return !Pattern.matches(VALID_NAME_REGEX, name);
+        return Pattern.matches(VALID_NAME_REGEX, name);
     }
 }

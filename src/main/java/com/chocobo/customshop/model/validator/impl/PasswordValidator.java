@@ -8,6 +8,7 @@ public class PasswordValidator implements Validator<String> {
 
     private static Validator<String> instance;
 
+    // TODO: 26.09.2021 check regex
     private static final String VALID_PASSWORD_REGEX = "^(?=.*\\p{Alpha})(?=.*\\d)[\\p{Alnum}]{8,32}$";
 
     public static Validator<String> getInstance() {
@@ -19,6 +20,6 @@ public class PasswordValidator implements Validator<String> {
 
     @Override
     public boolean validate(String password) {
-        return !Pattern.matches(VALID_PASSWORD_REGEX, password);
+        return Pattern.matches(VALID_PASSWORD_REGEX, password);
     }
 }

@@ -22,6 +22,6 @@ public class LoginValidator implements Validator<String> {
 
     @Override
     public boolean validate(String login) {
-        return !Pattern.matches(VALID_LOGIN_REGEX, login);
+        return Pattern.matches(VALID_LOGIN_REGEX, login);
     }
 }
