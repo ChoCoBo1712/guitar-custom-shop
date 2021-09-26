@@ -12,9 +12,7 @@
                 <a href="${pageContext.request.contextPath}/controller?command=go_to_users_page"><fmt:message key="index.admin" /></a>
             </c:if>
             <a href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message key="index.logout" /></a>
-            <a href="${pageContext.request.contextPath}/controller?command=go_to_profile_page&id=${sessionScope.user.entityId}">
-                    ${sessionScope.user.login}
-            </a>
+            <a href="${pageContext.request.contextPath}/controller?command=go_to_profile_page">${sessionScope.user.login}</a>
         </c:when>
         <c:otherwise>
             <a href="${pageContext.request.contextPath}/controller?command=go_to_login_page"><fmt:message key="index.login" /></a>

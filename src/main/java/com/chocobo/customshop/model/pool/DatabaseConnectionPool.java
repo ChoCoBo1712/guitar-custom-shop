@@ -46,6 +46,7 @@ public class DatabaseConnectionPool {
     private final Queue<Connection> usedConnections;
     private final Timer timer = new Timer(true);
 
+    // TODO: 26.09.2021 ask about instantiation 
     public static DatabaseConnectionPool getInstance() {
         while (instance.get() == null) {
             if (isInitialized.compareAndSet(false, true)) {
