@@ -18,11 +18,17 @@ public class EntryFilter implements Filter {
         HttpSession session = httpRequest.getSession();
 
         request.setAttribute(LOGIN_ERROR, session.getAttribute(LOGIN_ERROR));
+        request.setAttribute(EMAIL_CONFIRMATION, session.getAttribute(EMAIL_CONFIRMATION));
+        request.setAttribute(PASSWORD_CHANGE, session.getAttribute(PASSWORD_CHANGE));
+        request.setAttribute(FORGOT_PASSWORD_ERROR, session.getAttribute(FORGOT_PASSWORD_ERROR));
         request.setAttribute(DUPLICATE_EMAIL_ERROR, session.getAttribute(DUPLICATE_EMAIL_ERROR));
         request.setAttribute(DUPLICATE_LOGIN_ERROR, session.getAttribute(DUPLICATE_LOGIN_ERROR));
         request.setAttribute(VALIDATION_ERROR, session.getAttribute(VALIDATION_ERROR));
 
         session.removeAttribute(LOGIN_ERROR);
+        session.removeAttribute(EMAIL_CONFIRMATION);
+        session.removeAttribute(PASSWORD_CHANGE);
+        session.removeAttribute(FORGOT_PASSWORD_ERROR);
         session.removeAttribute(DUPLICATE_EMAIL_ERROR);
         session.removeAttribute(DUPLICATE_LOGIN_ERROR);
         session.removeAttribute(VALIDATION_ERROR);

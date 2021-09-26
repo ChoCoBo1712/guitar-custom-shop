@@ -19,8 +19,12 @@
         <input type="submit" value=<fmt:message key="login.submit" />>
     </form>
 
+    <a href="${pageContext.request.contextPath}/controller?command=go_to_forgot_password_page">
+        <fmt:message key="login.forgot_password" />
+    </a>
+
     <c:if test="${requestScope.loginError}">
-        <p><fmt:message key="login.error" /></p>
+        <p><fmt:message key="error.login" /></p>
     </c:if>
 
     <jsp:include page="shared/footer.jsp" />

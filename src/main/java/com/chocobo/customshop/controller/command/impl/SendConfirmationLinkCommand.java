@@ -18,8 +18,10 @@ import java.util.Map;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.controller.command.PagePath.REGISTER_SUCCESS_URL;
+import static com.chocobo.customshop.controller.command.PagePath.TOKEN_SENT_URL;
+import static com.chocobo.customshop.controller.command.SessionAttribute.EMAIL_CONFIRMATION;
 import static com.chocobo.customshop.controller.command.SessionAttribute.USER;
+import static com.chocobo.customshop.util.impl.MailUtilImpl.PROTOCOL_DELIMITER;
 import static com.chocobo.customshop.util.impl.TokenUtilImpl.EMAIL_CLAIM;
 import static com.chocobo.customshop.util.impl.TokenUtilImpl.ID_CLAIM;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -28,7 +30,6 @@ public class SendConfirmationLinkCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final String PROTOCOL_DELIMITER = "://";
     private static final String URL_BLANK = "/controller?command=confirm_email&token=";
 
     private static final String SUBJECT_PROPERTY = "confirmationMail.subject";
@@ -57,7 +58,8 @@ public class SendConfirmationLinkCommand implements Command {
             String mailBody = String.format(bodyTemplate, confirmationLink);
             mailUtil.sendMail(email, mailSubject, mailBody);
 
-            result = new CommandResult(REGISTER_SUCCESS_URL, REDIRECT);
+            session.setAttribute(EMAIL_CONFIRMATION, true);
+            result = new CommandResult(TOKEN_SENT_URL, REDIRECT);
         } catch (ServiceException e) {
             logger.error("An error occurred during send confirmation link command execution", e);
             result = new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);

@@ -25,7 +25,11 @@ public interface UserService {
 
     Optional<User> findById(long id) throws ServiceException;
 
+    Optional<User> findByEmail(String email) throws ServiceException;
+
     void update(User user) throws ServiceException;
+
+    void updateWithPassword(User user, String password) throws ServiceException;
 
     void delete(long id) throws ServiceException;
 

@@ -21,6 +21,8 @@ public class MailUtilImpl implements MailUtil {
     private static final Logger logger = LogManager.getLogger();
     private static MailUtil instance;
 
+    public static final String PROTOCOL_DELIMITER = "://";
+
     private static final String MAIL_PROPERTIES_NAME = "properties/mail.properties";
     private static final String USERNAME_PROPERTY = "username";
     private static final String PASSWORD_PROPERTY = "password";

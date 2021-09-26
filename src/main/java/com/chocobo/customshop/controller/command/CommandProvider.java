@@ -25,8 +25,8 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_INDEX_PAGE, new GoToIndexPageCommand());
         commandMap.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
         commandMap.put(CommandType.GO_TO_REGISTER_PAGE, new GoToRegisterPageCommand());
-        commandMap.put(CommandType.GO_TO_REGISTER_SUCCESS_PAGE, new GoToRegisterSuccessPageCommand());
-        commandMap.put(CommandType.GO_TO_ACTIVATION_SUCCESS_PAGE, new GoToActivationSuccessPageCommand());
+        commandMap.put(CommandType.GO_TO_TOKEN_SENT_PAGE, new GoToTokenSentPageCommand());
+        commandMap.put(CommandType.GO_TO_TOKEN_SUCCESS_PAGE, new GoToTokenSuccessPageCommand());
         commandMap.put(CommandType.GO_TO_USERS_PAGE, new GoToUsersPageCommand());
         commandMap.put(CommandType.GO_TO_CREATE_USER_PAGE, new GoToCreateUserPageCommand());
         commandMap.put(CommandType.GO_TO_EDIT_USER_PAGE, new GoToEditUserPageCommand());
@@ -46,7 +46,7 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_CREATE_GUITAR_PAGE, new GoToCreateGuitarPageCommand());
         commandMap.put(CommandType.GO_TO_EDIT_GUITAR_PAGE, new GoToEditGuitarPageCommand());
         commandMap.put(CommandType.GO_TO_PROFILE_PAGE, new GoToProfilePageCommand());
-
+        commandMap.put(CommandType.GO_TO_FORGOT_PASSWORD_PAGE, new GoToForgotPasswordPageCommand());
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
@@ -78,6 +78,9 @@ public class CommandProvider {
         commandMap.put(CommandType.UPDATE_GUITAR, new UpdateGuitarCommand());
         commandMap.put(CommandType.DELETE_GUITAR, new DeleteGuitarCommand());
         commandMap.put(CommandType.SEND_CONFIRMATION_LINK, new SendConfirmationLinkCommand());
+        commandMap.put(CommandType.SEND_PASSWORD_CHANGE_LINK, new SendPasswordChangeLinkCommand());
+        commandMap.put(CommandType.GO_TO_PASSWORD_CHANGE_PAGE, new GoToPasswordChangePageCommand());
+        commandMap.put(CommandType.PASSWORD_CHANGE, new PasswordChangeCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

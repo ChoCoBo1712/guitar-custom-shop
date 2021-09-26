@@ -9,6 +9,7 @@ import com.chocobo.customshop.model.entity.User.UserStatus;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
+import com.chocobo.customshop.model.validator.impl.PasswordValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,7 @@ public class UpdateUserCommand implements Command {
 
         String email = request.getParameter(EMAIL);
         String login = request.getParameter(LOGIN);
+        String password = request.getParameter(PASSWORD);
         UserRole role = UserRole.valueOf(request.getParameter(ROLE));
         UserStatus status = UserStatus.valueOf(request.getParameter(STATUS));
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
@@ -51,9 +53,11 @@ public class UpdateUserCommand implements Command {
 
                 boolean emailsMatch = StringUtils.equals(email, previousEmail);
                 boolean loginsMatch = StringUtils.equals(login, previousLogin);
+                boolean passwordIsEmpty = StringUtils.isEmpty(password);
 
                 boolean valid = emailsMatch || NameValidator.getInstance().validate(email);
                 valid &= loginsMatch || NameValidator.getInstance().validate(login);
+                valid &= passwordIsEmpty || PasswordValidator.getInstance().validate(password);
 
                 if (valid) {
                     boolean duplicate = false;
@@ -76,7 +80,11 @@ public class UpdateUserCommand implements Command {
                             .setRole(role)
                             .setStatus(status)
                             .build();
-                    userService.update(updatedUser);
+                    if (passwordIsEmpty) {
+                        userService.update(updatedUser);
+                    } else {
+                        userService.updateWithPassword(updatedUser, password);
+                    }
 
                     result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
                 } else {

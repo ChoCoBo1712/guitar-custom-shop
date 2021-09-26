@@ -21,6 +21,9 @@
         <input type="text" name="login" value="${requestScope.user.login}"
                placeholder=<fmt:message key="placeholder.login" /> required pattern="[0-9a-zA-Z]{6,20}">
         <br>
+        <input type="password" name="password" placeholder=<fmt:message key="placeholder.password" />
+               pattern="(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{8,32}">
+        <br>
         <select name="role" id="role_select">
             <option value="ADMIN">ADMIN</option>
             <option value="CLIENT">CLIENT</option>

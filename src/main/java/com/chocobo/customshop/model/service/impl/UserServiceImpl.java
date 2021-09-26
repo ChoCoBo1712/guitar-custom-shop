@@ -105,9 +105,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) throws ServiceException {
+        try {
+            return userDao.selectByEmail(email);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public void update(User user) throws ServiceException {
         try {
             userDao.update(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void updateWithPassword(User user, String password) throws ServiceException {
+        byte[] salt = hashingUtil.generateSalt();
+        byte[] passwordHash = hashingUtil.generateHash(password, salt);
+
+        User updatedUser = User.builder().of(user)
+                .setSalt(salt)
+                .setPasswordHash(passwordHash)
+                .build();
+        try {
+            userDao.update(updatedUser);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
