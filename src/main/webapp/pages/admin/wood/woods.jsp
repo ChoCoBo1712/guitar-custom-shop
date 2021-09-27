@@ -1,12 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<fmt:setLocale value="${sessionScope.locale}" />
-<fmt:setBundle basename="properties.pagecontent" />
+<%@ taglib uri="customshop-tags" prefix="cst" %>
 
 <html>
 <head>
-    <title><fmt:message key="admin.woods.title" /></title>
+    <title><cst:localeTag key="admin.woods.title" /></title>
     <jsp:include page="../shared/head.html" />
 </head>
 <body>
@@ -15,9 +13,9 @@
 
     <table id="woods_table">
         <thead>
-            <th><fmt:message key="admin.woods.id" /></th>
-            <th><fmt:message key="admin.woods.name" /></th>
-            <th><fmt:message key="admin.actions" /></th>
+            <th><cst:localeTag key="admin.woods.id" /></th>
+            <th><cst:localeTag key="admin.woods.name" /></th>
+            <th><cst:localeTag key="admin.actions" /></th>
         </thead>
     </table>
 
@@ -52,10 +50,10 @@
                         data: null,
                         render: function (row) {
                             return '<a href="/controller?command=go_to_edit_wood_page&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.edit" /></a>'
+                                + '<cst:localeTag key="admin.edit" /></a>'
                                 + '<br>'
                                 + '<a href="/controller?command=delete_wood&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.delete" /></a>'
+                                + '<cst:localeTag key="admin.delete" /></a>'
                         }
                     },
                 ],
@@ -69,14 +67,14 @@
             $("div.toolbar").html(`
                 <div class="input-group mb-3">
                 <button id="createButton" type="button" class="btn btn-secondary">
-                    <fmt:message key="admin.create" />
+                    <cst:localeTag key="admin.create" />
                 </button>
                 <select id="searchCriteria" class="form-select">
-                    <option value="ID"><fmt:message key="admin.woods.id" /></option>
-                    <option value="NAME"><fmt:message key="admin.woods.name" /></option>
+                    <option value="ID"><cst:localeTag key="admin.woods.id" /></option>
+                    <option value="NAME"><cst:localeTag key="admin.woods.name" /></option>
                 </select>
                 <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
-                 placeholder=<fmt:message key="admin.search" />>
+                 placeholder=<cst:localeTag key="admin.search" />>
                  <select id="searchSelect"></select>
                 </div>
             `);

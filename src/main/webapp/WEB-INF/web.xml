@@ -24,4 +24,11 @@
         <error-code>404</error-code>
         <location>/pages/common/errors/error404.jsp</location>
     </error-page>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>customshop-tags</taglib-uri>
+            <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 </web-app>

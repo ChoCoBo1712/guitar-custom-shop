@@ -1,12 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<fmt:setLocale value="${sessionScope.locale}" />
-<fmt:setBundle basename="properties.pagecontent" />
+<%@ taglib uri="customshop-tags" prefix="cst" %>
 
 <html>
 <head>
-    <title><fmt:message key="admin.create_guitar.title" /></title>
+    <title><cst:localeTag key="admin.create_guitar.title" /></title>
     <jsp:include page="../shared/head.html" />
     <!-- jQuery Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -24,7 +22,7 @@
 
     <form id="create_guitar_form" action="${pageContext.request.contextPath}/controller?command=create_guitar"
           method="post" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder=<fmt:message key="placeholder.name" /> required
+        <input type="text" name="name" placeholder=<cst:localeTag key="placeholder.name" /> required
                pattern="[a-zA-Z0-9\s\-]{1,30}">
         <br>
         <input type="file" name="picturePath" id="file_input" accept="image/png, image/jpeg">
@@ -41,16 +39,16 @@
             <option value="NECK_THROUGH">NECK_THROUGH</option>
         </select>
         <br>
-        <input type="text" name="color" placeholder=<fmt:message key="placeholder.color" /> required
+        <input type="text" name="color" placeholder=<cst:localeTag key="placeholder.color" /> required
                pattern="[a-zA-Z0-9\s\-]{1,30}">
         <br>
         <select name="userId" id="userSelect" required></select>
         <br>
-        <input type="submit" value=<fmt:message key="admin.create" />>
+        <input type="submit" value=<cst:localeTag key="admin.create" />>
     </form>
 
     <c:if test="${requestScope.validationError}">
-        <p><fmt:message key="error.validation_error" /></p>
+        <p><cst:localeTag key="error.validation_error" /></p>
     </c:if>
 
     <jsp:include page="../../common/shared/footer.jsp" />
@@ -64,7 +62,7 @@
 
             $('#bodySelect').select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<fmt:message key="admin.guitars.body" />',
+                placeholder: '<cst:localeTag key="admin.guitars.body" />',
                 // theme: 'bootstrap',
                 width: '10%',
                 maximumInputLength: 50,
@@ -100,7 +98,7 @@
 
             $('#neckSelect').select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<fmt:message key="admin.guitars.neck" />',
+                placeholder: '<cst:localeTag key="admin.guitars.neck" />',
                 // theme: 'bootstrap',
                 width: '10%',
                 maximumInputLength: 50,
@@ -136,7 +134,7 @@
 
             $('#pickupSelect').select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<fmt:message key="admin.guitars.pickup" />',
+                placeholder: '<cst:localeTag key="admin.guitars.pickup" />',
                 // theme: 'bootstrap',
                 width: '10%',
                 maximumInputLength: 50,
@@ -172,7 +170,7 @@
 
             $('#userSelect').select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<fmt:message key="admin.guitars.user" />',
+                placeholder: '<cst:localeTag key="admin.guitars.user" />',
                 // theme: 'bootstrap',
                 width: '10%',
                 maximumInputLength: 50,

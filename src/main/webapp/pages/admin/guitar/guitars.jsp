@@ -1,12 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<fmt:setLocale value="${sessionScope.locale}" />
-<fmt:setBundle basename="properties.pagecontent" />
+<%@ taglib uri="customshop-tags" prefix="cst" %>
 
 <html>
 <head>
-    <title><fmt:message key="admin.guitars.title" /></title>
+    <title><cst:localeTag key="admin.guitars.title" /></title>
     <jsp:include page="../shared/head.html" />
     <!-- jQuery Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -24,16 +22,16 @@
 
     <table id="guitars_table">
         <thead>
-        <th><fmt:message key="admin.guitars.id" /></th>
-        <th><fmt:message key="admin.guitars.name" /></th>
-        <th><fmt:message key="admin.guitars.picture_path" /></th>
-        <th><fmt:message key="admin.guitars.body" /></th>
-        <th><fmt:message key="admin.guitars.neck" /></th>
-        <th><fmt:message key="admin.guitars.pickup" /></th>
-        <th><fmt:message key="admin.guitars.neck_joint" /></th>
-        <th><fmt:message key="admin.guitars.color" /></th>
-        <th><fmt:message key="admin.guitars.user" /></th>
-        <th><fmt:message key="admin.actions" /></th>
+        <th><cst:localeTag key="admin.guitars.id" /></th>
+        <th><cst:localeTag key="admin.guitars.name" /></th>
+        <th><cst:localeTag key="admin.guitars.picture_path" /></th>
+        <th><cst:localeTag key="admin.guitars.body" /></th>
+        <th><cst:localeTag key="admin.guitars.neck" /></th>
+        <th><cst:localeTag key="admin.guitars.pickup" /></th>
+        <th><cst:localeTag key="admin.guitars.neck_joint" /></th>
+        <th><cst:localeTag key="admin.guitars.color" /></th>
+        <th><cst:localeTag key="admin.guitars.user" /></th>
+        <th><cst:localeTag key="admin.actions" /></th>
         </thead>
     </table>
 
@@ -106,10 +104,10 @@
                         data: null,
                         render: function (row) {
                             return '<a href="/controller?command=go_to_edit_guitar_page&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.edit" /></a>'
+                                + '<cst:localeTag key="admin.edit" /></a>'
                                 + '<br>'
                                 + '<a href="/controller?command=delete_guitar&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.delete" /></a>'
+                                + '<cst:localeTag key="admin.delete" /></a>'
                         }
                     },
                 ],
@@ -123,20 +121,20 @@
             $("div.toolbar").html(`
                             <div class="input-group mb-3">
                             <button id="createButton" type="button" class="btn btn-secondary">
-                                <fmt:message key="admin.create" />
+                                <cst:localeTag key="admin.create" />
                             </button>
                             <select id="searchCriteria" class="form-select">
-                                <option value="ID"><fmt:message key="admin.guitars.id" /></option>
-                                <option value="NAME"><fmt:message key="admin.guitars.name" /></option>
-                                <option value="BODY_ID"><fmt:message key="admin.guitars.body" /></option>
-                                <option value="NECK_ID"><fmt:message key="admin.guitars.neck" /></option>
-                                <option value="PICKUP_ID"><fmt:message key="admin.guitars.pickup" /></option>
-                                <option value="NECK_JOINT"><fmt:message key="admin.guitars.neck_joint" /></option>
-                                <option value="COLOR"><fmt:message key="admin.guitars.color" /></option>
-                                <option value="USER_ID"><fmt:message key="admin.guitars.user" /></option>
+                                <option value="ID"><cst:localeTag key="admin.guitars.id" /></option>
+                                <option value="NAME"><cst:localeTag key="admin.guitars.name" /></option>
+                                <option value="BODY_ID"><cst:localeTag key="admin.guitars.body" /></option>
+                                <option value="NECK_ID"><cst:localeTag key="admin.guitars.neck" /></option>
+                                <option value="PICKUP_ID"><cst:localeTag key="admin.guitars.pickup" /></option>
+                                <option value="NECK_JOINT"><cst:localeTag key="admin.guitars.neck_joint" /></option>
+                                <option value="COLOR"><cst:localeTag key="admin.guitars.color" /></option>
+                                <option value="USER_ID"><cst:localeTag key="admin.guitars.user" /></option>
                             </select>
                             <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
-                             placeholder=<fmt:message key="admin.search" />>
+                             placeholder=<cst:localeTag key="admin.search" />>
                              <select id="searchSelect"></select>
                             </div>
                         `);
@@ -163,7 +161,7 @@
                     searchSelect.show();
                     searchSelect.select2({
                         language: '${sessionScope.locale}'.substring(0, 2),
-                        placeholder: '<fmt:message key="admin.guitars.body" />',
+                        placeholder: '<cst:localeTag key="admin.guitars.body" />',
                         // theme: 'bootstrap',
                         width: '10%',
                         maximumInputLength: 30,
@@ -202,7 +200,7 @@
                     searchSelect.show();
                     searchSelect.select2({
                         language: '${sessionScope.locale}'.substring(0, 2),
-                        placeholder: '<fmt:message key="admin.guitars.neck" />',
+                        placeholder: '<cst:localeTag key="admin.guitars.neck" />',
                         // theme: 'bootstrap',
                         width: '10%',
                         maximumInputLength: 30,
@@ -241,7 +239,7 @@
                     searchSelect.show();
                     searchSelect.select2({
                         language: '${sessionScope.locale}'.substring(0, 2),
-                        placeholder: '<fmt:message key="admin.guitars.pickup" />',
+                        placeholder: '<cst:localeTag key="admin.guitars.pickup" />',
                         // theme: 'bootstrap',
                         width: '10%',
                         maximumInputLength: 30,
@@ -280,7 +278,7 @@
                     searchSelect.show();
                     searchSelect.select2({
                         language: '${sessionScope.locale}'.substring(0, 2),
-                        placeholder: '<fmt:message key="admin.guitars.user" />',
+                        placeholder: '<cst:localeTag key="admin.guitars.user" />',
                         // theme: 'bootstrap',
                         width: '10%',
                         maximumInputLength: 30,

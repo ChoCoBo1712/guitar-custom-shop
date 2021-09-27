@@ -1,12 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<fmt:setLocale value="${sessionScope.locale}" />
-<fmt:setBundle basename="properties.pagecontent" />
+<%@ taglib uri="customshop-tags" prefix="cst" %>
 
 <html>
 <head>
-    <title><fmt:message key="admin.users.title" /></title>
+    <title><cst:localeTag key="admin.users.title" /></title>
     <jsp:include page="../shared/head.html" />
 </head>
 <body>
@@ -15,12 +13,12 @@
 
     <table id="users_table">
         <thead>
-            <th><fmt:message key="admin.users.id" /></th>
-            <th><fmt:message key="admin.users.email" /></th>
-            <th><fmt:message key="admin.users.login" /></th>
-            <th><fmt:message key="admin.users.role" /></th>
-            <th><fmt:message key="admin.users.status" /></th>
-            <th><fmt:message key="admin.actions" /></th>
+            <th><cst:localeTag key="admin.users.id" /></th>
+            <th><cst:localeTag key="admin.users.email" /></th>
+            <th><cst:localeTag key="admin.users.login" /></th>
+            <th><cst:localeTag key="admin.users.role" /></th>
+            <th><cst:localeTag key="admin.users.status" /></th>
+            <th><cst:localeTag key="admin.actions" /></th>
         </thead>
     </table>
 
@@ -58,10 +56,10 @@
                         data: null,
                         render: function (row) {
                             return '<a href="/controller?command=go_to_edit_user_page&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.edit" /></a>'
+                                + '<cst:localeTag key="admin.edit" /></a>'
                                 + '<br>'
                                 + '<a href="/controller?command=delete_user&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.delete" /></a>'
+                                + '<cst:localeTag key="admin.delete" /></a>'
                         }
                     },
                 ],
@@ -75,17 +73,17 @@
             $("div.toolbar").html(`
                 <div class="input-group mb-3">
                 <button id="createButton" type="button" class="btn btn-secondary">
-                    <fmt:message key="admin.create" />
+                    <cst:localeTag key="admin.create" />
                 </button>
                 <select id="searchCriteria" class="form-select">
-                    <option value="ID"><fmt:message key="admin.users.id" /></option>
-                    <option value="EMAIL"><fmt:message key="admin.users.email" /></option>
-                    <option value="LOGIN"><fmt:message key="admin.users.login" /></option>
-                    <option value="ROLE"><fmt:message key="admin.users.role" /></option>
-                    <option value="STATUS"><fmt:message key="admin.users.status" /></option>
+                    <option value="ID"><cst:localeTag key="admin.users.id" /></option>
+                    <option value="EMAIL"><cst:localeTag key="admin.users.email" /></option>
+                    <option value="LOGIN"><cst:localeTag key="admin.users.login" /></option>
+                    <option value="ROLE"><cst:localeTag key="admin.users.role" /></option>
+                    <option value="STATUS"><cst:localeTag key="admin.users.status" /></option>
                 </select>
                 <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
-                 placeholder=<fmt:message key="admin.search" />>
+                 placeholder=<cst:localeTag key="admin.search" />>
                  <select id="searchSelect"></select>
                 </div>
             `);

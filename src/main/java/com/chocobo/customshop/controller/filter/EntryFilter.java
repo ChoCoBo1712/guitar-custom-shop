@@ -25,14 +25,18 @@ public class EntryFilter implements Filter {
         HttpSession session = httpRequest.getSession();
         Cookie[] cookies = httpRequest.getCookies();
 
-        Optional<String> optionalLocale = Arrays.stream(cookies)
-                .filter(key -> StringUtils.equals(key.getName(), "locale"))
-                .map(Cookie::getValue)
-                .findAny();
-        if (optionalLocale.isPresent()) {
-            String locale = optionalLocale.get();
-            if (session.getAttribute(LOCALE) != locale) {
-                session.setAttribute(LOCALE, locale);
+        if (cookies != null) {
+            Optional<String> optionalLocale = Arrays.stream(cookies)
+                    .filter(key -> StringUtils.equals(key.getName(), "locale"))
+                    .map(Cookie::getValue)
+                    .findAny();
+            if (optionalLocale.isPresent()) {
+                String locale = optionalLocale.get();
+                if (session.getAttribute(LOCALE) != locale) {
+                    session.setAttribute(LOCALE, locale);
+                }
+            } else {
+                session.setAttribute(LOCALE, DEFAULT_LOCALE);
             }
         } else {
             session.setAttribute(LOCALE, DEFAULT_LOCALE);

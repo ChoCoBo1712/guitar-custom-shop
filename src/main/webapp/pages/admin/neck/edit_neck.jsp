@@ -1,12 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<fmt:setLocale value="${sessionScope.locale}" />
-<fmt:setBundle basename="properties.pagecontent" />
+<%@ taglib uri="customshop-tags" prefix="cst" %>
 
 <html>
 <head>
-    <title><fmt:message key="admin.edit_neck.title" /></title>
+    <title><cst:localeTag key="admin.edit_neck.title" /></title>
     <jsp:include page="../shared/head.html" />
     <!-- jQuery Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -25,7 +23,7 @@
     <form action="${pageContext.request.contextPath}/controller?command=update_neck" method="post">
         <input type="text" name="id" value="${requestScope.neck.entityId}" hidden>
         <input type="text" name="name" value="${requestScope.neck.name}"
-               placeholder=<fmt:message key="placeholder.name" /> required pattern="[a-zA-Z0-9\s\-]{1,30}">
+               placeholder=<cst:localeTag key="placeholder.name" /> required pattern="[a-zA-Z0-9\s\-]{1,30}">
         <br>
         <select name="tuner" id="tuner_select">
             <option value="NON_LOCKING">NON_LOCKING</option>
@@ -36,11 +34,11 @@
         <br>
         <select name="fretboardWoodId" id="fretboardWoodSelect" required></select>
         <br>
-        <input type="submit" value=<fmt:message key="admin.edit" />>
+        <input type="submit" value=<cst:localeTag key="admin.edit" />>
     </form>
 
     <c:if test="${requestScope.validationError}">
-        <p><fmt:message key="error.validation_error" /></p>
+        <p><cst:localeTag key="error.validation_error" /></p>
     </c:if>
 
     <jsp:include page="../../common/shared/footer.jsp" />
@@ -55,7 +53,7 @@
 
             woodSelect.select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<fmt:message key="admin.necks.wood" />',
+                placeholder: '<cst:localeTag key="admin.necks.wood" />',
                 // theme: 'bootstrap',
                 width: '10%',
                 maximumInputLength: 50,
@@ -91,7 +89,7 @@
 
             fretboardWoodSelect.select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<fmt:message key="admin.necks.fretboard_wood" />',
+                placeholder: '<cst:localeTag key="admin.necks.fretboard_wood" />',
                 // theme: 'bootstrap',
                 width: '10%',
                 maximumInputLength: 50,

@@ -1,12 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<fmt:setLocale value="${sessionScope.locale}" />
-<fmt:setBundle basename="properties.pagecontent" />
+<%@ taglib uri="customshop-tags" prefix="cst" %>
 
 <html>
 <head>
-    <title><fmt:message key="admin.necks.title" /></title>
+    <title><cst:localeTag key="admin.necks.title" /></title>
     <jsp:include page="../shared/head.html" />
     <!-- jQuery Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -24,12 +22,12 @@
 
     <table id="necks_table">
         <thead>
-        <th><fmt:message key="admin.necks.id" /></th>
-        <th><fmt:message key="admin.necks.name" /></th>
-        <th><fmt:message key="admin.necks.tuner" /></th>
-        <th><fmt:message key="admin.necks.wood" /></th>
-        <th><fmt:message key="admin.necks.fretboard_wood" /></th>
-        <th><fmt:message key="admin.actions" /></th>
+        <th><cst:localeTag key="admin.necks.id" /></th>
+        <th><cst:localeTag key="admin.necks.name" /></th>
+        <th><cst:localeTag key="admin.necks.tuner" /></th>
+        <th><cst:localeTag key="admin.necks.wood" /></th>
+        <th><cst:localeTag key="admin.necks.fretboard_wood" /></th>
+        <th><cst:localeTag key="admin.actions" /></th>
         </thead>
     </table>
 
@@ -79,10 +77,10 @@
                         data: null,
                         render: function (row) {
                             return '<a href="/controller?command=go_to_edit_neck_page&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.edit" /></a>'
+                                + '<cst:localeTag key="admin.edit" /></a>'
                                 + '<br>'
                                 + '<a href="/controller?command=delete_neck&id=' + row.entityId + '">'
-                                + '<fmt:message key="admin.delete" /></a>'
+                                + '<cst:localeTag key="admin.delete" /></a>'
                         }
                     },
                 ],
@@ -96,17 +94,17 @@
             $("div.toolbar").html(`
                         <div class="input-group mb-3">
                         <button id="createButton" type="button" class="btn btn-secondary">
-                            <fmt:message key="admin.create" />
+                            <cst:localeTag key="admin.create" />
                         </button>
                         <select id="searchCriteria" class="form-select">
-                            <option value="ID"><fmt:message key="admin.necks.id" /></option>
-                            <option value="NAME"><fmt:message key="admin.necks.name" /></option>
-                            <option value="TUNER"><fmt:message key="admin.necks.tuner" /></option>
-                            <option value="WOOD_ID"><fmt:message key="admin.necks.wood" /></option>
-                            <option value="FRETBOARD_WOOD_ID"><fmt:message key="admin.necks.fretboard_wood" /></option>
+                            <option value="ID"><cst:localeTag key="admin.necks.id" /></option>
+                            <option value="NAME"><cst:localeTag key="admin.necks.name" /></option>
+                            <option value="TUNER"><cst:localeTag key="admin.necks.tuner" /></option>
+                            <option value="WOOD_ID"><cst:localeTag key="admin.necks.wood" /></option>
+                            <option value="FRETBOARD_WOOD_ID"><cst:localeTag key="admin.necks.fretboard_wood" /></option>
                         </select>
                         <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
-                         placeholder=<fmt:message key="admin.search" />>
+                         placeholder=<cst:localeTag key="admin.search" />>
                          <select id="searchSelect"></select>
                         </div>
                     `);
@@ -133,7 +131,7 @@
                     searchSelect.show();
                     searchSelect.select2({
                         language: '${sessionScope.locale}'.substring(0, 2),
-                        placeholder: '<fmt:message key="admin.necks.wood" />',
+                        placeholder: '<cst:localeTag key="admin.necks.wood" />',
                         // theme: 'bootstrap',
                         width: '10%',
                         maximumInputLength: 30,
@@ -172,7 +170,7 @@
                     searchSelect.show();
                     searchSelect.select2({
                         language: '${sessionScope.locale}'.substring(0, 2),
-                        placeholder: '<fmt:message key="admin.necks.fretboard_wood" />',
+                        placeholder: '<cst:localeTag key="admin.necks.fretboard_wood" />',
                         // theme: 'bootstrap',
                         width: '10%',
                         maximumInputLength: 30,
