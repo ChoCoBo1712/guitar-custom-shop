@@ -81,6 +81,7 @@ public class CommandProvider {
         commandMap.put(CommandType.SEND_PASSWORD_CHANGE_LINK, new SendPasswordChangeLinkCommand());
         commandMap.put(CommandType.GO_TO_PASSWORD_CHANGE_PAGE, new GoToPasswordChangePageCommand());
         commandMap.put(CommandType.PASSWORD_CHANGE, new PasswordChangeCommand());
+        commandMap.put(CommandType.UPDATE_PROFILE, new UpdateProfileCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

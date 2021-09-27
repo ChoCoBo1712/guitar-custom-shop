@@ -38,13 +38,10 @@ public class DatabaseConnectionPool {
     private final int minPoolSize;
     private final int maxPoolSize;
     private final long connectionLifetime;
-    private final int poolCheckDelay;
-    private final int poolCheckPeriod;
 
     private final Lock poolLock = new ReentrantLock(true);
     private final BlockingQueue<Connection> availableConnections;
     private final Queue<Connection> usedConnections;
-    private final Timer timer = new Timer(true);
 
     // TODO: 26.09.2021 ask about instantiation 
     public static DatabaseConnectionPool getInstance() {
@@ -58,6 +55,8 @@ public class DatabaseConnectionPool {
 
     private DatabaseConnectionPool() {
         ClassLoader classLoader = ConnectionFactory.class.getClassLoader();
+        int poolCheckDelay;
+        int poolCheckPeriod;
         try (InputStream inputStream = classLoader.getResourceAsStream(POOL_PROPERTIES_NAME)) {
             Properties poolProperties = new Properties();
             poolProperties.load(inputStream);
@@ -93,6 +92,7 @@ public class DatabaseConnectionPool {
         }
 
         PoolTimerTask task = new PoolTimerTask();
+        Timer timer = new Timer(true);
         timer.schedule(task, poolCheckDelay, poolCheckPeriod);
     }
 

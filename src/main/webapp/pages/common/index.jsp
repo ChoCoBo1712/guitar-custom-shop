@@ -7,6 +7,7 @@
 <html>
 <head>
     <title><fmt:message key="index.title" /></title>
+    <jsp:include page="shared/head.html" />
 </head>
 <body>
     <jsp:include page="shared/header.jsp" />

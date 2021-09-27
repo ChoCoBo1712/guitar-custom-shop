@@ -7,6 +7,7 @@
 <html>
 <head>
     <title><fmt:message key="forgot_password.title" /></title>
+    <jsp:include page="shared/head.html" />
 </head>
 <body>
     <jsp:include page="shared/header.jsp" />

@@ -1,11 +1,10 @@
-package com.chocobo.customshop.controller.command.impl.admin.user;
+package com.chocobo.customshop.controller.command.impl;
 
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
+import com.chocobo.customshop.controller.command.SessionAttribute;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
-import com.chocobo.customshop.model.entity.User.UserRole;
-import com.chocobo.customshop.model.entity.User.UserStatus;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.validator.impl.EmailValidator;
@@ -24,12 +23,13 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
+import static com.chocobo.customshop.controller.command.RequestAttribute.ENTITY_ID;
 import static com.chocobo.customshop.controller.command.SessionAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.USER;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
-public class UpdateUserCommand implements Command {
+public class UpdateProfileCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -41,8 +41,6 @@ public class UpdateUserCommand implements Command {
         String email = request.getParameter(EMAIL);
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
-        UserRole role = UserRole.valueOf(request.getParameter(ROLE));
-        UserStatus status = UserStatus.valueOf(request.getParameter(STATUS));
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
 
         CommandResult result;
@@ -73,14 +71,12 @@ public class UpdateUserCommand implements Command {
                         session.setAttribute(DUPLICATE_LOGIN_ERROR, true);
                     }
                     if (duplicate) {
-                        return new CommandResult(ADMIN_CREATE_USER_URL, REDIRECT);
+                        return new CommandResult(PROFILE_URL, REDIRECT);
                     }
 
                     User updatedUser = User.builder().of(user)
                             .setEmail(email)
                             .setLogin(login)
-                            .setRole(role)
-                            .setStatus(status)
                             .build();
                     if (passwordIsEmpty) {
                         userService.update(updatedUser);
@@ -88,18 +84,18 @@ public class UpdateUserCommand implements Command {
                         userService.updateWithPassword(updatedUser, password);
                     }
 
-                    result = new CommandResult(ADMIN_USERS_URL, REDIRECT);
+                    session.setAttribute(USER, updatedUser);
+                    session.setAttribute(PROFILE_UPDATED, true);
                 } else {
                     session.setAttribute(VALIDATION_ERROR, true);
-                    String currentEditPageUrl = ADMIN_EDIT_USER_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
-                    result = new CommandResult(currentEditPageUrl, REDIRECT);
                 }
+                result = new CommandResult(PROFILE_URL, REDIRECT);
             } else {
-                logger.error("Requested user not found, id = " + entityId);
+                logger.error("Requested profile not found, id = " + entityId);
                 result = new CommandResult(SC_NOT_FOUND, ERROR);
             }
         } catch (ServiceException e) {
-            logger.error("An error occurred during update user command execution", e);
+            logger.error("An error occurred during update profile command execution", e);
             return new CommandResult(SC_INTERNAL_SERVER_ERROR, ERROR);
         }
         return result;
