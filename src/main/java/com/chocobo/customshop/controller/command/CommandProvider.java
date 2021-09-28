@@ -84,6 +84,7 @@ public class CommandProvider {
         commandMap.put(CommandType.PASSWORD_CHANGE, new PasswordChangeCommand());
         commandMap.put(CommandType.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandType.CONSTRUCT_GUITAR, new ConstructGuitarCommand());
+        commandMap.put(CommandType.GO_TO_MY_GUITARS_PAGE, new GoToMyGuitarsPageCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

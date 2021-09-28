@@ -10,6 +10,7 @@
             <c:if test="${sessionScope.user.role.ordinal() == 0}">
                 <a href="${pageContext.request.contextPath}/controller?command=go_to_users_page"><cst:localeTag key="index.admin" /></a>
                 <a href="${pageContext.request.contextPath}/controller?command=go_to_construct_guitar_page"><cst:localeTag key="index.construct_guitar" /></a>
+                <a href="${pageContext.request.contextPath}/controller?command=go_to_my_guitars_page"><cst:localeTag key="index.my_guitars" /></a>
                 <a href="${pageContext.request.contextPath}/controller?command=go_to_guitar_orders_page"><cst:localeTag key="index.guitar_orders" /></a>
             </c:if>
             <%--master--%>
@@ -20,6 +21,7 @@
             <%--client--%>
             <c:if test="${sessionScope.user.role.ordinal() == 2}">
                 <a href="${pageContext.request.contextPath}/controller?command=go_to_construct_guitar_page"><cst:localeTag key="index.construct_guitar" /></a>
+                <a href="${pageContext.request.contextPath}/controller?command=go_to_my_guitars_page"><cst:localeTag key="index.my_guitars" /></a>
             </c:if>
             <a href="${pageContext.request.contextPath}/controller?command=logout"><cst:localeTag key="index.logout" /></a>
             <a href="${pageContext.request.contextPath}/controller?command=go_to_profile_page">${sessionScope.user.login}</a>

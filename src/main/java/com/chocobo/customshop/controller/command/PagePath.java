@@ -29,6 +29,7 @@ public final class PagePath {
     public static final String FORGOT_PASSWORD_JSP = "/pages/common/forgot_password.jsp";
     public static final String PASSWORD_CHANGE_JSP = "/pages/common/password_change.jsp";
     public static final String CONSTRUCT_GUITAR_JSP = "/pages/common/construct_guitar.jsp";
+    public static final String MY_GUITARS_JSP = "/pages/common/my_guitars.jsp";
 
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
@@ -57,6 +58,7 @@ public final class PagePath {
     public static final String FORGOT_PASSWORD_URL = "/controller?command=go_to_forgot_password_page";
     public static final String PASSWORD_CHANGE_URL = "/controller?command=go_to_password_change_page";
     public static final String CONSTRUCT_GUITAR_URL = "/controller?command=go_to_construct_guitar_page";
+    public static final String MY_GUITARS_URL = "/controller?command=go_to_my_guitars_page";
 
     public static final String AMPERSAND = "&";
     public static final String EQUALS_SIGN = "=";

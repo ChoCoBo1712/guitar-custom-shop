@@ -84,8 +84,9 @@ public class GetGuitarsCommand implements Command {
         int page = Integer.parseInt(request.getParameter(PAGE));
         int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
         int start = pageSize * (page - 1);
+        String searchCriteria = request.getParameter(FILTER_CRITERIA);
 
-        Pair<Long, List<Guitar>> pair = guitarService.filter(start, pageSize, GuitarFilterCriteria.NAME, searchValue);
+        Pair<Long, List<Guitar>> pair = guitarService.filter(start, pageSize, GuitarFilterCriteria.valueOf(searchCriteria), searchValue);
         long recordsFetched = pair.getLeft();
         List<Guitar> guitars = pair.getRight();
         responseMap.put(RESULTS, guitars);
