@@ -11,132 +11,154 @@ public class GuitarDaoImpl implements GuitarDao {
 
     private static GuitarDao instance;
 
-    private static final String INSERT =
-            "INSERT INTO guitars(name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT = """
+            INSERT INTO guitars(name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?);
+            """;
 
-    private static final String UPDATE =
-            "UPDATE guitars " +
-            "SET name = ?, picture_path = ?, id_body = ?, id_neck = ?, id_pickup = ?, id_user = ?, color = ?, neck_joint = ? " +
-            "WHERE guitar_id = ?;";
+    private static final String UPDATE = """
+            UPDATE guitars
+            SET name = ?, picture_path = ?, id_body = ?, id_neck = ?, id_pickup = ?, id_user = ?, color = ?, neck_joint = ?
+            WHERE guitar_id = ?;
+            """;
 
-    private static final String DELETE =
-            "UPDATE guitars " +
-            "SET deleted = 1 " +
-            "WHERE guitar_id = ?;";
+    private static final String DELETE = """
+            UPDATE guitars
+            SET deleted = 1
+            WHERE guitar_id = ?;
+            """;
 
-    private static final String SELECT_BY_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE guitar_id = ?;";
+    private static final String SELECT_BY_ID = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE guitar_id = ?;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE guitar_id LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_ID = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE guitar_id LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_ID =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE guitar_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_ID = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE guitar_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_ALL =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_ALL = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_ALL =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE deleted <> 1;";
+    private static final String SELECT_COUNT_ALL = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_NAME =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_NAME = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_NAME =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_NAME = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_BODY_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE id_body LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_BODY_ID = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE id_body LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_BODY_ID =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE id_body LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_BODY_ID = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE id_body LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_NECK_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE id_neck LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_NECK_ID = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE id_neck LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_NECK_ID =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE id_neck LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_NECK_ID = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE id_neck LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_PICKUP_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE id_pickup LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_PICKUP_ID = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE id_pickup LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_PICKUP_ID =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE id_pickup LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_PICKUP_ID = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE id_pickup LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_USER_ID =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE id_user LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_USER_ID = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE id_user LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_USER_ID =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE id_user LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_USER_ID = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE id_user LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_COLOR =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE color LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_COLOR = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE color LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_COLOR =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE color LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_COLOR = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE color LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_NECK_JOINT =
-            "SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint " +
-            "FROM guitars " +
-            "WHERE neck_joint LIKE ? AND deleted <> 1 " +
-            "ORDER BY guitar_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_NECK_JOINT = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE neck_joint LIKE ? AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_NECK_JOINT =
-            "SELECT COUNT(guitar_id) " +
-            "FROM guitars " +
-            "WHERE neck_joint LIKE ? AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_NECK_JOINT = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE neck_joint LIKE ? AND deleted <> 1;
+            """;
 
     public static GuitarDao getInstance() {
         if (instance == null) {

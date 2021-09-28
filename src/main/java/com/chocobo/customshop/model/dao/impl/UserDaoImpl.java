@@ -18,106 +18,124 @@ public class UserDaoImpl implements UserDao {
 
     private static UserDao instance;
 
-    private static final String SELECT_ALL =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE status <> 'DELETED' " +
-            "ORDER BY user_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_ALL = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE status <> 'DELETED'
+            ORDER BY user_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_ALL =
-            "SELECT COUNT(user_id) " +
-            "FROM users " +
-            "WHERE status <> 'DELETED';";
+    private static final String SELECT_COUNT_ALL = """
+            SELECT COUNT(user_id)
+            FROM users
+            WHERE status <> 'DELETED';
+            """;
 
-    private static final String SELECT_BY_ID =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE user_id = ?;";
+    private static final String SELECT_BY_ID = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE user_id = ?;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_ID =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE user_id LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
-            "ORDER BY user_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_ID = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE user_id LIKE CONCAT('%', ?, '%') AND status <> 'DELETED'
+            ORDER BY user_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_ID =
-            "SELECT COUNT(user_id) " +
-            "FROM users " +
-            "WHERE user_id LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+    private static final String SELECT_COUNT_BY_ID = """
+            SELECT COUNT(user_id)
+            FROM users
+            WHERE user_id LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';
+            """;
 
-    private static final String SELECT_BY_EMAIL =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE email = ?;";
+    private static final String SELECT_BY_EMAIL = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE email = ?;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_EMAIL =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE email LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
-            "ORDER BY user_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_EMAIL = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE email LIKE CONCAT('%', ?, '%') AND status <> 'DELETED'
+            ORDER BY user_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_EMAIL =
-            "SELECT COUNT(user_id) " +
-            "FROM users " +
-            "WHERE email LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+    private static final String SELECT_COUNT_BY_EMAIL = """
+            SELECT COUNT(user_id)
+            FROM users
+            WHERE email LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';
+            """;
 
-    private static final String SELECT_BY_LOGIN =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE login = ?;";
+    private static final String SELECT_BY_LOGIN = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE login = ?;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_ROLE =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE role LIKE ? AND status <> 'DELETED' " +
-            "ORDER BY user_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_ROLE = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE role LIKE ? AND status <> 'DELETED'
+            ORDER BY user_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_ROLE =
-            "SELECT COUNT(user_id) " +
-            "FROM users " +
-            "WHERE role LIKE ? AND status <> 'DELETED';";
+    private static final String SELECT_COUNT_BY_ROLE = """
+            SELECT COUNT(user_id)
+            FROM users
+            WHERE role LIKE ? AND status <> 'DELETED';
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_STATUS =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE status LIKE ? AND status <> 'DELETED' " +
-            "ORDER BY user_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_STATUS = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE status LIKE ? AND status <> 'DELETED'
+            ORDER BY user_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_STATUS =
-            "SELECT COUNT(user_id) " +
-            "FROM users " +
-            "WHERE status LIKE ? AND status <> 'DELETED';";
+    private static final String SELECT_COUNT_BY_STATUS = """
+            SELECT COUNT(user_id)
+            FROM users
+            WHERE status LIKE ? AND status <> 'DELETED';
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_LOGIN =
-            "SELECT user_id, email, login, password_hash, salt, role, status " +
-            "FROM users " +
-            "WHERE login LIKE CONCAT('%', ?, '%') AND status <> 'DELETED' " +
-            "ORDER BY user_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_LOGIN = """
+            SELECT user_id, email, login, password_hash, salt, role, status
+            FROM users
+            WHERE login LIKE CONCAT('%', ?, '%') AND status <> 'DELETED'
+            ORDER BY user_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_LOGIN =
-            "SELECT COUNT(user_id) " +
-            "FROM users " +
-            "WHERE login LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';";
+    private static final String SELECT_COUNT_BY_LOGIN = """
+            SELECT COUNT(user_id)
+            FROM users
+            WHERE login LIKE CONCAT('%', ?, '%') AND status <> 'DELETED';
+            """;
 
-    private static final String INSERT =
-            "INSERT INTO users(email, login, password_hash, salt, role, status) " +
-            "VALUES(?, ?, ?, ?, ?, ?);";
+    private static final String INSERT = """
+            INSERT INTO users(email, login, password_hash, salt, role, status)
+            VALUES(?, ?, ?, ?, ?, ?);
+            """;
 
-    private static final String UPDATE =
-            "UPDATE users " +
-            "SET email = ?, login = ?, password_hash = ?, salt = ?, role = ?, status = ? " +
-            "WHERE user_id = ?;";
+    private static final String UPDATE = """
+            UPDATE users
+            SET email = ?, login = ?, password_hash = ?, salt = ?, role = ?, status = ?
+            WHERE user_id = ?;
+            """;
 
-    private static final String DELETE =
-            "UPDATE users " +
-            "SET status = 'DELETED' " +
-            "WHERE user_id = ?;";
+    private static final String DELETE = """
+            UPDATE users
+            SET status = 'DELETED'
+            WHERE user_id = ?;
+            """;
 
     public static UserDao getInstance() {
         if (instance == null) {

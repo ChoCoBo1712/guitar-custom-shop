@@ -11,60 +11,70 @@ public class WoodDaoImpl implements WoodDao {
 
     private static WoodDao instance;
 
-    private static final String SELECT_ALL =
-            "SELECT wood_id, name " +
-            "FROM woods " +
-            "WHERE deleted <> 1 " +
-            "ORDER BY wood_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_ALL = """
+            SELECT wood_id, name
+            FROM woods
+            WHERE deleted <> 1
+            ORDER BY wood_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_ALL =
-            "SELECT COUNT(wood_id) " +
-            "FROM woods " +
-            "WHERE deleted <> 1;";
+    private static final String SELECT_COUNT_ALL = """
+            SELECT COUNT(wood_id)
+            FROM woods
+            WHERE deleted <> 1;
+            """;
 
-    private static final String SELECT_BY_ID =
-            "SELECT wood_id, name " +
-            "FROM woods " +
-            "WHERE wood_id = ?;";
+    private static final String SELECT_BY_ID = """
+            SELECT wood_id, name
+            FROM woods
+            WHERE wood_id = ?;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_ID =
-            "SELECT wood_id, name " +
-            "FROM woods " +
-            "WHERE wood_id LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY wood_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_ID = """
+            SELECT wood_id, name
+            FROM woods
+            WHERE wood_id LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY wood_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_ID =
-            "SELECT COUNT(wood_id) " +
-            "FROM woods " +
-            "WHERE wood_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_ID = """
+            SELECT COUNT(wood_id)
+            FROM woods
+            WHERE wood_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_NAME =
-            "SELECT wood_id, name " +
-            "FROM woods " +
-            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY wood_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_NAME = """
+            SELECT wood_id, name
+            FROM woods
+            WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY wood_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_NAME =
-            "SELECT COUNT(wood_id) " +
-            "FROM woods " +
-            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_NAME = """
+            SELECT COUNT(wood_id)
+            FROM woods
+            WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String INSERT =
-            "INSERT INTO woods(name) " +
-            "VALUES(?);";
+    private static final String INSERT = """
+            INSERT INTO woods(name)
+            VALUES(?);
+            """;
 
-    private static final String UPDATE =
-            "UPDATE woods " +
-            "SET name = ? " +
-            "WHERE wood_id = ?;";
+    private static final String UPDATE = """
+            UPDATE woods
+            SET name = ?
+            WHERE wood_id = ?;
+            """;
 
-    private static final String DELETE =
-            "UPDATE woods " +
-            "SET deleted = 1 " +
-            "WHERE wood_id = ?;";
+    private static final String DELETE = """
+            UPDATE woods
+            SET deleted = 1
+            WHERE wood_id = ?;
+            """;
 
     public static WoodDao getInstance() {
         if (instance == null) {

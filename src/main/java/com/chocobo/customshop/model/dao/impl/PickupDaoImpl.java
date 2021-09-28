@@ -12,60 +12,70 @@ public class PickupDaoImpl implements PickupDao {
 
     private static PickupDao instance;
 
-    private static final String SELECT_ALL =
-            "SELECT pickup_id, name " +
-            "FROM pickups " +
-            "WHERE deleted <> 1 " +
-            "ORDER BY pickup_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_ALL = """
+            SELECT pickup_id, name
+            FROM pickups
+            WHERE deleted <> 1
+            ORDER BY pickup_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_ALL =
-            "SELECT COUNT(pickup_id) " +
-            "FROM pickups " +
-            "WHERE deleted <> 1;";
+    private static final String SELECT_COUNT_ALL = """
+            SELECT COUNT(pickup_id)
+            FROM pickups
+            WHERE deleted <> 1;
+            """;
 
-    private static final String SELECT_BY_ID =
-            "SELECT pickup_id, name " +
-            "FROM pickups " +
-            "WHERE pickup_id = ?;";
+    private static final String SELECT_BY_ID = """
+            SELECT pickup_id, name
+            FROM pickups
+            WHERE pickup_id = ?;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_ID =
-            "SELECT pickup_id, name " +
-            "FROM pickups " +
-            "WHERE pickup_id LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY pickup_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_ID = """
+            SELECT pickup_id, name
+            FROM pickups
+            WHERE pickup_id LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY pickup_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_ID =
-            "SELECT COUNT(pickup_id) " +
-            "FROM pickups " +
-            "WHERE pickup_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_ID = """
+            SELECT COUNT(pickup_id)
+            FROM pickups
+            WHERE pickup_id LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String SELECT_MULTIPLE_BY_NAME =
-            "SELECT pickup_id, name " +
-            "FROM pickups " +
-            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1 " +
-            "ORDER BY pickup_id " +
-            "LIMIT ?, ?;";
+    private static final String SELECT_MULTIPLE_BY_NAME = """
+            SELECT pickup_id, name
+            FROM pickups
+            WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1
+            ORDER BY pickup_id
+            LIMIT ?, ?;
+            """;
 
-    private static final String SELECT_COUNT_BY_NAME =
-            "SELECT COUNT(pickup_id) " +
-            "FROM pickups " +
-            "WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;";
+    private static final String SELECT_COUNT_BY_NAME = """
+            SELECT COUNT(pickup_id)
+            FROM pickups
+            WHERE name LIKE CONCAT('%', ?, '%') AND deleted <> 1;
+            """;
 
-    private static final String INSERT =
-            "INSERT INTO pickups(name) " +
-            "VALUES(?);";
+    private static final String INSERT = """
+            INSERT INTO pickups(name)
+            VALUES(?);
+            """;
 
-    private static final String UPDATE =
-            "UPDATE pickups " +
-            "SET name = ? " +
-            "WHERE pickup_id = ?;";
+    private static final String UPDATE = """
+            UPDATE pickups
+            SET name = ?
+            WHERE pickup_id = ?;
+            """;
 
-    private static final String DELETE =
-            "UPDATE pickups " +
-            "SET deleted = 1 " +
-            "WHERE pickup_id = ?;";
+    private static final String DELETE = """
+            UPDATE pickups
+            SET deleted = 1
+            WHERE pickup_id = ?;
+            """;
 
     public static PickupDao getInstance() {
         if (instance == null) {
