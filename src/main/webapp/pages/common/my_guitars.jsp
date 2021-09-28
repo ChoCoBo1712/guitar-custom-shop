@@ -63,8 +63,7 @@
               term: params.term || '',
               page: params.page || 1,
               pageSize: 10,
-              requestType: 'SELECT',
-              filterCriteria: 'USER_ID'
+              requestType: 'SELECT'
             }
           },
           processResults: function (data, params) {

@@ -160,6 +160,20 @@ public class GuitarDaoImpl implements GuitarDao {
             WHERE neck_joint LIKE ? AND deleted <> 1;
             """;
 
+    private static final String SELECT_MULTIPLE_BY_NAME_FOR_USER = """
+            SELECT guitar_id, name, picture_path, id_body, id_neck, id_pickup, id_user, color, neck_joint
+            FROM guitars
+            WHERE name LIKE CONCAT('%', ?, '%') AND id_user = ? AND deleted <> 1
+            ORDER BY guitar_id
+            LIMIT ?, ?;
+            """;
+
+    private static final String SELECT_COUNT_BY_NAME_FOR_USER = """
+            SELECT COUNT(guitar_id)
+            FROM guitars
+            WHERE name LIKE CONCAT('%', ?, '%') AND id_user = ? AND deleted <> 1;
+            """;
+
     public static GuitarDao getInstance() {
         if (instance == null) {
             instance = new GuitarDaoImpl();
@@ -296,5 +310,15 @@ public class GuitarDaoImpl implements GuitarDao {
     @Override
     public long selectCountByNeckJoint(String keyword) throws DaoException {
         return executeSelectCount(SELECT_COUNT_BY_NECK_JOINT, keyword);
+    }
+
+    @Override
+    public List<Guitar> selectByNameForUser(int offset, int length, String keyword, String userId) throws DaoException {
+        return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME_FOR_USER, keyword, userId, offset, length);
+    }
+
+    @Override
+    public long selectCountByNameForUser(String keyword, String userId) throws DaoException {
+        return executeSelectCount(SELECT_COUNT_BY_NAME_FOR_USER, keyword, userId);
     }
 }

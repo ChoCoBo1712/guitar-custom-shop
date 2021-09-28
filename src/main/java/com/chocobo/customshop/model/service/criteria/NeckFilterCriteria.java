@@ -5,5 +5,6 @@ public enum NeckFilterCriteria {
     ID,
     NAME,
     WOOD_ID,
-    FRETBOARD_WOOD_ID
+    FRETBOARD_WOOD_ID,
+    NAME_AND_WOOD
 }

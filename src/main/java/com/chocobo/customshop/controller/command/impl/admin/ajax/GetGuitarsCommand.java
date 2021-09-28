@@ -4,6 +4,7 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Guitar;
+import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.service.GuitarService;
 import com.chocobo.customshop.model.service.criteria.GuitarFilterCriteria;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
@@ -81,12 +82,12 @@ public class GetGuitarsCommand implements Command {
     private void processSelectRequest(HttpServletRequest request, Map<String, Object> responseMap)
             throws ServiceException {
         String searchValue = request.getParameter(TERM);
+        String userId = String.valueOf(((User) request.getSession().getAttribute(USER)).getEntityId());
         int page = Integer.parseInt(request.getParameter(PAGE));
         int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
         int start = pageSize * (page - 1);
-        String filterCriteria = request.getParameter(FILTER_CRITERIA);
 
-        Pair<Long, List<Guitar>> pair = guitarService.filter(start, pageSize, GuitarFilterCriteria.valueOf(filterCriteria), searchValue);
+        Pair<Long, List<Guitar>> pair = guitarService.filterByNameForUser(start, pageSize, searchValue, userId);
         long recordsFetched = pair.getLeft();
         List<Guitar> guitars = pair.getRight();
         responseMap.put(RESULTS, guitars);

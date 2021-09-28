@@ -19,6 +19,10 @@ public interface BodyDao extends BaseDao<Body> {
 
     long selectCountByName(String keyword) throws DaoException;
 
+    List<Body> selectByNameAndWood(int offset, int length, String keyword) throws DaoException;
+
+    long selectCountByNameAndWood(String keyword) throws DaoException;
+
     @Override
     default Body buildEntityFromResultSet(ResultSet resultSet) throws SQLException {
         return (Body) Body.builder()

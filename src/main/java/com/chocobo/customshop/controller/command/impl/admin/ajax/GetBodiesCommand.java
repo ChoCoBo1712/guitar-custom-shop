@@ -84,8 +84,9 @@ public class GetBodiesCommand implements Command {
         int page = Integer.parseInt(request.getParameter(PAGE));
         int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
         int start = pageSize * (page - 1);
+        String filterCriteria = request.getParameter(FILTER_CRITERIA);
 
-        Pair<Long, List<Body>> pair = bodyService.filter(start, pageSize, BodyFilterCriteria.NAME, searchValue);
+        Pair<Long, List<Body>> pair = bodyService.filter(start, pageSize, BodyFilterCriteria.valueOf(filterCriteria), searchValue);
         long recordsFetched = pair.getLeft();
         List<Body> bodies = pair.getRight();
         responseMap.put(RESULTS, bodies);

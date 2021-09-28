@@ -40,6 +40,10 @@ public interface GuitarDao extends BaseDao<Guitar> {
 
     long selectCountByNeckJoint(String keyword) throws DaoException;
 
+    List<Guitar> selectByNameForUser(int offset, int length, String keyword, String userId) throws DaoException;
+
+    long selectCountByNameForUser(String keyword, String userId) throws DaoException;
+
     @Override
     default Guitar buildEntityFromResultSet(ResultSet resultSet) throws SQLException {
         return (Guitar) Guitar.builder()

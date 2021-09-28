@@ -76,9 +76,9 @@ public class GuitarServiceImpl implements GuitarService {
 
     @Override
     public Pair<Long, List<Guitar>> filter(int start, int length, GuitarFilterCriteria criteria, String keyword) throws ServiceException {
-        long count;
-        List<Guitar> resultList;
         try {
+            long count;
+            List<Guitar> resultList;
             switch (criteria) {
                 case NONE -> {
                     resultList = guitarDao.selectAll(start, length);
@@ -118,6 +118,17 @@ public class GuitarServiceImpl implements GuitarService {
                 }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
+            return Pair.of(count, resultList);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Pair<Long, List<Guitar>> filterByNameForUser(int start, int length, String keyword, String userId) throws ServiceException {
+        try {
+            List<Guitar> resultList = guitarDao.selectByNameForUser(start, length, keyword, userId);
+            long count = guitarDao.selectCountByNameForUser(keyword, userId);
             return Pair.of(count, resultList);
         } catch (DaoException e) {
             throw new ServiceException(e);

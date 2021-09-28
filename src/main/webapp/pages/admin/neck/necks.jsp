@@ -224,7 +224,7 @@
             table.rows().data().each(function (value, index) {
                 fetchWood(value.woodId, function (entity) {
                     let woodName = entity.name;
-                    let cell = table.cell(index, 3).node();
+                    let cell = table.cell(index, 2).node();
                     $(cell).find('a').text(woodName);
                 });
             });
@@ -232,7 +232,7 @@
             table.rows().data().each(function (value, index) {
                 fetchWood(value.fretboardWoodId, function (entity) {
                     let woodName = entity.name;
-                    let cell = table.cell(index, 4).node();
+                    let cell = table.cell(index, 3).node();
                     $(cell).find('a').text(woodName);
                 });
             });

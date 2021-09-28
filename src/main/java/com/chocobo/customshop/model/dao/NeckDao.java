@@ -23,6 +23,9 @@ public interface NeckDao extends BaseDao<Neck> {
 
     long selectCountByName(String keyword) throws DaoException;
 
+    List<Neck> selectByNameAndWood(int offset, int length, String keyword) throws DaoException;
+
+    long selectCountByNameAndWood(String keyword) throws DaoException;
 
     @Override
     default Neck buildEntityFromResultSet(ResultSet resultSet) throws SQLException {

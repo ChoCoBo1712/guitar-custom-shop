@@ -4,8 +4,9 @@
 
 <html>
 <head>
-    <title><cst:localeTag key="admin.guitars.title" /></title>
-    <jsp:include page="../shared/head.html" />
+    <title><cst:localeTag key="index.title" /></title>
+    <jsp:include page="shared/head.html" />
+
     <!-- jQuery Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -15,16 +16,17 @@
     <c:if test="${sessionScope.locale == 'ru_RU'}">
         <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/ru.js"></script>
     </c:if>
+
+    <!--DataTables-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.js"></script>
 </head>
 <body>
-    <jsp:include page="../../common/shared/header.jsp" />
-    <jsp:include page="../shared/header.jsp" />
+    <jsp:include page="shared/header.jsp" />
 
-    <table id="guitars_table">
+    <table id="orders_table">
         <thead>
-            <th><cst:localeTag key="admin.guitars.id" /></th>
             <th><cst:localeTag key="admin.guitars.name" /></th>
-            <th><cst:localeTag key="admin.guitars.picture_path" /></th>
             <th><cst:localeTag key="admin.guitars.body" /></th>
             <th><cst:localeTag key="admin.guitars.neck" /></th>
             <th><cst:localeTag key="admin.guitars.pickup" /></th>
@@ -35,7 +37,7 @@
         </thead>
     </table>
 
-    <jsp:include page="../../common/shared/footer.jsp" />
+    <jsp:include page="shared/footer.jsp" />
 
     <script>
         $(document).ready( function () {
@@ -44,7 +46,7 @@
             sessionStorage.removeItem('cachedPickups');
             sessionStorage.removeItem('cachedUsers');
 
-            let table = $('#guitars_table').DataTable( {
+            let table = $('#orders_table').DataTable( {
                 language: {
                     <c:if test="${sessionScope.locale == 'en_US'}">
                     url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/en-gb.json'
@@ -173,8 +175,7 @@
                                     term: params.term || '',
                                     page: params.page || 1,
                                     pageSize: 10,
-                                    requestType: 'SELECT',
-                                    filterCriteria: 'NAME'
+                                    requestType: 'SELECT'
                                 }
                             },
                             processResults: function (data, params) {
@@ -213,8 +214,7 @@
                                     term: params.term || '',
                                     page: params.page || 1,
                                     pageSize: 10,
-                                    requestType: 'SELECT',
-                                    filterCriteria: 'NAME'
+                                    requestType: 'SELECT'
                                 }
                             },
                             processResults: function (data, params) {
@@ -503,4 +503,3 @@
     </script>
 </body>
 </html>
-

@@ -92,6 +92,10 @@ public class NeckServiceImpl implements NeckService {
                     resultList = neckDao.selectByFretboardWoodId(start, length, keyword);
                     count = neckDao.selectCountByFretboardWoodId(keyword);
                 }
+                case NAME_AND_WOOD -> {
+                    resultList = neckDao.selectByNameAndWood(start, length, keyword);
+                    count = neckDao.selectCountByNameAndWood(keyword);
+                }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
             return Pair.of(count, resultList);

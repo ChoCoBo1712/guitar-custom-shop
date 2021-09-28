@@ -84,8 +84,9 @@ public class GetNecksCommand implements Command {
         int page = Integer.parseInt(request.getParameter(PAGE));
         int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
         int start = pageSize * (page - 1);
+        String filterCriteria = request.getParameter(FILTER_CRITERIA);
 
-        Pair<Long, List<Neck>> pair = neckService.filter(start, pageSize, NeckFilterCriteria.NAME, searchValue);
+        Pair<Long, List<Neck>> pair = neckService.filter(start, pageSize, NeckFilterCriteria.valueOf(filterCriteria), searchValue);
         long recordsFetched = pair.getLeft();
         List<Neck> necks = pair.getRight();
         responseMap.put(RESULTS, necks);

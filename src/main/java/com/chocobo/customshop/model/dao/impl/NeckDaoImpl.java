@@ -91,10 +91,10 @@ public class NeckDaoImpl implements NeckDao {
             SELECT neck_id, necks.name, id_neck_wood, id_fretboard_wood
             FROM necks
             INNER JOIN woods AS neck_woods ON necks.id_neck_wood = neck_woods.wood_id
-            INNER JOIN woods AS fretboard_woods ON necks.id_fretboard_wood = fretboard_woods.wood_id +
+            INNER JOIN woods AS fretboard_woods ON necks.id_fretboard_wood = fretboard_woods.wood_id
             WHERE necks.deleted + neck_woods.deleted + fretboard_woods.deleted = 0 AND
             CONCAT(neck_woods.name, ' ', necks.name, ' ', fretboard_woods.name, ' fretboard') LIKE CONCAT('%', ?, '%')
-            ORDER BY body_id
+            ORDER BY neck_id
             LIMIT ?, ?;
             """;
 
@@ -102,7 +102,7 @@ public class NeckDaoImpl implements NeckDao {
             SELECT COUNT(neck_id)
             FROM necks
             INNER JOIN woods AS neck_woods ON necks.id_neck_wood=neck_woods.wood_id
-            INNER JOIN woods AS fretboard_woods ON necks.id_fretboard_wood=fretboard_woods.wood_id +
+            INNER JOIN woods AS fretboard_woods ON necks.id_fretboard_wood=fretboard_woods.wood_id
             WHERE necks.deleted + neck_woods.deleted + fretboard_woods.deleted = 0 AND
             CONCAT(neck_woods.name, ' ', necks.name, ' ', fretboard_woods.name, ' fretboard') LIKE CONCAT('%', ?, '%');
             """;

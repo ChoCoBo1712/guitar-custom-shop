@@ -9,5 +9,5 @@ public enum GuitarFilterCriteria {
     PICKUP_ID,
     USER_ID,
     COLOR,
-    NECK_JOINT
+    NECK_JOINT,
 }

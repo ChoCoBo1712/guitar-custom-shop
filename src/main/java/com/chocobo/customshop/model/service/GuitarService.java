@@ -22,4 +22,7 @@ public interface GuitarService {
 
     Pair<Long, List<Guitar>> filter(int start, int length, GuitarFilterCriteria criteria, String keyword)
             throws ServiceException;
+
+    Pair<Long, List<Guitar>> filterByNameForUser(int start, int length, String keyword, String userId)
+            throws ServiceException;
 }

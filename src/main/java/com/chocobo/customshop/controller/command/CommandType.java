@@ -31,6 +31,7 @@ public enum CommandType {
     GO_TO_PASSWORD_CHANGE_PAGE,
     GO_TO_CONSTRUCT_GUITAR_PAGE,
     GO_TO_MY_GUITARS_PAGE,
+    GO_TO_GUITAR_ORDERS_PAGE,
 
     // other commands
     REGISTER,

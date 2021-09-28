@@ -48,6 +48,9 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_PROFILE_PAGE, new GoToProfilePageCommand());
         commandMap.put(CommandType.GO_TO_FORGOT_PASSWORD_PAGE, new GoToForgotPasswordPageCommand());
         commandMap.put(CommandType.GO_TO_CONSTRUCT_GUITAR_PAGE, new GoToConstructGuitarPage());
+        commandMap.put(CommandType.GO_TO_PASSWORD_CHANGE_PAGE, new GoToPasswordChangePageCommand());
+        commandMap.put(CommandType.GO_TO_MY_GUITARS_PAGE, new GoToMyGuitarsPageCommand());
+        commandMap.put(CommandType.GO_TO_GUITAR_ORDERS_PAGE, new GoToGuitarOrdersPageCommand());
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
@@ -80,11 +83,9 @@ public class CommandProvider {
         commandMap.put(CommandType.DELETE_GUITAR, new DeleteGuitarCommand());
         commandMap.put(CommandType.SEND_CONFIRMATION_LINK, new SendConfirmationLinkCommand());
         commandMap.put(CommandType.SEND_PASSWORD_CHANGE_LINK, new SendPasswordChangeLinkCommand());
-        commandMap.put(CommandType.GO_TO_PASSWORD_CHANGE_PAGE, new GoToPasswordChangePageCommand());
         commandMap.put(CommandType.PASSWORD_CHANGE, new PasswordChangeCommand());
         commandMap.put(CommandType.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandType.CONSTRUCT_GUITAR, new ConstructGuitarCommand());
-        commandMap.put(CommandType.GO_TO_MY_GUITARS_PAGE, new GoToMyGuitarsPageCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

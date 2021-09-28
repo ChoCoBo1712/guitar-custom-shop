@@ -4,5 +4,6 @@ public enum BodyFilterCriteria {
     NONE,
     ID,
     NAME,
-    WOOD_ID
+    WOOD_ID,
+    NAME_AND_WOOD
 }

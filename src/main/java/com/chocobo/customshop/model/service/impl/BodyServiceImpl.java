@@ -90,6 +90,10 @@ public class BodyServiceImpl implements BodyService {
                     resultList = bodyDao.selectByWoodId(start, length, keyword);
                     count = bodyDao.selectCountByWoodId(keyword);
                 }
+                case NAME_AND_WOOD -> {
+                    resultList = bodyDao.selectByNameAndWood(start, length, keyword);
+                    count = bodyDao.selectCountByNameAndWood(keyword);
+                }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }
             return Pair.of(count, resultList);

@@ -66,7 +66,8 @@
               term: params.term || '',
               page: params.page || 1,
               pageSize: 10,
-              requestType: 'SELECT'
+              requestType: 'SELECT',
+              filterCriteria: 'NAME_AND_WOOD'
             }
           },
           processResults: function (data, params) {
@@ -106,7 +107,8 @@
               term: params.term || '',
               page: params.page || 1,
               pageSize: 10,
-              requestType: 'SELECT'
+              requestType: 'SELECT',
+              filterCriteria: 'NAME_AND_WOOD'
             }
           },
           processResults: function (data, params) {
@@ -114,10 +116,14 @@
             let mappedData = $.map(data.results, function (item) {
               item.id = item.entityId;
               let woodName;
+              let fretboardWoodName;
               fetchWood(item.woodId, function (entity) {
                 woodName = entity.name + ' ';
               }, false);
-              item.text = woodName + item.name;
+              fetchWood(item.fretboardWoodId, function (entity) {
+                fretboardWoodName = ' ' + entity.name;
+              }, false);
+              item.text = woodName + item.name + fretboardWoodName + ' fretboard';
               return item;
             });
             params.page = params.page || 1;
