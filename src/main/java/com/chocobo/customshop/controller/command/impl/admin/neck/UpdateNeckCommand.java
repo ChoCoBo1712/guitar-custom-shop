@@ -4,18 +4,15 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Neck;
-import com.chocobo.customshop.model.entity.Neck.Tuner;
 import com.chocobo.customshop.model.service.NeckService;
 import com.chocobo.customshop.model.service.impl.NeckServiceImpl;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
@@ -36,7 +33,6 @@ public class UpdateNeckCommand implements Command {
         HttpSession session = request.getSession();
 
         String name = request.getParameter(NAME);
-        Tuner tuner = Tuner.valueOf(request.getParameter(TUNER));
         long woodId = Long.parseLong(request.getParameter(WOOD_ID));
         long fretboardWoodId = Long.parseLong(request.getParameter(FRETBOARD_WOOD_ID));
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
@@ -53,7 +49,6 @@ public class UpdateNeckCommand implements Command {
                 if (valid) {
                     Neck updatedNeck = Neck.builder().of(neck)
                             .setName(name)
-                            .setTuner(tuner)
                             .setWoodId(woodId)
                             .setFretboardId(fretboardWoodId)
                             .build();

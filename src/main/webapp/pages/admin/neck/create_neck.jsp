@@ -24,11 +24,6 @@
         <input type="text" name="name" placeholder=<cst:localeTag key="placeholder.name" /> required
                pattern="[a-zA-Z0-9\s\-]{1,30}">
         <br>
-        <select name="tuner" id="tuner_select">
-            <option selected value="NON_LOCKING">NON_LOCKING</option>
-            <option value="LOCKING">LOCKING</option>
-        </select>
-        <br>
         <select name="woodId" id="woodSelect" required></select>
         <br>
         <select name="fretboardWoodId" id="fretboardWoodSelect" required></select>

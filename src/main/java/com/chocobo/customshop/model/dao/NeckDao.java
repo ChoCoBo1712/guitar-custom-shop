@@ -1,9 +1,7 @@
 package com.chocobo.customshop.model.dao;
 
 import com.chocobo.customshop.exception.DaoException;
-import com.chocobo.customshop.model.entity.Body;
 import com.chocobo.customshop.model.entity.Neck;
-import com.chocobo.customshop.model.entity.Neck.Tuner;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,15 +23,11 @@ public interface NeckDao extends BaseDao<Neck> {
 
     long selectCountByName(String keyword) throws DaoException;
 
-    List<Neck> selectByTuner(int offset, int length, String keyword) throws DaoException;
-
-    long selectCountByTuner(String keyword) throws DaoException;
 
     @Override
     default Neck buildEntityFromResultSet(ResultSet resultSet) throws SQLException {
         return (Neck) Neck.builder()
                 .setName(resultSet.getString(NECK_NAME))
-                .setTuner(Tuner.valueOf(resultSet.getString(NECK_TUNER)))
                 .setWoodId(resultSet.getLong(ID_NECK_WOOD))
                 .setFretboardId(resultSet.getLong(ID_FRETBOARD_WOOD))
                 .setEntityId(resultSet.getLong(NECK_ID))

@@ -2,7 +2,6 @@ package com.chocobo.customshop.model.service;
 
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Neck;
-import com.chocobo.customshop.model.entity.Neck.Tuner;
 import com.chocobo.customshop.model.service.criteria.NeckFilterCriteria;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -13,7 +12,7 @@ public interface NeckService {
 
     Optional<Neck> findById(long id) throws ServiceException;
 
-    long insert(String name, Tuner tuner, long woodId, long fretboardWoodId) throws ServiceException;
+    long insert(String name, long woodId, long fretboardWoodId) throws ServiceException;
 
     void update(Neck neck) throws ServiceException;
 

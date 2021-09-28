@@ -30,7 +30,6 @@ public class CreateNeckCommand implements Command {
         HttpSession session = request.getSession();
 
         String name = request.getParameter(NAME);
-        Tuner tuner = Tuner.valueOf(request.getParameter(TUNER));
         long woodId = Long.parseLong(request.getParameter(WOOD_ID));
         long fretboardWoodId = Long.parseLong(request.getParameter(FRETBOARD_WOOD_ID));
 
@@ -39,7 +38,7 @@ public class CreateNeckCommand implements Command {
             boolean valid = NameValidator.getInstance().validate(name);
 
             if (valid) {
-                NeckServiceImpl.getInstance().insert(name, tuner, woodId, fretboardWoodId);
+                NeckServiceImpl.getInstance().insert(name, woodId, fretboardWoodId);
                 result = new CommandResult(ADMIN_NECKS_URL, REDIRECT);
             } else {
                 session.setAttribute(VALIDATION_ERROR, true);

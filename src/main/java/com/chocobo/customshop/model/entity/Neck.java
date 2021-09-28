@@ -4,13 +4,7 @@ import java.util.Objects;
 
 public class Neck extends AbstractEntity {
 
-    public enum Tuner {
-        LOCKING,
-        NON_LOCKING
-    }
-
     private String name;
-    private Tuner tuner;
     private long woodId;
     private long fretboardWoodId;
 
@@ -24,10 +18,6 @@ public class Neck extends AbstractEntity {
 
     public String getName() {
         return name;
-    }
-
-    public Tuner getTuner() {
-        return tuner;
     }
 
     public long getWoodId() {
@@ -48,7 +38,8 @@ public class Neck extends AbstractEntity {
         }
 
         Neck neck = (Neck) obj;
-        return super.equals(neck) && Objects.equals(neck.name, this.name) && Objects.equals(neck.tuner, tuner)
+        return super.equals(neck)
+                && Objects.equals(neck.name, this.name)
                 && neck.woodId == woodId && neck.fretboardWoodId == fretboardWoodId;
     }
 
@@ -58,7 +49,6 @@ public class Neck extends AbstractEntity {
         int result = prime + super.hashCode();
 
         result = prime * result + (name != null ? name.hashCode() : 0);
-        result = prime * result + (tuner != null ? tuner.hashCode() : 0);
         result = prime * result + Long.hashCode(woodId);
         result = prime * result + Long.hashCode(fretboardWoodId);
 
@@ -70,7 +60,6 @@ public class Neck extends AbstractEntity {
         StringBuilder builder = new StringBuilder("Neck ");
         builder.append(super.toString()).append(": (");
         builder.append("name = ").append(name).append(", ");
-        builder.append("tuner = ").append(tuner).append(", ");
         builder.append("wood id = ").append(woodId).append(", ");
         builder.append("fretboard id = ").append(fretboardWoodId).append(")");
 
@@ -88,11 +77,6 @@ public class Neck extends AbstractEntity {
             return this;
         }
 
-        public NeckBuilder setTuner(Tuner tuner) {
-            Neck.this.tuner = tuner;
-            return this;
-        }
-
         public NeckBuilder setWoodId(long woodId) {
             Neck.this.woodId = woodId;
             return this;
@@ -106,7 +90,6 @@ public class Neck extends AbstractEntity {
         public NeckBuilder of(Neck neck) {
             super.of(neck);
             Neck.this.name = neck.name;
-            Neck.this.tuner = neck.tuner;
             Neck.this.woodId = neck.woodId;
             Neck.this.fretboardWoodId = neck.fretboardWoodId;
             return this;

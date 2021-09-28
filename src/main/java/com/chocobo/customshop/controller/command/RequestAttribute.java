@@ -32,7 +32,6 @@ public final class RequestAttribute {
     public static final String WOOD_ID = "woodId";
     public static final String PICKUP = "pickup";
     public static final String NECK = "neck";
-    public static final String TUNER = "tuner";
     public static final String FRETBOARD_WOOD_ID = "fretboardWoodId";
     public static final String BODY_ID = "bodyId";
     public static final String NECK_ID = "neckId";

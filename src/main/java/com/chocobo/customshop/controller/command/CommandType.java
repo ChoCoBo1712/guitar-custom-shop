@@ -29,6 +29,7 @@ public enum CommandType {
     GO_TO_PROFILE_PAGE,
     GO_TO_FORGOT_PASSWORD_PAGE,
     GO_TO_PASSWORD_CHANGE_PAGE,
+    GO_TO_CONSTRUCT_GUITAR_PAGE,
 
     // other commands
     REGISTER,
@@ -63,4 +64,5 @@ public enum CommandType {
     SEND_PASSWORD_CHANGE_LINK,
     PASSWORD_CHANGE,
     UPDATE_PROFILE,
+    CONSTRUCT_GUITAR,
 }

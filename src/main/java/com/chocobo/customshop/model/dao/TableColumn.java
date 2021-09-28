@@ -33,7 +33,6 @@ public final class TableColumn {
     public static final String NECK_NAME = "name";
     public static final String ID_NECK_WOOD = "id_neck_wood";
     public static final String ID_FRETBOARD_WOOD = "id_fretboard_wood";
-    public static final String NECK_TUNER = "tuner";
 
     // guitar TABLE
     public static final String GUITAR_ID = "guitar_id";

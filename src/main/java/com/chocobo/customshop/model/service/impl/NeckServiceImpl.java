@@ -4,11 +4,8 @@ import com.chocobo.customshop.exception.DaoException;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.dao.NeckDao;
 import com.chocobo.customshop.model.dao.impl.NeckDaoImpl;
-import com.chocobo.customshop.model.entity.Body;
 import com.chocobo.customshop.model.entity.Neck;
-import com.chocobo.customshop.model.entity.Neck.Tuner;
 import com.chocobo.customshop.model.service.NeckService;
-import com.chocobo.customshop.model.service.criteria.BodyFilterCriteria;
 import com.chocobo.customshop.model.service.criteria.NeckFilterCriteria;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -38,10 +35,9 @@ public class NeckServiceImpl implements NeckService {
     }
 
     @Override
-    public long insert(String name, Tuner tuner, long woodId, long fretboardWoodId) throws ServiceException {
+    public long insert(String name, long woodId, long fretboardWoodId) throws ServiceException {
         Neck neck = Neck.builder()
                 .setName(name)
-                .setTuner(tuner)
                 .setWoodId(woodId)
                 .setFretboardId(fretboardWoodId)
                 .build();
@@ -87,10 +83,6 @@ public class NeckServiceImpl implements NeckService {
                 case NAME -> {
                     resultList = neckDao.selectByName(start, length, keyword);
                     count = neckDao.selectCountByName(keyword);
-                }
-                case TUNER -> {
-                    resultList = neckDao.selectByTuner(start, length, keyword);
-                    count = neckDao.selectCountByTuner(keyword);
                 }
                 case WOOD_ID -> {
                     resultList = neckDao.selectByWoodId(start, length, keyword);

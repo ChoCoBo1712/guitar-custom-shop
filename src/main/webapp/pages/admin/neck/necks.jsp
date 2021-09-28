@@ -24,7 +24,6 @@
         <thead>
         <th><cst:localeTag key="admin.necks.id" /></th>
         <th><cst:localeTag key="admin.necks.name" /></th>
-        <th><cst:localeTag key="admin.necks.tuner" /></th>
         <th><cst:localeTag key="admin.necks.wood" /></th>
         <th><cst:localeTag key="admin.necks.fretboard_wood" /></th>
         <th><cst:localeTag key="admin.actions" /></th>
@@ -36,6 +35,7 @@
     <script>
         $(document).ready( function () {
             sessionStorage.removeItem('cachedWoods');
+
             let table = $('#necks_table').DataTable( {
                 language: {
                     <c:if test="${sessionScope.locale == 'en_US'}">
@@ -60,7 +60,6 @@
                 columns: [
                     { data: 'entityId'},
                     { data: 'name'},
-                    { data: 'tuner'},
                     {
                         data: null,
                         render: function (row) {
@@ -99,7 +98,6 @@
                         <select id="searchCriteria" class="form-select">
                             <option value="ID"><cst:localeTag key="admin.necks.id" /></option>
                             <option value="NAME"><cst:localeTag key="admin.necks.name" /></option>
-                            <option value="TUNER"><cst:localeTag key="admin.necks.tuner" /></option>
                             <option value="WOOD_ID"><cst:localeTag key="admin.necks.wood" /></option>
                             <option value="FRETBOARD_WOOD_ID"><cst:localeTag key="admin.necks.fretboard_wood" /></option>
                         </select>
@@ -204,17 +202,7 @@
                         }
                     });
                     table.search(searchInput.val()).draw();
-                } else if (searchCriteria.val() === 'TUNER') {
-                    table.search(searchInput.val()).draw();
-                    searchInput.hide();
-                    searchSelect.show();
-                    searchSelect.html('')
-                        .append($("<option></option>").attr("value", "").text("None"))
-                        .append($("<option></option>").attr("value", "NON_LOCKING").text("NON_LOCKING"))
-                        .append($("<option></option>").attr("value", "LOCKING").text("LOCKING"))
-                    searchSelect.select2('destroy');
-                }
-                else {
+                } else {
                     table.search(searchInput.val()).draw();
                     searchInput.show();
                     searchSelect.hide();
