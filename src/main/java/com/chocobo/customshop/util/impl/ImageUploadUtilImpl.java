@@ -66,4 +66,9 @@ public class ImageUploadUtilImpl implements ImageUploadUtil {
         }
         return picturePath;
     }
+
+    @Override
+    public boolean isDefaultPicturePath(String picturePath) {
+        return StringUtils.equals(picturePath, IMAGES_URL + DEFAULT_IMAGE_NAME);
+    }
 }

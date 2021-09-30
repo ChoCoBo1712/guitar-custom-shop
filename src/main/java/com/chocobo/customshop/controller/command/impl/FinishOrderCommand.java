@@ -55,7 +55,8 @@ public class FinishOrderCommand implements Command {
                     result = new CommandResult(GUITAR_ORDERS_URL, REDIRECT);
                 } else {
                     request.getSession().setAttribute(VALIDATION_ERROR, true);
-                    result = new CommandResult(ADMIN_CREATE_GUITAR_URL, REDIRECT);
+                    String currentPageUrl = FINISH_ORDER_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
+                    result = new CommandResult(currentPageUrl, REDIRECT);
                 }
             } else {
                 logger.error("Requested guitar not found, id = " + entityId);

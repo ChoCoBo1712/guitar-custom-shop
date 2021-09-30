@@ -11,6 +11,7 @@ import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
 import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
+import com.chocobo.customshop.util.ImageUploadUtil;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -66,18 +67,33 @@ public class UpdateGuitarCommand implements Command {
                 valid &= ImagePartValidator.getInstance().validate(part);
 
                 if (valid) {
-                    String picturePath = ImageUploadUtilImpl.getInstance().uploadImage(part);
-                    Guitar updatedGuitar = builder().of(guitar)
-                            .setName(name)
-                            .setBodyId(bodyId)
-                            .setNeckId(neckId)
-                            .setPickupId(pickupId)
-                            .setUserId(userId)
-                            .setColor(color)
-                            .setNeckJoint(neckJoint)
-                            .setOrderStatus(orderStatus)
-                            .setPicturePath(picturePath)
-                            .build();
+                    ImageUploadUtil imageUploadUtil = ImageUploadUtilImpl.getInstance();
+                    String picturePath = imageUploadUtil.uploadImage(part);
+                    Guitar updatedGuitar;
+                    if (imageUploadUtil.isDefaultPicturePath(picturePath)) {
+                        updatedGuitar = builder().of(guitar)
+                                .setName(name)
+                                .setBodyId(bodyId)
+                                .setNeckId(neckId)
+                                .setPickupId(pickupId)
+                                .setUserId(userId)
+                                .setColor(color)
+                                .setNeckJoint(neckJoint)
+                                .setOrderStatus(orderStatus)
+                                .build();
+                    } else {
+                        updatedGuitar = builder().of(guitar)
+                                .setName(name)
+                                .setBodyId(bodyId)
+                                .setNeckId(neckId)
+                                .setPickupId(pickupId)
+                                .setUserId(userId)
+                                .setColor(color)
+                                .setNeckJoint(neckJoint)
+                                .setOrderStatus(orderStatus)
+                                .setPicturePath(picturePath)
+                                .build();
+                    }
                     guitarService.update(updatedGuitar);
                     result = new CommandResult(ADMIN_GUITARS_URL, REDIRECT);
                 } else {

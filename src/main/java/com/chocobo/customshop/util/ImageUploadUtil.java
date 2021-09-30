@@ -6,4 +6,6 @@ import jakarta.servlet.http.Part;
 public interface ImageUploadUtil {
 
     String uploadImage(Part part) throws ServiceException;
+
+    boolean isDefaultPicturePath(String picturePath);
 }
