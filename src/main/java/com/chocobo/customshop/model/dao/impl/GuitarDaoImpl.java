@@ -309,7 +309,7 @@ public class GuitarDaoImpl implements GuitarDao {
 
     @Override
     public long insert(Guitar entity) throws DaoException {
-        return executeInsert(
+        return QueryExecutor.createExecutor().executeInsert(
                 INSERT,
                 entity.getName(),
                 entity.getPicturePath(),
@@ -325,7 +325,7 @@ public class GuitarDaoImpl implements GuitarDao {
 
     @Override
     public void update(Guitar entity) throws DaoException {
-        executeUpdateOrDelete(
+        QueryExecutor.createExecutor().executeUpdateOrDelete(
                 UPDATE,
                 entity.getName(),
                 entity.getPicturePath(),
@@ -342,201 +342,219 @@ public class GuitarDaoImpl implements GuitarDao {
 
     @Override
     public void delete(long id) throws DaoException {
-        executeUpdateOrDelete(DELETE, id);
+        QueryExecutor.createExecutor().executeUpdateOrDelete(DELETE, id);
     }
 
     @Override
     public Optional<Guitar> selectById(long id) throws DaoException {
-        return executeSelect(SELECT_BY_ID, id);
+        return QueryExecutor.createExecutor().executeSelect(SELECT_BY_ID, this, id);
     }
 
     @Override
     public List<Guitar> selectById(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_ID, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_ID, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountById(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_ID, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_ID, keyword);
     }
 
     @Override
     public List<Guitar> selectAll(int offset, int length) throws DaoException {
-        return executeSelectMultiple(SELECT_ALL, offset, length);
+        return QueryExecutor.createExecutor().executeSelectMultiple(SELECT_ALL, this, offset, length);
     }
 
     @Override
     public long selectCountAll() throws DaoException {
-        return executeSelectCount(SELECT_COUNT_ALL);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_ALL);
     }
 
     @Override
     public List<Guitar> selectByName(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NAME, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByName(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NAME, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NAME, keyword);
     }
 
     @Override
     public List<Guitar> selectByBodyId(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_BODY_ID, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_BODY_ID, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByBodyId(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_BODY_ID, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_BODY_ID, keyword);
     }
 
     @Override
     public List<Guitar> selectByNeckId(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_ID, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_ID, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByNeckId(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NECK_ID, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NECK_ID, keyword);
     }
 
     @Override
     public List<Guitar> selectByPickupId(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_PICKUP_ID, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_PICKUP_ID, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByPickupId(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_PICKUP_ID, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_PICKUP_ID, keyword);
     }
 
     @Override
     public List<Guitar> selectByUserId(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_USER_ID, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_USER_ID, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByUserId(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_USER_ID, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_USER_ID, keyword);
     }
 
     @Override
     public List<Guitar> selectByColor(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_COLOR, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_COLOR, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByColor(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_COLOR, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_COLOR, keyword);
     }
 
     @Override
     public List<Guitar> selectByNeckJoint(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_JOINT, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_JOINT, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByNeckJoint(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NECK_JOINT, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NECK_JOINT, keyword);
     }
 
     @Override
     public List<Guitar> selectByOrderStatus(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_ORDER_STATUS, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_ORDER_STATUS, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByOrderStatus(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_ORDER_STATUS, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_ORDER_STATUS, keyword);
     }
 
     @Override
     public List<Guitar> selectByNameForUser(int offset, int length, String keyword, String userId) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME_FOR_USER, keyword, userId, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NAME_FOR_USER, this, keyword, userId, offset, length);
     }
 
     @Override
     public long selectCountByNameForUser(String keyword, String userId) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NAME_FOR_USER, keyword, userId);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NAME_FOR_USER, keyword, userId);
     }
 
     @Override
     public List<Guitar> selectAllForActiveOrder(int offset, int length) throws DaoException {
-        return executeSelectMultiple(SELECT_ALL_FOR_ACTIVE_ORDER, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_ALL_FOR_ACTIVE_ORDER, this, offset, length);
     }
 
     @Override
     public long selectCountAllForActiveOrder() throws DaoException {
-        return executeSelectCount(SELECT_COUNT_ALL_FOR_ACTIVE_ORDER);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_ALL_FOR_ACTIVE_ORDER);
     }
 
     @Override
     public List<Guitar> selectByNameForActiveOrder(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME_FOR_ACTIVE_ORDER, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NAME_FOR_ACTIVE_ORDER, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByNameForActiveOrder(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NAME_FOR_ACTIVE_ORDER, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NAME_FOR_ACTIVE_ORDER, keyword);
     }
 
     @Override
     public List<Guitar> selectByBodyIdForActiveOrder(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_BODY_ID_FOR_ACTIVE_ORDER, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_BODY_ID_FOR_ACTIVE_ORDER, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByBodyIdForActiveOrder(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_BODY_ID_FOR_ACTIVE_ORDER, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_BODY_ID_FOR_ACTIVE_ORDER, keyword);
     }
 
     @Override
     public List<Guitar> selectByNeckIdForActiveOrder(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_ID_FOR_ACTIVE_ORDER, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_ID_FOR_ACTIVE_ORDER, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByNeckIdForActiveOrder(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NECK_ID_FOR_ACTIVE_ORDER, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NECK_ID_FOR_ACTIVE_ORDER, keyword);
     }
 
     @Override
     public List<Guitar> selectByPickupIdForActiveOrder(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_PICKUP_ID_FOR_ACTIVE_ORDER, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_PICKUP_ID_FOR_ACTIVE_ORDER, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByPickupIdForActiveOrder(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_PICKUP_ID_FOR_ACTIVE_ORDER, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_PICKUP_ID_FOR_ACTIVE_ORDER, keyword);
     }
 
     @Override
     public List<Guitar> selectByUserIdForActiveOrder(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_USER_ID_FOR_ACTIVE_ORDER, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_USER_ID_FOR_ACTIVE_ORDER, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByUserIdForActiveOrder(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_USER_ID_FOR_ACTIVE_ORDER, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_USER_ID_FOR_ACTIVE_ORDER, keyword);
     }
 
     @Override
     public List<Guitar> selectByColorForActiveOrder(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_COLOR_FOR_ACTIVE_ORDER, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_COLOR_FOR_ACTIVE_ORDER, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByColorForActiveOrder(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_COLOR_FOR_ACTIVE_ORDER, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_COLOR_FOR_ACTIVE_ORDER, keyword);
     }
 
     @Override
     public List<Guitar> selectByNeckJointForActiveOrder(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_JOINT_FOR_ACTIVE_ORDER, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NECK_JOINT_FOR_ACTIVE_ORDER, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByNeckJointForActiveOrder(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NECK_JOINT_FOR_ACTIVE_ORDER, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NECK_JOINT_FOR_ACTIVE_ORDER, keyword);
     }
 }

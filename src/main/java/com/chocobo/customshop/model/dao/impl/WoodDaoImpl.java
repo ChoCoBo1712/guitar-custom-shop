@@ -85,51 +85,53 @@ public class WoodDaoImpl implements WoodDao {
 
     @Override
     public long insert(Wood entity) throws DaoException {
-        return executeInsert(INSERT, entity.getName());
+        return QueryExecutor.createExecutor().executeInsert(INSERT, entity.getName());
     }
 
     @Override
     public void update(Wood entity) throws DaoException {
-        executeUpdateOrDelete(UPDATE, entity.getName(), entity.getEntityId());
+        QueryExecutor.createExecutor().executeUpdateOrDelete(UPDATE, entity.getName(), entity.getEntityId());
     }
 
     @Override
     public void delete(long id) throws DaoException {
-        executeUpdateOrDelete(DELETE, id);
+        QueryExecutor.createExecutor().executeUpdateOrDelete(DELETE, id);
     }
 
     @Override
     public Optional<Wood> selectById(long id) throws DaoException {
-        return executeSelect(SELECT_BY_ID, id);
+        return QueryExecutor.createExecutor().executeSelect(SELECT_BY_ID, this, id);
     }
 
     @Override
     public List<Wood> selectById(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_ID, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_ID, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountById(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_ID, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_ID, keyword);
     }
 
     @Override
     public List<Wood> selectAll(int offset, int length) throws DaoException {
-        return executeSelectMultiple(SELECT_ALL, offset, length);
+        return QueryExecutor.createExecutor().executeSelectMultiple(SELECT_ALL, this, offset, length);
     }
 
     @Override
     public long selectCountAll() throws DaoException {
-        return executeSelectCount(SELECT_COUNT_ALL);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_ALL);
     }
 
     @Override
     public List<Wood> selectByName(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_NAME, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_NAME, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByName(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_NAME, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_NAME, keyword);
     }
 }

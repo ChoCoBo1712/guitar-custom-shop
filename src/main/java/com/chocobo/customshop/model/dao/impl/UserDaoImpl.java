@@ -137,6 +137,12 @@ public class UserDaoImpl implements UserDao {
             WHERE user_id = ?;
             """;
 
+    private static final String DELETE_GUITARS_BY_USER = """
+            UPDATE guitars
+            SET deleted = 1
+            WHERE id_user = ?;
+            """;
+
     public static UserDao getInstance() {
         if (instance == null) {
             instance = new UserDaoImpl();
@@ -146,7 +152,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public long insert(User entity) throws DaoException {
-        return executeInsert(
+        return QueryExecutor.createExecutor().executeInsert(
                 INSERT,
                 entity.getEmail(),
                 entity.getLogin(),
@@ -159,7 +165,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void update(User entity) throws DaoException {
-        executeUpdateOrDelete(
+        QueryExecutor.createExecutor().executeUpdateOrDelete(
                 UPDATE,
                 entity.getEmail(),
                 entity.getLogin(),
@@ -173,81 +179,89 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(long id) throws DaoException {
-        executeUpdateOrDelete(DELETE, id);
+        QueryExecutor executor = QueryExecutor.createExecutor(true);
+        executor.executeUpdateOrDelete(DELETE, id);
+        executor.executeUpdateOrDelete(DELETE_GUITARS_BY_USER, id);
+        executor.commit();
     }
 
     @Override
     public Optional<User> selectById(long id) throws DaoException {
-        return executeSelect(SELECT_BY_ID, id);
+        return QueryExecutor.createExecutor().executeSelect(SELECT_BY_ID, this, id);
     }
 
     @Override
     public List<User> selectById(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_ID, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_ID, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountById(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_ID, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_ID, keyword);
     }
 
     @Override
     public List<User> selectAll(int offset, int length) throws DaoException {
-        return executeSelectMultiple(SELECT_ALL, offset, length);
+        return QueryExecutor.createExecutor().executeSelectMultiple(SELECT_ALL, this, offset, length);
     }
 
     @Override
     public long selectCountAll() throws DaoException {
-        return executeSelectCount(SELECT_COUNT_ALL);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_ALL);
     }
 
     @Override
     public Optional<User> selectByEmail(String email) throws DaoException {
-        return executeSelect(SELECT_BY_EMAIL, email);
+        return QueryExecutor.createExecutor().executeSelect(SELECT_BY_EMAIL, this, email);
     }
 
     @Override
     public List<User> selectByEmail(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_EMAIL, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_EMAIL, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByEmail(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_EMAIL, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_EMAIL, keyword);
     }
 
     @Override
     public Optional<User> selectByLogin(String login) throws DaoException {
-        return executeSelect(SELECT_BY_LOGIN, login);
+        return QueryExecutor.createExecutor().executeSelect(SELECT_BY_LOGIN, this, login);
     }
 
     @Override
     public List<User> selectByLogin(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_LOGIN, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_LOGIN, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByLogin(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_LOGIN, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_LOGIN, keyword);
     }
 
     @Override
     public List<User> selectByRole(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_ROLE, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_ROLE, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByRole(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_ROLE, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_ROLE, keyword);
     }
 
     @Override
     public List<User> selectByStatus(int offset, int length, String keyword) throws DaoException {
-        return executeSelectMultiple(SELECT_MULTIPLE_BY_STATUS, keyword, offset, length);
+        return QueryExecutor.createExecutor()
+                .executeSelectMultiple(SELECT_MULTIPLE_BY_STATUS, this, keyword, offset, length);
     }
 
     @Override
     public long selectCountByStatus(String keyword) throws DaoException {
-        return executeSelectCount(SELECT_COUNT_BY_STATUS, keyword);
+        return QueryExecutor.createExecutor().executeSelectCount(SELECT_COUNT_BY_STATUS, keyword);
     }
 }
