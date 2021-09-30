@@ -35,6 +35,8 @@
     <br>
     <input id="color" readonly/>
     <br>
+    <input id="orderStatus" readonly/>
+    <br>
   </div>
 
   <script>
@@ -48,6 +50,7 @@
       let pickup = $('#pickup');
       let neckJoint = $('#neckJoint');
       let color = $('#color');
+      let orderStatus = $('#orderStatus');
 
       guitarSelect.select2({
         language: '${sessionScope.locale}'.substring(0, 2),
@@ -118,6 +121,7 @@
 
           neckJoint.val(guitar.neckJoint);
           color.val(guitar.color);
+          orderStatus.val(guitar.orderStatus);
         });
       });
 

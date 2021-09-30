@@ -51,6 +51,7 @@ public class CommandProvider {
         commandMap.put(CommandType.GO_TO_PASSWORD_CHANGE_PAGE, new GoToPasswordChangePageCommand());
         commandMap.put(CommandType.GO_TO_MY_GUITARS_PAGE, new GoToMyGuitarsPageCommand());
         commandMap.put(CommandType.GO_TO_GUITAR_ORDERS_PAGE, new GoToGuitarOrdersPageCommand());
+        commandMap.put(CommandType.GO_TO_FINISH_ORDER_PAGE, new GoToFinishOrderPageCommand());
 
         // other commands
         commandMap.put(CommandType.REGISTER, new RegisterCommand());
@@ -86,6 +87,8 @@ public class CommandProvider {
         commandMap.put(CommandType.PASSWORD_CHANGE, new PasswordChangeCommand());
         commandMap.put(CommandType.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandType.CONSTRUCT_GUITAR, new ConstructGuitarCommand());
+        commandMap.put(CommandType.TAKE_ORDER, new TakeOrderCommand());
+        commandMap.put(CommandType.FINISH_ORDER, new FinishOrderCommand());
     }
 
     public static Optional<Command> getCommand(String action) {

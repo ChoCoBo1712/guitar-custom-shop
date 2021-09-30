@@ -9,18 +9,23 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Optional;
 
+import static com.chocobo.customshop.model.entity.Guitar.*;
+
 public interface GuitarService {
 
     Optional<Guitar> findById(long id) throws ServiceException;
 
     long insert(String name, String picturePath, long bodyId, long neckId, long pickupId, long userId, String color,
-                NeckJoint neckJoint) throws ServiceException;
+                NeckJoint neckJoint, OrderStatus status) throws ServiceException;
 
     void update(Guitar guitar) throws ServiceException;
 
     void delete(long id) throws ServiceException;
 
     Pair<Long, List<Guitar>> filter(int start, int length, GuitarFilterCriteria criteria, String keyword)
+            throws ServiceException;
+
+    Pair<Long, List<Guitar>> filterForActiveOrder(int start, int length, GuitarFilterCriteria criteria, String keyword)
             throws ServiceException;
 
     Pair<Long, List<Guitar>> filterByNameForUser(int start, int length, String keyword, String userId)

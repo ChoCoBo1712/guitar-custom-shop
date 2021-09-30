@@ -10,4 +10,5 @@ public enum GuitarFilterCriteria {
     USER_ID,
     COLOR,
     NECK_JOINT,
+    ORDER_STATUS
 }

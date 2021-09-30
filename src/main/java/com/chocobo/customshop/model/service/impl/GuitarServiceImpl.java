@@ -14,6 +14,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Optional;
 
+import static com.chocobo.customshop.model.entity.Guitar.*;
+
 public class GuitarServiceImpl implements GuitarService {
 
     private static GuitarService instance;
@@ -38,8 +40,8 @@ public class GuitarServiceImpl implements GuitarService {
 
     @Override
     public long insert(String name, String picturePath, long bodyId, long neckId, long pickupId, long userId, String color,
-                       NeckJoint neckJoint) throws ServiceException {
-        Guitar guitar = Guitar.builder()
+                       NeckJoint neckJoint, OrderStatus orderStatus) throws ServiceException {
+        Guitar guitar = builder()
                 .setName(name)
                 .setPicturePath(picturePath)
                 .setBodyId(bodyId)
@@ -48,6 +50,7 @@ public class GuitarServiceImpl implements GuitarService {
                 .setUserId(userId)
                 .setColor(color)
                 .setNeckJoint(neckJoint)
+                .setOrderStatus(orderStatus)
                 .build();
         try {
             return guitarDao.insert(guitar);
@@ -115,6 +118,60 @@ public class GuitarServiceImpl implements GuitarService {
                 case NECK_JOINT -> {
                     resultList = guitarDao.selectByNeckJoint(start, length, keyword);
                     count = guitarDao.selectCountByNeckJoint(keyword);
+                }
+                case ORDER_STATUS -> {
+                    resultList = guitarDao.selectByOrderStatus(start, length, keyword);
+                    count = guitarDao.selectCountByOrderStatus(keyword);
+                }
+                default -> throw new ServiceException("Invalid criteria: " + criteria);
+            }
+            return Pair.of(count, resultList);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Pair<Long, List<Guitar>> filterForActiveOrder(int start, int length, GuitarFilterCriteria criteria, String keyword) throws ServiceException {
+        try {
+            long count;
+            List<Guitar> resultList;
+            switch (criteria) {
+                case NONE -> {
+                    resultList = guitarDao.selectAllForActiveOrder(start, length);
+                    count = guitarDao.selectCountAllForActiveOrder();
+                }
+                case NAME -> {
+                    resultList = guitarDao.selectByNameForActiveOrder(start, length, keyword);
+                    count = guitarDao.selectCountByNameForActiveOrder(keyword);
+                }
+                case COLOR -> {
+                    resultList = guitarDao.selectByColorForActiveOrder(start, length, keyword);
+                    count = guitarDao.selectCountByColorForActiveOrder(keyword);
+                }
+                case BODY_ID -> {
+                    resultList = guitarDao.selectByBodyIdForActiveOrder(start, length, keyword);
+                    count = guitarDao.selectCountByBodyIdForActiveOrder(keyword);
+                }
+                case NECK_ID -> {
+                    resultList = guitarDao.selectByNeckIdForActiveOrder(start, length, keyword);
+                    count = guitarDao.selectCountByNeckIdForActiveOrder(keyword);
+                }
+                case PICKUP_ID -> {
+                    resultList = guitarDao.selectByPickupIdForActiveOrder(start, length, keyword);
+                    count = guitarDao.selectCountByPickupIdForActiveOrder(keyword);
+                }
+                case USER_ID -> {
+                    resultList = guitarDao.selectByUserIdForActiveOrder(start, length, keyword);
+                    count = guitarDao.selectCountByUserIdForActiveOrder(keyword);
+                }
+                case NECK_JOINT -> {
+                    resultList = guitarDao.selectByNeckJointForActiveOrder(start, length, keyword);
+                    count = guitarDao.selectCountByNeckJointForActiveOrder(keyword);
+                }
+                case ORDER_STATUS -> {
+                    resultList = guitarDao.selectByOrderStatus(start, length, keyword);
+                    count = guitarDao.selectCountByOrderStatus(keyword);
                 }
                 default -> throw new ServiceException("Invalid criteria: " + criteria);
             }

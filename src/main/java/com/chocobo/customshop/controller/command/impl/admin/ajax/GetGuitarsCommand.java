@@ -14,10 +14,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.JSON;
@@ -59,13 +56,22 @@ public class GetGuitarsCommand implements Command {
         int draw = Integer.parseInt(request.getParameter(DRAW));
         String searchCriteria = request.getParameter(FILTER_CRITERIA);
         String searchValue = request.getParameter(SEARCH_VALUE);
+        boolean activeOrder = Boolean.parseBoolean(request.getParameter(ACTIVE_ORDER));
 
-        Pair<Long, List<Guitar>> pair = searchValue.isEmpty()
-                ? guitarService.filter(start, length, GuitarFilterCriteria.NONE, null)
-                : guitarService.filter(start, length, GuitarFilterCriteria.valueOf(searchCriteria), searchValue);
+        Pair<Long, List<Guitar>> pair;
+        if (activeOrder) {
+            pair = searchValue.isEmpty()
+                    ? guitarService.filterForActiveOrder(start, length, GuitarFilterCriteria.NONE, null)
+                    : guitarService.filterForActiveOrder(start, length, GuitarFilterCriteria.valueOf(searchCriteria), searchValue);
+        } else {
+            pair = searchValue.isEmpty()
+                    ? guitarService.filter(start, length, GuitarFilterCriteria.NONE, null)
+                    : guitarService.filter(start, length, GuitarFilterCriteria.valueOf(searchCriteria), searchValue);
+        }
 
         long recordsFetched = pair.getLeft();
         List<Guitar> guitars = pair.getRight();
+
         responseMap.put(DRAW, draw);
         responseMap.put(RECORDS_TOTAL, recordsFetched);
         responseMap.put(RECORDS_FILTERED, recordsFetched);

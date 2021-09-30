@@ -4,6 +4,7 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.controller.command.RequestAttribute;
 import com.chocobo.customshop.exception.ServiceException;
+import com.chocobo.customshop.model.entity.Guitar;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
 import com.chocobo.customshop.model.validator.Validator;
@@ -25,6 +26,7 @@ import static com.chocobo.customshop.controller.command.PagePath.ADMIN_CREATE_GU
 import static com.chocobo.customshop.controller.command.PagePath.ADMIN_GUITARS_URL;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
+import static com.chocobo.customshop.model.entity.Guitar.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateGuitarCommand implements Command {
@@ -42,6 +44,7 @@ public class CreateGuitarCommand implements Command {
         long userId = Long.parseLong(request.getParameter(USER_ID));
         String color = request.getParameter(COLOR);
         NeckJoint neckJoint = NeckJoint.valueOf(request.getParameter(NECK_JOINT));
+        OrderStatus orderStatus = OrderStatus.valueOf(request.getParameter(ORDER_STATUS));
 
         CommandResult result;
         try {
@@ -55,7 +58,8 @@ public class CreateGuitarCommand implements Command {
             if (valid) {
                 String picturePath = ImageUploadUtilImpl.getInstance().uploadImage(part);
 
-                GuitarServiceImpl.getInstance().insert(name, picturePath, bodyId, neckId, pickupId, userId, color, neckJoint);
+                GuitarServiceImpl.getInstance().insert(name, picturePath, bodyId, neckId, pickupId, userId,
+                        color, neckJoint, orderStatus);
                 result = new CommandResult(ADMIN_GUITARS_URL, REDIRECT);
             } else {
                 session.setAttribute(VALIDATION_ERROR, true);

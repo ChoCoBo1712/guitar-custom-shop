@@ -2,6 +2,7 @@ package com.chocobo.customshop.util.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.util.MailUtil;
+import com.chocobo.customshop.util.TokenUtil;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -12,9 +13,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.EMAIL_CLAIM;
+import static com.chocobo.customshop.util.impl.TokenUtilImpl.ID_CLAIM;
 
 public class MailUtilImpl implements MailUtil {
 
@@ -28,6 +34,14 @@ public class MailUtilImpl implements MailUtil {
     private static final String PASSWORD_PROPERTY = "password";
     private static final String THREAD_POOL_SIZE_PROPERTY = "thread_pool_size";
     private static final String HTML_BODY_TYPE = "text/html; charset=UTF-8";
+
+    private static final String CONFIRMATION_MAIL_SUBJECT_PROPERTY = "confirmationMail.subject";
+    private static final String CONFIRMATION_MAIL_BODY_PROPERTY = "confirmationMail.body";
+    private static final String CONFIRMATION_MAIL_URL_BLANK = "/controller?command=confirm_email&token=";
+
+    private static final String PASSWORD_CHANGE_MAIL_SUBJECT_PROPERTY = "passwordChangeMail.subject";
+    private static final String PASSWORD_CHANGE_MAIL_BODY_PROPERTY = "passwordChangeMail.body";
+    private static final String PASSWORD_CHANGE_MAIL_URL_BLANK = "/controller?command=go_to_password_change_page&token=";
 
     private static final Properties mailProperties;
     private static final Session mailSession;
@@ -65,7 +79,37 @@ public class MailUtilImpl implements MailUtil {
     }
 
     @Override
-    public void sendMail(String recipient, String subject, String body) throws ServiceException {
+    public void sendConfirmationMail(long userId, String email, String scheme, String serverName) throws ServiceException {
+        TokenUtil tokenUtil = TokenUtilImpl.getInstance();
+
+        String mailSubject = mailProperties.getProperty(CONFIRMATION_MAIL_SUBJECT_PROPERTY);
+        String bodyTemplate = mailProperties.getProperty(CONFIRMATION_MAIL_BODY_PROPERTY);
+        Map<String, Object> claimsMap = new HashMap<>();
+        claimsMap.put(ID_CLAIM, userId);
+        claimsMap.put(EMAIL_CLAIM, email);
+        String confirmationUrl = CONFIRMATION_MAIL_URL_BLANK + tokenUtil.generateToken(claimsMap);
+        String confirmationLink = scheme + PROTOCOL_DELIMITER + serverName + confirmationUrl;
+
+        String mailBody = String.format(bodyTemplate, confirmationLink);
+        sendMail(email, mailSubject, mailBody);
+    }
+
+    @Override
+    public void sendPasswordChangeMail(String email, String scheme, String serverName) throws ServiceException {
+        TokenUtil tokenUtil = TokenUtilImpl.getInstance();
+
+        String mailSubject = mailProperties.getProperty(PASSWORD_CHANGE_MAIL_SUBJECT_PROPERTY);
+        String bodyTemplate = mailProperties.getProperty(PASSWORD_CHANGE_MAIL_BODY_PROPERTY);
+        Map<String, Object> claimsMap = new HashMap<>();
+        claimsMap.put(EMAIL_CLAIM, email);
+        String confirmationUrl = PASSWORD_CHANGE_MAIL_URL_BLANK + tokenUtil.generateToken(claimsMap);
+        String confirmationLink = scheme + PROTOCOL_DELIMITER + serverName + confirmationUrl;
+
+        String mailBody = String.format(bodyTemplate, confirmationLink);
+        sendMail(email, mailSubject, mailBody);
+    }
+
+    private void sendMail(String recipient, String subject, String body) throws ServiceException {
         Message message = new MimeMessage(mailSession);
 
         try {
@@ -90,10 +134,5 @@ public class MailUtilImpl implements MailUtil {
         } catch (MessagingException e) {
             throw new ServiceException("Error sending an email", e);
         }
-    }
-
-    @Override
-    public String getMailProperty(String propertyName) {
-        return mailProperties.getProperty(propertyName);
     }
 }

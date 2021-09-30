@@ -44,4 +44,5 @@ public final class TableColumn {
     public static final String ID_PICKUP = "id_pickup";
     public static final String ID_USER = "id_user";
     public static final String NECK_JOINT = "neck_joint";
+    public static final String ORDER_STATUS = "order_status";
 }

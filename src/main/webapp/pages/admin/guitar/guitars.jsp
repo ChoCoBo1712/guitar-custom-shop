@@ -31,6 +31,7 @@
             <th><cst:localeTag key="admin.guitars.neck_joint" /></th>
             <th><cst:localeTag key="admin.guitars.color" /></th>
             <th><cst:localeTag key="admin.guitars.user" /></th>
+            <th><cst:localeTag key="admin.guitars.order_status" /></th>
             <th><cst:localeTag key="admin.actions" /></th>
         </thead>
     </table>
@@ -62,6 +63,7 @@
                     data: function (data) {
                         data.filterCriteria = $('#searchCriteria').val();
                         data.requestType = 'DATATABLE';
+                        data.activeOrder = false;
                     }
                 },
                 drawCallback: function () { onDataLoaded(table); },
@@ -100,6 +102,7 @@
                             return '<a href="/controller?command=go_to_edit_user_page&id=' + row.userId + '"></a>'
                         }
                     },
+                    { data: 'orderStatus'},
                     {
                         data: null,
                         render: function (row) {
@@ -132,6 +135,7 @@
                                 <option value="NECK_JOINT"><cst:localeTag key="admin.guitars.neck_joint" /></option>
                                 <option value="COLOR"><cst:localeTag key="admin.guitars.color" /></option>
                                 <option value="USER_ID"><cst:localeTag key="admin.guitars.user" /></option>
+                                <option value="ORDER_STATUS"><cst:localeTag key="admin.guitars.order_status" /></option>
                             </select>
                             <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
                              placeholder=<cst:localeTag key="admin.search" />>
@@ -324,8 +328,17 @@
                         .append($("<option></option>").attr("value", "SET_NECK").text("SET_NECK"))
                         .append($("<option></option>").attr("value", "NECK_THROUGH").text("NECK_THROUGH"))
                     searchSelect.select2('destroy');
-                }
-                else {
+                } else if (searchCriteria.val() === 'ORDER_STATUS') {
+                    table.search(searchInput.val()).draw();
+                    searchInput.hide();
+                    searchSelect.show();
+                    searchSelect.html('')
+                        .append($("<option></option>").attr("value", "").text("None"))
+                        .append($("<option></option>").attr("value", "ORDERED").text("ORDERED"))
+                        .append($("<option></option>").attr("value", "IN_PROGRESS").text("IN_PROGRESS"))
+                        .append($("<option></option>").attr("value", "COMPLETED").text("COMPLETED"))
+                    searchSelect.select2('destroy');
+                } else {
                     table.search(searchInput.val()).draw();
                     searchInput.show();
                     searchSelect.hide();

@@ -33,7 +33,8 @@
             <th><cst:localeTag key="admin.guitars.neck_joint" /></th>
             <th><cst:localeTag key="admin.guitars.color" /></th>
             <th><cst:localeTag key="admin.guitars.user" /></th>
-            <th><cst:localeTag key="admin.actions" /></th>
+            <th><cst:localeTag key="admin.guitars.order_status" /></th>
+            <th><cst:localeTag key="admin.action" /></th>
         </thead>
     </table>
 
@@ -64,34 +65,28 @@
                     data: function (data) {
                         data.filterCriteria = $('#searchCriteria').val();
                         data.requestType = 'DATATABLE';
+                        data.activeOrder = true;
                     }
                 },
                 drawCallback: function () { onDataLoaded(table); },
                 columns: [
-                    { data: 'entityId'},
                     { data: 'name'},
                     {
-                        data: 'picturePath',
-                        render: function (data) {
-                            return '<img src="'+ data +'" alt="Guitar picture">'
+                        data: null,
+                        render: function (row) {
+                            return '<p></p>'
                         }
                     },
                     {
                         data: null,
                         render: function (row) {
-                            return '<a href="/controller?command=go_to_edit_body_page&id=' + row.bodyId + '"></a>'
+                            return '<p></p>'
                         }
                     },
                     {
                         data: null,
                         render: function (row) {
-                            return '<a href="/controller?command=go_to_edit_neck_page&id=' + row.neckId + '"></a>'
-                        }
-                    },
-                    {
-                        data: null,
-                        render: function (row) {
-                            return '<a href="/controller?command=go_to_edit_pickup_page&id=' + row.pickupId + '"></a>'
+                            return '<p></p>'
                         }
                     },
                     { data: 'neckJoint'},
@@ -99,17 +94,20 @@
                     {
                         data: null,
                         render: function (row) {
-                            return '<a href="/controller?command=go_to_edit_user_page&id=' + row.userId + '"></a>'
+                            return '<p></p>'
                         }
                     },
+                    { data: 'orderStatus'},
                     {
                         data: null,
                         render: function (row) {
-                            return '<a href="/controller?command=go_to_edit_guitar_page&id=' + row.entityId + '">'
-                                + '<cst:localeTag key="admin.edit" /></a>'
-                                + '<br>'
-                                + '<a href="/controller?command=delete_guitar&id=' + row.entityId + '">'
-                                + '<cst:localeTag key="admin.delete" /></a>'
+                            if (row.orderStatus === "ORDERED") {
+                                return '<a href="/controller?command=take_order&id=' + row.entityId + '">'
+                                    + '<cst:localeTag key="guitar_orders.take_order" /></a>'
+                            } else {
+                                return '<a href="/controller?command=go_to_finish_order_page&id=' + row.entityId + '">'
+                                    + '<cst:localeTag key="guitar_orders.finish_order" /></a>'
+                            }
                         }
                     },
                 ],
@@ -122,22 +120,19 @@
         function onDataTableInitComplete(table) {
             $("div.toolbar").html(`
                             <div class="input-group mb-3">
-                            <button id="createButton" type="button" class="btn btn-secondary">
-                                <cst:localeTag key="admin.create" />
-                            </button>
-                            <select id="searchCriteria" class="form-select">
-                                <option value="ID"><cst:localeTag key="admin.guitars.id" /></option>
-                                <option value="NAME"><cst:localeTag key="admin.guitars.name" /></option>
-                                <option value="BODY_ID"><cst:localeTag key="admin.guitars.body" /></option>
-                                <option value="NECK_ID"><cst:localeTag key="admin.guitars.neck" /></option>
-                                <option value="PICKUP_ID"><cst:localeTag key="admin.guitars.pickup" /></option>
-                                <option value="NECK_JOINT"><cst:localeTag key="admin.guitars.neck_joint" /></option>
-                                <option value="COLOR"><cst:localeTag key="admin.guitars.color" /></option>
-                                <option value="USER_ID"><cst:localeTag key="admin.guitars.user" /></option>
-                            </select>
-                            <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
-                             placeholder=<cst:localeTag key="admin.search" />>
-                             <select id="searchSelect"></select>
+                                <select id="searchCriteria" class="form-select">
+                                    <option value="NAME"><cst:localeTag key="admin.guitars.name" /></option>
+                                    <option value="BODY_ID"><cst:localeTag key="admin.guitars.body" /></option>
+                                    <option value="NECK_ID"><cst:localeTag key="admin.guitars.neck" /></option>
+                                    <option value="PICKUP_ID"><cst:localeTag key="admin.guitars.pickup" /></option>
+                                    <option value="NECK_JOINT"><cst:localeTag key="admin.guitars.neck_joint" /></option>
+                                    <option value="COLOR"><cst:localeTag key="admin.guitars.color" /></option>
+                                    <option value="USER_ID"><cst:localeTag key="admin.guitars.user" /></option>
+                                    <option value="ORDER_STATUS"><cst:localeTag key="admin.guitars.order_status" /></option>
+                                </select>
+                                <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
+                                 placeholder=<cst:localeTag key="admin.search" />>
+                                 <select id="searchSelect"></select>
                             </div>
                         `);
 
@@ -146,10 +141,6 @@
             let searchSelect = $('#searchSelect');
 
             searchSelect.hide();
-
-            $('#createButton').click(function () {
-                window.location.href = "${pageContext.request.contextPath}/controller?command=go_to_create_guitar_page";
-            });
 
             searchInput.keyup(function () {
                 table.search(searchInput.val().trim()).draw();
@@ -175,14 +166,19 @@
                                     term: params.term || '',
                                     page: params.page || 1,
                                     pageSize: 10,
-                                    requestType: 'SELECT'
+                                    requestType: 'SELECT',
+                                    filterCriteria: 'NAME_AND_WOOD'
                                 }
                             },
                             processResults: function (data, params) {
                                 data = JSON.parse(data);
                                 let mappedData = $.map(data.results, function (item) {
                                     item.id = item.entityId;
-                                    item.text = item.name;
+                                    let woodName;
+                                    fetchWood(item.woodId, function (entity) {
+                                        woodName = entity.name + ' ';
+                                    }, false);
+                                    item.text = woodName + item.name;
                                     return item;
                                 });
                                 params.page = params.page || 1;
@@ -214,14 +210,23 @@
                                     term: params.term || '',
                                     page: params.page || 1,
                                     pageSize: 10,
-                                    requestType: 'SELECT'
+                                    requestType: 'SELECT',
+                                    filterCriteria: 'NAME_AND_WOOD'
                                 }
                             },
                             processResults: function (data, params) {
                                 data = JSON.parse(data);
                                 let mappedData = $.map(data.results, function (item) {
                                     item.id = item.entityId;
-                                    item.text = item.name;
+                                    let woodName;
+                                    let fretboardWoodName;
+                                    fetchWood(item.woodId, function (entity) {
+                                        woodName = entity.name + ' ';
+                                    }, false);
+                                    fetchWood(item.fretboardWoodId, function (entity) {
+                                        fretboardWoodName = ' ' + entity.name;
+                                    }, false);
+                                    item.text = woodName + item.name + fretboardWoodName + ' fretboard';
                                     return item;
                                 });
                                 params.page = params.page || 1;
@@ -324,8 +329,16 @@
                         .append($("<option></option>").attr("value", "SET_NECK").text("SET_NECK"))
                         .append($("<option></option>").attr("value", "NECK_THROUGH").text("NECK_THROUGH"))
                     searchSelect.select2('destroy');
-                }
-                else {
+                } else if (searchCriteria.val() === 'ORDER_STATUS') {
+                    table.search(searchInput.val()).draw();
+                    searchInput.hide();
+                    searchSelect.show();
+                    searchSelect.html('')
+                        .append($("<option></option>").attr("value", "").text("None"))
+                        .append($("<option></option>").attr("value", "ORDERED").text("ORDERED"))
+                        .append($("<option></option>").attr("value", "IN_PROGRESS").text("IN_PROGRESS"))
+                    searchSelect.select2('destroy');
+                } else {
                     table.search(searchInput.val()).draw();
                     searchInput.show();
                     searchSelect.hide();
@@ -347,32 +360,44 @@
             table.rows().data().each(function (value, index) {
                 fetchBody(value.bodyId, function (entity) {
                     let bodyName = entity.name;
-                    let cell = table.cell(index, 3).node();
-                    $(cell).find('a').text(bodyName);
+                    let woodName;
+                    fetchWood(entity.woodId, function (entity) {
+                        woodName = entity.name + ' ';
+                    }, false);
+                    let cell = table.cell(index, 1).node();
+                    $(cell).find('p').text(woodName + bodyName);
                 });
             });
 
             table.rows().data().each(function (value, index) {
                 fetchNeck(value.neckId, function (entity) {
                     let neckName = entity.name;
-                    let cell = table.cell(index, 4).node();
-                    $(cell).find('a').text(neckName);
+                    let woodName;
+                    let fretboardWoodName;
+                    fetchWood(entity.woodId, function (entity) {
+                        woodName = entity.name + ' ';
+                    }, false);
+                    fetchWood(entity.fretboardWoodId, function (entity) {
+                        fretboardWoodName = ' ' + entity.name;
+                    }, false);
+                    let cell = table.cell(index, 2).node();
+                    $(cell).find('p').text(woodName + neckName + fretboardWoodName + ' fretboard');
                 });
             });
 
             table.rows().data().each(function (value, index) {
                 fetchPickup(value.pickupId, function (entity) {
                     let pickupName = entity.name;
-                    let cell = table.cell(index, 5).node();
-                    $(cell).find('a').text(pickupName);
+                    let cell = table.cell(index, 3).node();
+                    $(cell).find('p').text(pickupName);
                 });
             });
 
             table.rows().data().each(function (value, index) {
                 fetchUser(value.userId, function (entity) {
                     let userName = entity.login;
-                    let cell = table.cell(index, 8).node();
-                    $(cell).find('a').text(userName);
+                    let cell = table.cell(index, 6).node();
+                    $(cell).find('p').text(userName);
                 });
             });
         }
@@ -494,6 +519,38 @@
                         if (data) {
                             cachedUsers[id] = data.entity;
                             sessionStorage.setItem('cachedUsers', JSON.stringify(cachedUsers));
+                            callback(data.entity);
+                        }
+                    }
+                });
+            }
+        }
+
+        function fetchWood(id, callback, async = true) {
+            let cachedWoods = JSON.parse(sessionStorage.getItem('cachedWoods'));
+
+            if (cachedWoods === null) {
+                cachedWoods = {};
+                sessionStorage.setItem('cachedWoods', '{}');
+            }
+
+            if (id in cachedWoods) {
+                callback(cachedWoods[id]);
+            } else {
+                $.ajax({
+                    method: 'GET',
+                    url: '/controller?command=get_woods',
+                    data: {
+                        id: id,
+                        requestType: 'FETCH'
+                    },
+                    async: async,
+                    success: function (response) {
+                        let data = JSON.parse(response);
+
+                        if (data) {
+                            cachedWoods[id] = data.entity;
+                            sessionStorage.setItem('cachedWoods', JSON.stringify(cachedWoods));
                             callback(data.entity);
                         }
                     }

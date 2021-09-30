@@ -4,6 +4,7 @@ import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
 import com.chocobo.customshop.controller.command.RequestAttribute;
 import com.chocobo.customshop.exception.ServiceException;
+import com.chocobo.customshop.model.entity.Guitar;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
@@ -19,7 +20,9 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.VALIDATION_ERROR;
+import static com.chocobo.customshop.model.entity.Guitar.*;
 import static com.chocobo.customshop.util.impl.ImageUploadUtilImpl.DEFAULT_IMAGE_NAME;
+import static com.chocobo.customshop.util.impl.ImageUploadUtilImpl.IMAGES_URL;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class ConstructGuitarCommand implements Command {
@@ -46,7 +49,9 @@ public class ConstructGuitarCommand implements Command {
             valid &= nameValidator.validate(color);
 
             if (valid) {
-                GuitarServiceImpl.getInstance().insert(name, DEFAULT_IMAGE_NAME, bodyId, neckId, pickupId, userId, color, neckJoint);
+                String defaultPicturePath = IMAGES_URL + DEFAULT_IMAGE_NAME;
+                GuitarServiceImpl.getInstance().insert(name, defaultPicturePath, bodyId, neckId, pickupId,
+                        userId, color, neckJoint, OrderStatus.ORDERED);
                 result = new CommandResult(INDEX_URL, REDIRECT);
             } else {
                 session.setAttribute(VALIDATION_ERROR, true);

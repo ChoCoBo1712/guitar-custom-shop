@@ -44,19 +44,7 @@ public class SendConfirmationLinkCommand implements Command {
 
         CommandResult result;
         try {
-            MailUtil mailUtil = MailUtilImpl.getInstance();
-            TokenUtil tokenUtil = TokenUtilImpl.getInstance();
-
-            String mailSubject = mailUtil.getMailProperty(SUBJECT_PROPERTY);
-            String bodyTemplate = mailUtil.getMailProperty(BODY_PROPERTY);
-            Map<String, Object> claimsMap = new HashMap<>();
-            claimsMap.put(ID_CLAIM, userId);
-            claimsMap.put(EMAIL_CLAIM, email);
-            String confirmationUrl = URL_BLANK + tokenUtil.generateToken(claimsMap);
-            String confirmationLink = request.getScheme() + PROTOCOL_DELIMITER + request.getServerName() + confirmationUrl;
-
-            String mailBody = String.format(bodyTemplate, confirmationLink);
-            mailUtil.sendMail(email, mailSubject, mailBody);
+            MailUtilImpl.getInstance().sendConfirmationMail(userId, email, request.getScheme(), request.getServerName());
 
             session.setAttribute(EMAIL_CONFIRMATION, true);
             result = new CommandResult(TOKEN_SENT_URL, REDIRECT);

@@ -36,11 +36,6 @@ public class RegisterCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final String URL_BLANK = "/controller?command=confirm_email&token=";
-
-    private static final String SUBJECT_PROPERTY = "confirmationMail.subject";
-    private static final String BODY_PROPERTY = "confirmationMail.body";
-
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -72,20 +67,7 @@ public class RegisterCommand implements Command {
                 }
 
                 long userId = UserServiceImpl.getInstance().register(email, login, password, CLIENT, NOT_CONFIRMED);
-
-                MailUtil mailUtil = MailUtilImpl.getInstance();
-                TokenUtil tokenUtil = TokenUtilImpl.getInstance();
-
-                String mailSubject = mailUtil.getMailProperty(SUBJECT_PROPERTY);
-                String bodyTemplate = mailUtil.getMailProperty(BODY_PROPERTY);
-                Map<String, Object> claimsMap = new HashMap<>();
-                claimsMap.put(ID_CLAIM, userId);
-                claimsMap.put(EMAIL_CLAIM, email);
-                String confirmationUrl = URL_BLANK + tokenUtil.generateToken(claimsMap);
-                String confirmationLink = request.getScheme() + PROTOCOL_DELIMITER + request.getServerName() + confirmationUrl;
-
-                String mailBody = String.format(bodyTemplate, confirmationLink);
-                mailUtil.sendMail(email, mailSubject, mailBody);
+                MailUtilImpl.getInstance().sendConfirmationMail(userId, email, request.getScheme(), request.getServerName());
 
                 session.setAttribute(EMAIL_CONFIRMATION, true);
                 result = new CommandResult(TOKEN_SENT_URL, REDIRECT);

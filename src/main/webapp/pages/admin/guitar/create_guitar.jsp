@@ -33,7 +33,7 @@
         <br>
         <select name="pickupId" id="pickupSelect" required></select>
         <br>
-        <select name="neckJoint" id="neck_joint_select">
+        <select name="neckJoint" id="neckJointSelect">
             <option selected value="BOLT_ON">BOLT_ON</option>
             <option value="SET_NECK">SET_NECK</option>
             <option value="NECK_THROUGH">NECK_THROUGH</option>
@@ -43,6 +43,12 @@
                pattern="[a-zA-Z0-9\s\-]{1,30}">
         <br>
         <select name="userId" id="userSelect" required></select>
+        <br>
+        <select name="orderStatus" id="orderStatusSelect">
+            <option selected value="ORDERED">ORDERED</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="COMPLETED">COMPLETED</option>
+        </select>
         <br>
         <input type="submit" value=<cst:localeTag key="admin.create" />>
     </form>

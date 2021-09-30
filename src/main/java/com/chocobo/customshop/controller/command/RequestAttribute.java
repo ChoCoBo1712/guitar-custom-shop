@@ -39,8 +39,10 @@ public final class RequestAttribute {
     public static final String USER_ID = "userId";
     public static final String COLOR = "color";
     public static final String NECK_JOINT = "neckJoint";
+    public static final String ORDER_STATUS = "orderStatus";
     public static final String PICTURE_PATH = "picturePath";
     public static final String GUITAR = "guitar";
+    public static final String ACTIVE_ORDER = "activeOrder";
 
     private RequestAttribute() {
 
