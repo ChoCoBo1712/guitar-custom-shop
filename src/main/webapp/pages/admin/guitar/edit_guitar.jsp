@@ -76,6 +76,9 @@
             let pickupSelect = $('#pickupSelect');
             let userSelect = $('#userSelect');
 
+            $('#neckJointSelect').val('${requestScope.guitar.neckJoint}')
+            $('#orderStatusSelect').val('${requestScope.guitar.orderStatus}')
+
             bodySelect.select2({
                 language: '${sessionScope.locale}'.substring(0, 2),
                 placeholder: '<cst:localeTag key="admin.guitars.body" />',
