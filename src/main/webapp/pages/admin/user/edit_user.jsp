@@ -52,8 +52,8 @@
 
     <script>
         $(document).ready( function () {
-            $('#role_select').val('${sessionScope.user.role}')
-            $('#status_select').val('${sessionScope.user.status}')
+            $('#role_select').val('${requestScope.user.role}')
+            $('#status_select').val('${requestScope.user.status}')
         });
     </script>
 

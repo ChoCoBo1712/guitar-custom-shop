@@ -15,6 +15,8 @@
     <c:if test="${sessionScope.locale == 'ru_RU'}">
         <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/ru.js"></script>
     </c:if>
+
+    <script src="/static/js/util/fetch.js"></script>
 </head>
 <body>
     <jsp:include page="../../common/shared/header.jsp" />
@@ -251,130 +253,6 @@
                     let option = new Option(entity.login, entity.entityId);
                     userSelect.append(option).trigger('change');
                 });
-            }
-
-            function fetchBody(id, callback) {
-                let cachedBodies = JSON.parse(sessionStorage.getItem('cachedBodies'));
-
-                if (cachedBodies === null) {
-                    cachedBodies = {};
-                    sessionStorage.setItem('cachedBodies', '{}');
-                }
-
-                if (id in cachedBodies) {
-                    callback(cachedBodies[id]);
-                } else {
-                    $.ajax({
-                        method: 'GET',
-                        url: '/controller?command=get_bodies',
-                        data: {
-                            id: id,
-                            requestType: 'FETCH'
-                        },
-                        success: function (response) {
-                            let data = JSON.parse(response);
-
-                            if (data) {
-                                cachedBodies[id] = data.entity;
-                                sessionStorage.setItem('cachedBodies', JSON.stringify(cachedBodies));
-                                callback(data.entity);
-                            }
-                        }
-                    });
-                }
-            }
-
-            function fetchNeck(id, callback) {
-                let cachedNecks = JSON.parse(sessionStorage.getItem('cachedNecks'));
-
-                if (cachedNecks === null) {
-                    cachedNecks = {};
-                    sessionStorage.setItem('cachedNecks', '{}');
-                }
-
-                if (id in cachedNecks) {
-                    callback(cachedNecks[id]);
-                } else {
-                    $.ajax({
-                        method: 'GET',
-                        url: '/controller?command=get_necks',
-                        data: {
-                            id: id,
-                            requestType: 'FETCH'
-                        },
-                        success: function (response) {
-                            let data = JSON.parse(response);
-
-                            if (data) {
-                                cachedNecks[id] = data.entity;
-                                sessionStorage.setItem('cachedNecks', JSON.stringify(cachedNecks));
-                                callback(data.entity);
-                            }
-                        }
-                    });
-                }
-            }
-
-            function fetchPickup(id, callback) {
-                let cachedPickups = JSON.parse(sessionStorage.getItem('cachedPickups'));
-
-                if (cachedPickups === null) {
-                    cachedPickups = {};
-                    sessionStorage.setItem('cachedPickups', '{}');
-                }
-
-                if (id in cachedPickups) {
-                    callback(cachedPickups[id]);
-                } else {
-                    $.ajax({
-                        method: 'GET',
-                        url: '/controller?command=get_pickups',
-                        data: {
-                            id: id,
-                            requestType: 'FETCH'
-                        },
-                        success: function (response) {
-                            let data = JSON.parse(response);
-
-                            if (data) {
-                                cachedPickups[id] = data.entity;
-                                sessionStorage.setItem('cachedPickups', JSON.stringify(cachedPickups));
-                                callback(data.entity);
-                            }
-                        }
-                    });
-                }
-            }
-
-            function fetchUser(id, callback) {
-                let cachedUsers = JSON.parse(sessionStorage.getItem('cachedUsers'));
-
-                if (cachedUsers === null) {
-                    cachedUsers = {};
-                    sessionStorage.setItem('cachedUsers', '{}');
-                }
-
-                if (id in cachedUsers) {
-                    callback(cachedUsers[id]);
-                } else {
-                    $.ajax({
-                        method: 'GET',
-                        url: '/controller?command=get_users',
-                        data: {
-                            id: id,
-                            requestType: 'FETCH'
-                        },
-                        success: function (response) {
-                            let data = JSON.parse(response);
-
-                            if (data) {
-                                cachedUsers[id] = data.entity;
-                                sessionStorage.setItem('cachedUsers', JSON.stringify(cachedUsers));
-                                callback(data.entity);
-                            }
-                        }
-                    });
-                }
             }
 
             let form = $('#edit_guitar_form');
