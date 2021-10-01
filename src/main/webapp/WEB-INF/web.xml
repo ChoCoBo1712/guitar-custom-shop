@@ -25,6 +25,11 @@
         <location>/pages/common/errors/error404.jsp</location>
     </error-page>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/pages/common/errors/error403.jsp</location>
+    </error-page>
+
     <jsp-config>
         <taglib>
             <taglib-uri>customshop-tags</taglib-uri>

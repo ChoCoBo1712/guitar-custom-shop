@@ -179,7 +179,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(long id) throws DaoException {
-        QueryExecutor executor = QueryExecutor.createExecutor(true);
+        QueryExecutor executor = QueryExecutor.createTransactionExecutor();
         executor.executeUpdateOrDelete(DELETE, id);
         executor.executeUpdateOrDelete(DELETE_GUITARS_BY_USER, id);
         executor.commit();

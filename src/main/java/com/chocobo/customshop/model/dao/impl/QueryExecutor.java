@@ -29,16 +29,20 @@ class QueryExecutor {
         }
     }
 
-    static QueryExecutor createExecutor(boolean transaction) throws DaoException {
+    static QueryExecutor createExecutor() throws DaoException {
+        return createExecutor(false);
+    }
+
+    static QueryExecutor createTransactionExecutor() throws DaoException {
+        return createExecutor(true);
+    }
+
+    private static QueryExecutor createExecutor(boolean transaction) throws DaoException {
         try {
             return new QueryExecutor(transaction);
         } catch (DatabaseConnectionException | SQLException e) {
             throw new DaoException(e);
         }
-    }
-
-    static QueryExecutor createExecutor() throws DaoException {
-        return createExecutor(false);
     }
 
     <T extends AbstractEntity> Optional<T> executeSelect(String sql, BaseDao<T> dao, Object... params) throws DaoException {

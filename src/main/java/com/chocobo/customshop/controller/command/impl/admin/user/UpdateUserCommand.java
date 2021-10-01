@@ -10,7 +10,6 @@ import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.validator.impl.EmailValidator;
 import com.chocobo.customshop.model.validator.impl.LoginValidator;
-import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.model.validator.impl.PasswordValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +24,6 @@ import static com.chocobo.customshop.controller.command.CommandResult.RouteType.
 import static com.chocobo.customshop.controller.command.PagePath.*;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
 import static com.chocobo.customshop.controller.command.SessionAttribute.*;
-import static com.chocobo.customshop.controller.command.SessionAttribute.USER;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 

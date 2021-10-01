@@ -2,14 +2,12 @@ package com.chocobo.customshop.controller.command.impl;
 
 import com.chocobo.customshop.controller.command.Command;
 import com.chocobo.customshop.controller.command.CommandResult;
-import com.chocobo.customshop.controller.command.SessionAttribute;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.validator.impl.EmailValidator;
 import com.chocobo.customshop.model.validator.impl.LoginValidator;
-import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.model.validator.impl.PasswordValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,11 +19,9 @@ import java.util.Optional;
 
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.controller.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.controller.command.PagePath.*;
+import static com.chocobo.customshop.controller.command.PagePath.PROFILE_URL;
 import static com.chocobo.customshop.controller.command.RequestAttribute.*;
-import static com.chocobo.customshop.controller.command.RequestAttribute.ENTITY_ID;
 import static com.chocobo.customshop.controller.command.SessionAttribute.*;
-import static com.chocobo.customshop.controller.command.SessionAttribute.USER;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 

@@ -88,7 +88,7 @@ public class GetGuitarsCommand implements Command {
     private void processSelectRequest(HttpServletRequest request, Map<String, Object> responseMap)
             throws ServiceException {
         String searchValue = request.getParameter(TERM);
-        String userId = String.valueOf(((User) request.getSession().getAttribute(USER)).getEntityId());
+        String userId = String.valueOf(request.getSession().getAttribute(USER_ID));
         int page = Integer.parseInt(request.getParameter(PAGE));
         int pageSize = Integer.parseInt(request.getParameter(PAGE_SIZE));
         int start = pageSize * (page - 1);

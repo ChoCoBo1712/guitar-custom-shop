@@ -9,7 +9,7 @@ public class User extends AbstractEntity {
 
     public enum UserRole {
         ADMIN,
-        MASTER,
+        MAKER,
         CLIENT
     }
 
