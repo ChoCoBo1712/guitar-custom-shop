@@ -2,6 +2,7 @@ package com.chocobo.customshop.controller.command;
 
 public final class PagePath {
 
+    // JSP paths
     public static final String INDEX_JSP = "/pages/common/index.jsp";
     public static final String LOGIN_JSP = "/pages/common/login.jsp";
     public static final String REGISTER_JSP = "/pages/common/register.jsp";
@@ -33,6 +34,7 @@ public final class PagePath {
     public static final String GUITAR_ORDERS_JSP = "/pages/common/guitar_orders.jsp";
     public static final String FINISH_ORDER_JSP = "/pages/common/finish_order.jsp";
 
+    // URLs
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
     public static final String REGISTER_URL = "/controller?command=go_to_register_page";
@@ -63,6 +65,7 @@ public final class PagePath {
     public static final String GUITAR_ORDERS_URL = "/controller?command=go_to_guitar_orders_page";
     public static final String FINISH_ORDER_URL = "/controller?command=finish_order";
 
+    // misc
     public static final String AMPERSAND = "&";
     public static final String EQUALS_SIGN = "=";
 
