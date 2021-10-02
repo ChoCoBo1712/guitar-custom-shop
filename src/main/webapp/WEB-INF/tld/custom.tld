@@ -7,7 +7,7 @@
 
     <tag>
         <name>localeTag</name>
-        <tag-class>com.chocobo.customshop.controller.tag.LocaleTag</tag-class>
+        <tag-class>com.chocobo.customshop.web.tag.LocaleTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>key</name>

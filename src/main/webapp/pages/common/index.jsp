@@ -7,7 +7,7 @@
     <title><cst:localeTag key="index.title" /></title>
     <jsp:include page="shared/head.html" />
 
-    <script src="/static/js/common/index.js"></script>
+    <script src="/static/js/common/set_locale.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
 <body>

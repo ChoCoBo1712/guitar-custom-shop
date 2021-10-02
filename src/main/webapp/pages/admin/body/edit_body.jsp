@@ -15,6 +15,8 @@
     <c:if test="${sessionScope.locale == 'ru_RU'}">
         <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/ru.js"></script>
     </c:if>
+
+    <script src="/static/js/util/fetch.js"></script>
 </head>
 <body>
     <jsp:include page="../../common/shared/header.jsp" />
@@ -56,7 +58,8 @@
                             term: params.term || '',
                             page: params.page || 1,
                             pageSize: 10,
-                            requestType: 'SELECT'
+                            requestType: 'SELECT',
+                            filterCriteria: 'NAME'
                         }
                     },
                     processResults: function (data, params) {
@@ -83,37 +86,6 @@
                     let option = new Option(entity.name, entity.entityId);
                     select.append(option).trigger('change');
                 });
-            }
-
-            function fetchWood(id, callback) {
-                let cachedWoods = JSON.parse(sessionStorage.getItem('cachedWoods'));
-
-                if (cachedWoods === null) {
-                    cachedWoods = {};
-                    sessionStorage.setItem('cachedWoods', '{}');
-                }
-
-                if (id in cachedWoods) {
-                    callback(cachedWoods[id]);
-                } else {
-                    $.ajax({
-                        method: 'GET',
-                        url: '/controller?command=get_woods',
-                        data: {
-                            id: id,
-                            requestType: 'FETCH'
-                        },
-                        success: function (response) {
-                            let data = JSON.parse(response);
-
-                            if (data) {
-                                cachedWoods[id] = data.entity;
-                                sessionStorage.setItem('cachedWoods', JSON.stringify(cachedWoods));
-                                callback(data.entity);
-                            }
-                        }
-                    });
-                }
             }
         });
     </script>

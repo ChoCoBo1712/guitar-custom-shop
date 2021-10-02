@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 public class LoginValidator implements Validator<String> {
 
-    private static final Logger logger = LogManager.getLogger();
     private static Validator<String> instance;
 
     private static final String VALID_LOGIN_REGEX = "^\\p{Alnum}{6,20}$";

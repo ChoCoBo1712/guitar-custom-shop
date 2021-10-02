@@ -18,117 +18,31 @@
   </c:if>
 
   <script src="/static/js/util/fetch.js"></script>
+  <script src="/static/js/common/my_guitars.js"></script>
+  <script src="/static/js/common/shared/footer.js"></script>
 </head>
-<body>
+<body data-locale="${sessionScope.locale}"
+      data-guitars-string="<cst:localeTag key="admin.guitars" />">
   <jsp:include page="shared/header.jsp" />
 
   <select id="guitarSelect"></select>
 
   <div id="guitar">
-    <input id="name" readonly/>
+    <input id="nameInput" readonly/>
     <br>
-    <input id="body" readonly/>
+    <input id="bodyInput" readonly/>
     <br>
-    <input id="neck" readonly/>
+    <input id="neckInput" readonly/>
     <br>
-    <input id="pickup" readonly/>
+    <input id="pickupInput" readonly/>
     <br>
-    <input id="neckJoint" readonly/>
+    <input id="neckJointInput" readonly/>
     <br>
-    <input id="color" readonly/>
+    <input id="colorInput" readonly/>
     <br>
-    <input id="orderStatus" readonly/>
+    <input id="orderStatusInput" readonly/>
     <br>
   </div>
-
-  <script>
-    $(document).ready( function () {
-
-      let guitarSelect = $('#guitarSelect');
-      let guitarId;
-      let name = $('#name');
-      let body = $('#body');
-      let neck = $('#neck');
-      let pickup = $('#pickup');
-      let neckJoint = $('#neckJoint');
-      let color = $('#color');
-      let orderStatus = $('#orderStatus');
-
-      guitarSelect.select2({
-        language: '${sessionScope.locale}'.substring(0, 2),
-        placeholder: '<cst:localeTag key="admin.guitars" />',
-        // theme: 'bootstrap',
-        width: '10%',
-        maximumInputLength: 50,
-        ajax: {
-          delay: 250,
-          url: '/controller?command=get_guitars',
-          data: function (params) {
-            return {
-              term: params.term || '',
-              page: params.page || 1,
-              pageSize: 10,
-              requestType: 'SELECT'
-            }
-          },
-          processResults: function (data, params) {
-            data = JSON.parse(data);
-            let mappedData = $.map(data.results, function (item) {
-              item.id = item.entityId;
-              item.text = item.name;
-              return item;
-            });
-            params.page = params.page || 1;
-
-            return {
-              results: mappedData,
-              pagination: {
-                more: data.paginationMore
-              }
-            }
-          }
-        }
-      });
-
-      guitarSelect.change( function () {
-        guitarId = guitarSelect.val();
-        fetchGuitar(guitarId, function (guitar) {
-          name.val(guitar.name);
-
-          let bodyName;
-          fetchBody(guitar.bodyId, function (body) {
-            let woodName;
-            fetchWood(body.woodId, function (wood) {
-              woodName = wood.name + ' ';
-            }, false);
-            bodyName = woodName + body.name;
-          }, false);
-          body.val(bodyName);
-
-          let neckName;
-          fetchNeck(guitar.neckId, function (neck) {
-            let woodName;
-            fetchWood(neck.woodId, function (wood) {
-              woodName = wood.name + ' ';
-            }, false);
-            neckName = woodName + neck.name;
-          }, false);
-          neck.val(neckName);
-
-          let pickupName;
-          fetchPickup(guitar.pickupId, function (pickup) {
-            pickupName = pickup.name;
-          }, false);
-          pickup.val(pickupName);
-
-          neckJoint.val(guitar.neckJoint);
-          color.val(guitar.color);
-          orderStatus.val(guitar.orderStatus);
-        });
-      });
-
-    });
-  </script>
 
   <jsp:include page="shared/footer.jsp" />
 </body>

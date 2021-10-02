@@ -259,7 +259,8 @@
                                     term: params.term || '',
                                     page: params.page || 1,
                                     pageSize: 10,
-                                    requestType: 'SELECT'
+                                    requestType: 'SELECT',
+                                    filterCriteria: 'NAME'
                                 }
                             },
                             processResults: function (data, params) {
@@ -298,7 +299,8 @@
                                     term: params.term || '',
                                     page: params.page || 1,
                                     pageSize: 10,
-                                    requestType: 'SELECT'
+                                    requestType: 'SELECT',
+                                    filterCriteria: 'LOGIN'
                                 }
                             },
                             processResults: function (data, params) {
