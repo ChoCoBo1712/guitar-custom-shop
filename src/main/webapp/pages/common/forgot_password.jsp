@@ -21,7 +21,7 @@
         <input type="submit">
     </form>
 
-    <c:if test="${requestScope.forgotPasswordError}">
+    <c:if test="${param.forgotPasswordError}">
         <p><cst:localeTag key="error.forgot_password" /></p>
     </c:if>
 

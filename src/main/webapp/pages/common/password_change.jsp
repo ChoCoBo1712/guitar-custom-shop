@@ -15,7 +15,7 @@
     <jsp:include page="shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=password_change" method="post">
-        <input type="text" name="token" value="${requestScope.token}" hidden>
+        <input type="text" name="token" value="${param.token}" hidden>
         <input type="text" name="email" value="${requestScope.email}" hidden>
         <input type="password" name="password" placeholder=<cst:localeTag key="placeholder.password" /> required
                pattern="(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{8,32}">
@@ -23,7 +23,7 @@
         <input type="submit">
     </form>
 
-    <c:if test="${requestScope.validationError}">
+    <c:if test="${param.validationError}">
         <p><cst:localeTag key="error.validation_error" /></p>
     </c:if>
 

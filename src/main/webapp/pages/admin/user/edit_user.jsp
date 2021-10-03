@@ -41,15 +41,15 @@
         <input type="submit" value=<cst:localeTag key="admin.edit" />>
     </form>
 
-    <c:if test="${requestScope.duplicateEmailError}">
+    <c:if test="${param.duplicateEmailError}">
         <p><cst:localeTag key="error.duplicate_email" /></p>
     </c:if>
 
-    <c:if test="${requestScope.duplicateLoginError}">
+    <c:if test="${param.duplicateLoginError}">
         <p><cst:localeTag key="error.duplicate_login" /></p>
     </c:if>
 
-    <c:if test="${requestScope.validationError}">
+    <c:if test="${param.validationError}">
         <p><cst:localeTag key="error.validation_error" /></p>
     </c:if>
 

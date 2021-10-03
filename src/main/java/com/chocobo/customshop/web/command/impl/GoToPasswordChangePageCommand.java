@@ -36,7 +36,6 @@ public class GoToPasswordChangePageCommand implements Command {
 
             if (!userService.isEmailUnique(email)) {
                 request.setAttribute(EMAIL, email);
-                request.setAttribute(TOKEN, token);
                 return CommandResult.createForwardResult(PASSWORD_CHANGE_JSP);
             } else {
                 logger.error("Got invalid token");

@@ -1,15 +1,14 @@
 package com.chocobo.customshop.web.command.impl;
 
-import com.chocobo.customshop.web.command.Command;
-import com.chocobo.customshop.web.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.util.TokenUtil;
 import com.chocobo.customshop.util.impl.TokenUtilImpl;
+import com.chocobo.customshop.web.command.Command;
+import com.chocobo.customshop.web.command.CommandResult;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,14 +16,12 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.web.command.PagePath.TOKEN_SUCCESS_URL;
-import static com.chocobo.customshop.web.command.RequestAttribute.TOKEN;
-import static com.chocobo.customshop.web.command.SessionAttribute.EMAIL_CONFIRMATION;
 import static com.chocobo.customshop.model.entity.User.UserStatus.CONFIRMED;
 import static com.chocobo.customshop.util.impl.TokenUtilImpl.EMAIL_CLAIM;
 import static com.chocobo.customshop.util.impl.TokenUtilImpl.ID_CLAIM;
+import static com.chocobo.customshop.web.command.PagePath.*;
+import static com.chocobo.customshop.web.command.RequestAttribute.EMAIL_CONFIRMATION;
+import static com.chocobo.customshop.web.command.RequestAttribute.TOKEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -36,8 +33,6 @@ public class ConfirmEmailCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
         try {
             String token = request.getParameter(TOKEN);
             Map<String, Object> tokenContent = tokenUtil.parseToken(token);
@@ -53,8 +48,9 @@ public class ConfirmEmailCommand implements Command {
                             .build();
                     userService.update(updatedUser);
 
-                    session.setAttribute(EMAIL_CONFIRMATION, true);
-                    return CommandResult.createRedirectResult(TOKEN_SUCCESS_URL);
+                    String redirectUrl = TOKEN_SUCCESS_URL
+                            + AMPERSAND + EMAIL_CONFIRMATION + EQUALS_SIGN + true;
+                    return CommandResult.createRedirectResult(redirectUrl);
                 }
             }
             logger.error("Got invalid token");

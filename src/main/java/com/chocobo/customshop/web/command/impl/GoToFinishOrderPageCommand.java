@@ -12,9 +12,6 @@ public class GoToFinishOrderPageCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
-        request.setAttribute(ENTITY_ID, entityId);
-
         return CommandResult.createForwardResult(FINISH_ORDER_JSP);
     }
 }

@@ -1,33 +1,28 @@
 package com.chocobo.customshop.web.command.impl.admin.guitar;
 
+import com.chocobo.customshop.exception.ServiceException;
+import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.GuitarService;
+import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
+import com.chocobo.customshop.model.validator.Validator;
+import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
+import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.util.ImageUploadUtil;
+import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
 import com.chocobo.customshop.web.command.RequestAttribute;
-import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
-import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
-import com.chocobo.customshop.model.validator.Validator;
-import com.chocobo.customshop.model.validator.impl.NameValidator;
-import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
-import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.web.command.PagePath.ADMIN_CREATE_GUITAR_URL;
-import static com.chocobo.customshop.web.command.PagePath.ADMIN_GUITARS_URL;
+import static com.chocobo.customshop.model.entity.Guitar.OrderStatus;
+import static com.chocobo.customshop.web.command.PagePath.*;
 import static com.chocobo.customshop.web.command.RequestAttribute.*;
-import static com.chocobo.customshop.web.command.SessionAttribute.VALIDATION_ERROR;
-import static com.chocobo.customshop.model.entity.Guitar.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class CreateGuitarCommand implements Command {
@@ -40,8 +35,6 @@ public class CreateGuitarCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
         String name = request.getParameter(NAME);
         long bodyId = Long.parseLong(request.getParameter(BODY_ID));
         long neckId = Long.parseLong(request.getParameter(RequestAttribute.NECK_ID));
@@ -54,8 +47,8 @@ public class CreateGuitarCommand implements Command {
         try {
             Part part = request.getPart(PICTURE_PATH);
 
-            boolean valid = nameValidator.validate(name) 
-                    && nameValidator.validate(color) 
+            boolean valid = nameValidator.validate(name)
+                    && nameValidator.validate(color)
                     && imagePartValidator.validate(part);
 
             if (valid) {
@@ -64,8 +57,9 @@ public class CreateGuitarCommand implements Command {
                 guitarService.insert(name, picturePath, bodyId, neckId, pickupId, userId, color, neckJoint, orderStatus);
                 return CommandResult.createRedirectResult(ADMIN_GUITARS_URL);
             } else {
-                session.setAttribute(VALIDATION_ERROR, true);
-                return CommandResult.createRedirectResult(ADMIN_CREATE_GUITAR_URL);
+                String redirectUrl = ADMIN_CREATE_GUITAR_URL
+                        + AMPERSAND + VALIDATION_ERROR + EQUALS_SIGN + true;
+                return CommandResult.createRedirectResult(redirectUrl);
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during create guitar command execution", e);

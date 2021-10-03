@@ -22,7 +22,7 @@
         <input type="submit" value=<cst:localeTag key="admin.create" />>
     </form>
 
-    <c:if test="${requestScope.validationError}">
+    <c:if test="${param.validationError}">
         <p><cst:localeTag key="error.validation_error" /></p>
     </c:if>
 

@@ -16,8 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.web.command.PagePath.ADMIN_CREATE_USER_URL;
-import static com.chocobo.customshop.web.command.PagePath.ADMIN_USERS_URL;
+import static com.chocobo.customshop.web.command.PagePath.*;
 import static com.chocobo.customshop.web.command.RequestAttribute.*;
 import static com.chocobo.customshop.web.command.SessionAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -32,8 +31,6 @@ public class CreateUserCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
         String email = request.getParameter(EMAIL);
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
@@ -48,23 +45,25 @@ public class CreateUserCommand implements Command {
             if (valid) {
                 boolean duplicate = false;
 
+                String redirectUrl = ADMIN_CREATE_USER_URL;
                 if (!userService.isEmailUnique(email)) {
                     duplicate = true;
-                    session.setAttribute(DUPLICATE_EMAIL_ERROR, true);
+                    redirectUrl += AMPERSAND + DUPLICATE_EMAIL_ERROR + EQUALS_SIGN + true;
                 }
                 if (!userService.isLoginUnique(login)) {
                     duplicate = true;
-                    session.setAttribute(DUPLICATE_LOGIN_ERROR, true);
+                    redirectUrl += AMPERSAND + DUPLICATE_LOGIN_ERROR + EQUALS_SIGN + true;
                 }
                 if (duplicate) {
-                    return CommandResult.createRedirectResult(ADMIN_CREATE_USER_URL);
+                    return CommandResult.createRedirectResult(redirectUrl);
                 }
 
                 userService.register(email, login, password, role, status);
                 return CommandResult.createRedirectResult(ADMIN_USERS_URL);
             } else {
-                session.setAttribute(VALIDATION_ERROR, true);
-                return CommandResult.createRedirectResult(ADMIN_CREATE_USER_URL);
+                String redirectUrl = ADMIN_CREATE_USER_URL
+                        + AMPERSAND + VALIDATION_ERROR + EQUALS_SIGN + true;
+                return CommandResult.createRedirectResult(redirectUrl);
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during create user command execution", e);

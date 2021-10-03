@@ -1,12 +1,12 @@
 package com.chocobo.customshop.web.command.impl;
 
+import com.chocobo.customshop.exception.ServiceException;
+import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.service.UserService;
+import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.web.command.AppRole;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
-import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.model.entity.User;
-import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
@@ -14,16 +14,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-import static com.chocobo.customshop.web.command.AppRole.*;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.web.command.PagePath.INDEX_URL;
-import static com.chocobo.customshop.web.command.PagePath.LOGIN_URL;
-import static com.chocobo.customshop.web.command.RequestAttribute.LOGIN;
-import static com.chocobo.customshop.web.command.RequestAttribute.PASSWORD;
+import static com.chocobo.customshop.model.entity.User.UserRole;
+import static com.chocobo.customshop.model.entity.User.UserStatus;
+import static com.chocobo.customshop.web.command.AppRole.NOT_CONFIRMED;
+import static com.chocobo.customshop.web.command.PagePath.*;
+import static com.chocobo.customshop.web.command.RequestAttribute.*;
+import static com.chocobo.customshop.web.command.SessionAttribute.USER_ID;
 import static com.chocobo.customshop.web.command.SessionAttribute.*;
-import static com.chocobo.customshop.web.command.SessionAttribute.LOGIN_ERROR;
-import static com.chocobo.customshop.model.entity.User.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class LoginCommand implements Command {
@@ -34,7 +31,6 @@ public class LoginCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute(LOGIN_ERROR, false);
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
 
@@ -58,8 +54,9 @@ public class LoginCommand implements Command {
                         return CommandResult.createRedirectResult(INDEX_URL);
                     }
                     case DELETED -> {
-                        session.setAttribute(LOGIN_ERROR, true);
-                        return CommandResult.createRedirectResult(LOGIN_URL);
+                        String redirectUrl = LOGIN_URL
+                                + AMPERSAND + LOGIN_ERROR + EQUALS_SIGN + true;
+                        return CommandResult.createRedirectResult(redirectUrl);
                     }
                     default -> {
                         logger.error("Invalid user status: " + status);
@@ -67,8 +64,9 @@ public class LoginCommand implements Command {
                     }
                 }
             } else {
-                session.setAttribute(LOGIN_ERROR, true);
-                return CommandResult.createRedirectResult(LOGIN_URL);
+                String redirectUrl = LOGIN_URL
+                        + AMPERSAND + LOGIN_ERROR + EQUALS_SIGN + true;
+                return CommandResult.createRedirectResult(redirectUrl);
             }
         } catch (ServiceException e) {
             logger.error("An error occurred during login command execution", e);

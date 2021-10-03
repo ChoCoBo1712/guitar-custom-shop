@@ -26,7 +26,7 @@
         <cst:localeTag key="login.forgot_password" />
     </a>
 
-    <c:if test="${requestScope.loginError}">
+    <c:if test="${param.loginError}">
         <p><cst:localeTag key="error.login" /></p>
     </c:if>
 

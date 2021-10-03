@@ -43,6 +43,14 @@ public final class RequestAttribute {
     public static final String PICTURE_PATH = "picturePath";
     public static final String GUITAR = "guitar";
     public static final String ACTIVE_ORDER = "activeOrder";
+    public static final String LOGIN_ERROR = "loginError";
+    public static final String FORGOT_PASSWORD_ERROR = "forgotPasswordError";
+    public static final String DUPLICATE_EMAIL_ERROR = "duplicateEmailError";
+    public static final String DUPLICATE_LOGIN_ERROR = "duplicateLoginError";
+    public static final String VALIDATION_ERROR = "validationError";
+    public static final String EMAIL_CONFIRMATION = "emailConfirmation";
+    public static final String PASSWORD_CHANGE = "passwordChange";
+    public static final String PROFILE_UPDATED = "profileUpdated";
 
     private RequestAttribute() {
 

@@ -16,7 +16,7 @@
 
   <form id="finish_order_form" action="${pageContext.request.contextPath}/controller?command=finish_order"
         method="post" enctype="multipart/form-data">
-    <input type="text" name="id" value="${requestScope.id}" hidden>
+    <input type="text" name="id" value="${param.id}" hidden>
     <input type="file" name="picturePath" id="file_input" accept="image/png, image/jpeg" required>
     <br>
     <input type="submit">

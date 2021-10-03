@@ -1,21 +1,20 @@
 package com.chocobo.customshop.web.command.impl.admin.guitar;
 
-import com.chocobo.customshop.web.command.Command;
-import com.chocobo.customshop.web.command.CommandResult;
-import com.chocobo.customshop.web.command.RequestAttribute;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Guitar;
 import com.chocobo.customshop.model.entity.Guitar.NeckJoint;
 import com.chocobo.customshop.model.service.GuitarService;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
 import com.chocobo.customshop.model.validator.Validator;
-import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
+import com.chocobo.customshop.model.validator.impl.NameValidator;
 import com.chocobo.customshop.util.ImageUploadUtil;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
+import com.chocobo.customshop.web.command.Command;
+import com.chocobo.customshop.web.command.CommandResult;
+import com.chocobo.customshop.web.command.RequestAttribute;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -24,12 +23,10 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
+import static com.chocobo.customshop.model.entity.Guitar.OrderStatus;
+import static com.chocobo.customshop.model.entity.Guitar.builder;
 import static com.chocobo.customshop.web.command.PagePath.*;
 import static com.chocobo.customshop.web.command.RequestAttribute.*;
-import static com.chocobo.customshop.web.command.SessionAttribute.VALIDATION_ERROR;
-import static com.chocobo.customshop.model.entity.Guitar.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -43,8 +40,6 @@ public class UpdateGuitarCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
         String name = request.getParameter(NAME);
         long bodyId = Long.parseLong(request.getParameter(BODY_ID));
         long neckId = Long.parseLong(request.getParameter(RequestAttribute.NECK_ID));
@@ -63,8 +58,8 @@ public class UpdateGuitarCommand implements Command {
                 String previousName = guitar.getName();
                 String previousColor = guitar.getColor();
 
-                boolean valid = StringUtils.equals(name, previousName) || nameValidator.validate(name) 
-                        && StringUtils.equals(color, previousColor) || nameValidator.validate(color) 
+                boolean valid = StringUtils.equals(name, previousName) || nameValidator.validate(name)
+                        && StringUtils.equals(color, previousColor) || nameValidator.validate(color)
                         && imagePartValidator.validate(part);
 
                 if (valid) {
@@ -97,9 +92,10 @@ public class UpdateGuitarCommand implements Command {
                     guitarService.update(updatedGuitar);
                     return CommandResult.createRedirectResult(ADMIN_GUITARS_URL);
                 } else {
-                    session.setAttribute(VALIDATION_ERROR, true);
-                    String currentEditPageUrl = ADMIN_EDIT_GUITAR_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
-                    return CommandResult.createRedirectResult(currentEditPageUrl);
+                    String redirectUrl = ADMIN_EDIT_GUITAR_URL
+                            + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId
+                            + AMPERSAND + VALIDATION_ERROR + EQUALS_SIGN + true;
+                    return CommandResult.createRedirectResult(redirectUrl);
                 }
             } else {
                 logger.error("Requested guitar not found, id = " + entityId);

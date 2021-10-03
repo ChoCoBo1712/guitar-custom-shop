@@ -1,28 +1,22 @@
 package com.chocobo.customshop.web.command.impl.admin.wood;
 
-import com.chocobo.customshop.model.validator.Validator;
-import com.chocobo.customshop.web.command.Command;
-import com.chocobo.customshop.web.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.WoodService;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
+import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.model.validator.impl.NameValidator;
+import com.chocobo.customshop.web.command.Command;
+import com.chocobo.customshop.web.command.CommandResult;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.web.command.PagePath.*;
-import static com.chocobo.customshop.web.command.PagePath.EQUALS_SIGN;
 import static com.chocobo.customshop.web.command.RequestAttribute.*;
-import static com.chocobo.customshop.web.command.RequestAttribute.ENTITY_ID;
-import static com.chocobo.customshop.web.command.SessionAttribute.VALIDATION_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -34,8 +28,6 @@ public class UpdateWoodCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
         String name = request.getParameter(NAME);
         long entityId = Long.parseLong(request.getParameter(ENTITY_ID));
 
@@ -54,9 +46,10 @@ public class UpdateWoodCommand implements Command {
                     woodService.update(updatedWood);
                     return CommandResult.createRedirectResult(ADMIN_WOODS_URL);
                 } else {
-                    session.setAttribute(VALIDATION_ERROR, true);
-                    String currentEditPageUrl = ADMIN_EDIT_WOOD_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
-                    return CommandResult.createRedirectResult(currentEditPageUrl);
+                    String redirectUrl = ADMIN_EDIT_WOOD_URL
+                            + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId
+                            + AMPERSAND + VALIDATION_ERROR + EQUALS_SIGN + true;
+                    return CommandResult.createRedirectResult(redirectUrl);
                 }
             } else {
                 logger.error("Requested wood not found, id = " + entityId);

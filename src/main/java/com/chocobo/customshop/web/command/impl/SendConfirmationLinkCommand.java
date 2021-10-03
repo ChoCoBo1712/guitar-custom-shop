@@ -12,7 +12,8 @@ import org.apache.logging.log4j.Logger;
 
 import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
 import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
-import static com.chocobo.customshop.web.command.PagePath.TOKEN_SENT_URL;
+import static com.chocobo.customshop.web.command.PagePath.*;
+import static com.chocobo.customshop.web.command.RequestAttribute.EMAIL_CONFIRMATION;
 import static com.chocobo.customshop.web.command.SessionAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
@@ -30,8 +31,9 @@ public class SendConfirmationLinkCommand implements Command {
         try {
             mailUtil.sendConfirmationMail(userId, email, request.getScheme(), request.getServerName());
 
-            session.setAttribute(EMAIL_CONFIRMATION, true);
-            return CommandResult.createRedirectResult(TOKEN_SENT_URL);
+            String redirectUrl = TOKEN_SENT_URL
+                    + AMPERSAND + EMAIL_CONFIRMATION + EQUALS_SIGN + true;
+            return CommandResult.createRedirectResult(redirectUrl);
         } catch (ServiceException e) {
             logger.error("An error occurred during send confirmation link command execution", e);
             return CommandResult.createErrorResult(SC_INTERNAL_SERVER_ERROR);

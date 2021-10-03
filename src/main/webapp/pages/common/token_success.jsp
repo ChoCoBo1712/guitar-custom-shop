@@ -14,11 +14,11 @@
 
     <jsp:include page="shared/header.jsp" />
 
-    <c:if test="${requestScope.emailConfirmation}">
+    <c:if test="${param.emailConfirmation}">
         <p><cst:localeTag key="token_success.email_confirmation" /></p>
     </c:if>
 
-    <c:if test="${requestScope.passwordChange}">
+    <c:if test="${param.passwordChange}">
         <p><cst:localeTag key="token_success.password_change" /></p>
     </c:if>
 

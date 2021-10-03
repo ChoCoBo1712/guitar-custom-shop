@@ -38,8 +38,6 @@ public class UpdateUserCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
         String email = request.getParameter(EMAIL);
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
@@ -65,16 +63,17 @@ public class UpdateUserCommand implements Command {
                 if (valid) {
                     boolean duplicate = false;
 
+                    String redirectUrl = ADMIN_EDIT_USER_URL;
                     if (!emailsMatch && !userService.isEmailUnique(email)) {
                         duplicate = true;
-                        session.setAttribute(DUPLICATE_EMAIL_ERROR, true);
+                        redirectUrl += AMPERSAND + DUPLICATE_EMAIL_ERROR + EQUALS_SIGN + true;
                     }
                     if (!loginsMatch && !userService.isLoginUnique(login)) {
                         duplicate = true;
-                        session.setAttribute(DUPLICATE_LOGIN_ERROR, true);
+                        redirectUrl += AMPERSAND + DUPLICATE_LOGIN_ERROR + EQUALS_SIGN + true;
                     }
                     if (duplicate) {
-                        return CommandResult.createRedirectResult(ADMIN_CREATE_USER_URL);
+                        return CommandResult.createRedirectResult(redirectUrl);
                     }
 
                     User updatedUser = User.builder().of(user)
@@ -88,12 +87,12 @@ public class UpdateUserCommand implements Command {
                     } else {
                         userService.updateWithPassword(updatedUser, password);
                     }
-
                     return CommandResult.createRedirectResult(ADMIN_USERS_URL);
                 } else {
-                    session.setAttribute(VALIDATION_ERROR, true);
-                    String currentEditPageUrl = ADMIN_EDIT_USER_URL + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId;
-                    return CommandResult.createRedirectResult(currentEditPageUrl);
+                    String redirectUrl = ADMIN_EDIT_USER_URL
+                            + AMPERSAND + ENTITY_ID + EQUALS_SIGN + entityId
+                            + AMPERSAND + VALIDATION_ERROR + EQUALS_SIGN + true;
+                    return CommandResult.createRedirectResult(redirectUrl);
                 }
             } else {
                 logger.error("Requested user not found, id = " + entityId);
