@@ -1,6 +1,8 @@
 package com.chocobo.customshop.web.command.impl.admin.user;
 
 import com.chocobo.customshop.model.validator.Validator;
+import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
@@ -15,6 +17,7 @@ import com.chocobo.customshop.model.validator.impl.PasswordValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,9 +35,7 @@ public class UpdateUserCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
     private final UserService userService = UserServiceImpl.getInstance();
-    private final Validator<String> emailValidator = EmailValidator.getInstance();
-    private final Validator<String> loginValidator = LoginValidator.getInstance();
-    private final Validator<String> passwordValidator = PasswordValidator.getInstance();
+    private final ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -49,31 +50,12 @@ public class UpdateUserCommand implements Command {
             Optional<User> optionalUser = userService.findById(entityId);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                String previousEmail = user.getEmail();
-                String previousLogin = user.getLogin();
 
-                boolean emailsMatch = StringUtils.equals(email, previousEmail);
-                boolean loginsMatch = StringUtils.equals(login, previousLogin);
-                boolean passwordIsEmpty = StringUtils.isEmpty(password);
-
-                boolean valid = emailsMatch || emailValidator.validate(email) 
-                        && loginsMatch || loginValidator.validate(login) 
-                        && passwordIsEmpty || passwordValidator.validate(password);
-
-                if (valid) {
-                    boolean duplicate = false;
-
-                    String redirectUrl = ADMIN_EDIT_USER_URL;
-                    if (!emailsMatch && !userService.isEmailUnique(email)) {
-                        duplicate = true;
-                        redirectUrl += AMPERSAND + DUPLICATE_EMAIL_ERROR + EQUALS_SIGN + true;
-                    }
-                    if (!loginsMatch && !userService.isLoginUnique(login)) {
-                        duplicate = true;
-                        redirectUrl += AMPERSAND + DUPLICATE_LOGIN_ERROR + EQUALS_SIGN + true;
-                    }
-                    if (duplicate) {
-                        return CommandResult.createRedirectResult(redirectUrl);
+                boolean passwordEmpty = StringUtils.isEmpty(password);
+                if (validationUtil.validateUserUpdate(user, email, login, password, passwordEmpty)) {
+                    Pair<Boolean, String> pair = validationUtil.isUserDuplicate(email, login, ADMIN_EDIT_USER_URL);
+                    if (pair.getLeft()) {
+                        return CommandResult.createRedirectResult(pair.getRight());
                     }
 
                     User updatedUser = User.builder().of(user)
@@ -82,7 +64,7 @@ public class UpdateUserCommand implements Command {
                             .setRole(role)
                             .setStatus(status)
                             .build();
-                    if (passwordIsEmpty) {
+                    if (passwordEmpty) {
                         userService.update(updatedUser);
                     } else {
                         userService.updateWithPassword(updatedUser, password);

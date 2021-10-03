@@ -2,6 +2,8 @@ package com.chocobo.customshop.web.command.impl;
 
 import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.util.MailUtil;
+import com.chocobo.customshop.util.ValidationUtil;
+import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
@@ -13,6 +15,7 @@ import com.chocobo.customshop.model.validator.impl.PasswordValidator;
 import com.chocobo.customshop.util.impl.MailUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +36,7 @@ public class RegisterCommand implements Command {
     private final Validator<String> passwordValidator = PasswordValidator.getInstance();
     private final UserService userService = UserServiceImpl.getInstance();
     private final MailUtil mailUtil = MailUtilImpl.getInstance();
+    private final ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -46,25 +50,15 @@ public class RegisterCommand implements Command {
                     && passwordValidator.validate(password);
 
             if (valid) {
-                boolean duplicate = false;
-
-                String redirectUrl = REGISTER_URL;
-                if (!userService.isEmailUnique(email)) {
-                    duplicate = true;
-                    redirectUrl += AMPERSAND + DUPLICATE_EMAIL_ERROR + EQUALS_SIGN + true;
-                }
-                if (!userService.isLoginUnique(login)) {
-                    duplicate = true;
-                    redirectUrl += AMPERSAND + DUPLICATE_LOGIN_ERROR + EQUALS_SIGN + true;
-                }
-                if (duplicate) {
-                    return CommandResult.createRedirectResult(redirectUrl);
+                Pair<Boolean, String> pair = validationUtil.isUserDuplicate(email, login, REGISTER_URL);
+                if (pair.getLeft()) {
+                    return CommandResult.createRedirectResult(pair.getRight());
                 }
 
                 long userId = userService.register(email, login, password, CLIENT, NOT_CONFIRMED);
                 mailUtil.sendConfirmationMail(userId, email, request.getScheme(), request.getServerName());
 
-                redirectUrl = TOKEN_SENT_URL
+                String redirectUrl = TOKEN_SENT_URL
                         + AMPERSAND + EMAIL_CONFIRMATION + EQUALS_SIGN + true;
                 return CommandResult.createRedirectResult(redirectUrl);
             } else {

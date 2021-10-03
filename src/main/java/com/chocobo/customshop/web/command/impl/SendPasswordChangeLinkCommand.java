@@ -30,7 +30,7 @@ public class SendPasswordChangeLinkCommand implements Command {
                 mailUtil.sendPasswordChangeMail(email, request.getScheme(), request.getServerName());
 
                 String redirectUrl = TOKEN_SENT_URL
-                        + AMPERSAND + PASSWORD_CHANGE + EQUALS_SIGN + true;
+                        + AMPERSAND + PASSWORD_CHANGING + EQUALS_SIGN + true;
                 return CommandResult.createRedirectResult(redirectUrl);
             } else {
                 String redirectUrl = FORGOT_PASSWORD_URL

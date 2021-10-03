@@ -49,7 +49,7 @@ public final class RequestAttribute {
     public static final String DUPLICATE_LOGIN_ERROR = "duplicateLoginError";
     public static final String VALIDATION_ERROR = "validationError";
     public static final String EMAIL_CONFIRMATION = "emailConfirmation";
-    public static final String PASSWORD_CHANGE = "passwordChange";
+    public static final String PASSWORD_CHANGING = "passwordChange";
     public static final String PROFILE_UPDATED = "profileUpdated";
 
     private RequestAttribute() {

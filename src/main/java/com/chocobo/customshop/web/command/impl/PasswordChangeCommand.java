@@ -40,7 +40,7 @@ public class PasswordChangeCommand implements Command {
                     userService.updateWithPassword(user, password);
 
                     String redirectUrl = TOKEN_SUCCESS_URL
-                            + AMPERSAND + PASSWORD_CHANGE + EQUALS_SIGN + true;
+                            + AMPERSAND + PASSWORD_CHANGING + EQUALS_SIGN + true;
                     return CommandResult.createRedirectResult(redirectUrl);
                 } else {
                     logger.error("User with email given in token is not found");
