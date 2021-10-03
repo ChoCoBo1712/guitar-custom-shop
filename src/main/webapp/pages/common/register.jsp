@@ -11,6 +11,7 @@
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
 <body>
+
     <jsp:include page="shared/header.jsp" />
 
     <form action="${pageContext.request.contextPath}/controller?command=register" method="post">

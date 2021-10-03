@@ -17,8 +17,12 @@
     </c:if>
 
     <script src="/static/js/util/fetch.js"></script>
+    <script src="/static/js/admin/body/edit_body.js"></script>
+    <script src="/static/js/common/shared/footer.js"></script>
 </head>
-<body>
+<body data-wood="<cst:localeTag key="admin.necks.wood" />"
+      data-wood-id="${requestScope.neck.woodId}">
+
     <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
@@ -37,58 +41,6 @@
     </c:if>
 
     <jsp:include page="../../common/shared/footer.jsp" />
-
-    <script>
-        $(document).ready( function () {
-            sessionStorage.removeItem('cachedWoods');
-            let woodId = ${requestScope.body.woodId};
-            let select = $('#woodSelect');
-
-            select.select2({
-                language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<cst:localeTag key="admin.bodies.wood" />',
-                // theme: 'bootstrap',
-                width: '10%',
-                maximumInputLength: 50,
-                ajax: {
-                    delay: 250,
-                    url: '/controller?command=get_woods',
-                    data: function (params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1,
-                            pageSize: 10,
-                            requestType: 'SELECT',
-                            filterCriteria: 'NAME'
-                        }
-                    },
-                    processResults: function (data, params) {
-                        data = JSON.parse(data);
-                        let mappedData = $.map(data.results, function (item) {
-                            item.id = item.entityId;
-                            item.text = item.name;
-                            return item;
-                        });
-                        params.page = params.page || 1;
-
-                        return {
-                            results: mappedData,
-                            pagination: {
-                                more: data.paginationMore
-                            }
-                        }
-                    }
-                }
-            });
-
-            if (!isNaN(Number.parseInt(woodId))) {
-                fetchWood(woodId, function (entity) {
-                    let option = new Option(entity.name, entity.entityId);
-                    select.append(option).trigger('change');
-                });
-            }
-        });
-    </script>
 
 </body>
 </html>

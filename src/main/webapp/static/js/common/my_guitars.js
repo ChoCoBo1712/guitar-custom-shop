@@ -1,6 +1,6 @@
 $(document).ready( function () {
-    let body = $('body');
-    let guitars = body.data('guitars-string');
+    let bodyTag = $('body');
+    let guitars = bodyTag.data('guitars-string');
 
     let footer = $('footer');
     let locale = footer.data('locale');
@@ -88,5 +88,4 @@ $(document).ready( function () {
             orderStatusInput.val(guitar.orderStatus);
         });
     });
-
 });

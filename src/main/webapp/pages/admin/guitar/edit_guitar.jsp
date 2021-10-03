@@ -17,8 +17,20 @@
     </c:if>
 
     <script src="/static/js/util/fetch.js"></script>
+    <script src="/static/js/admin/guitar/edit_guitar.js"></script>
+    <script src="/static/js/common/shared/footer.js"></script>
 </head>
-<body>
+<body data-body="<cst:localeTag key="admin.guitars.body" />"
+      data-neck="<cst:localeTag key="admin.guitars.neck" />"
+      data-pickup="<cst:localeTag key="admin.guitars.pickup" />"
+      data-user="<cst:localeTag key="admin.guitars.user" />"
+      data-neck-joint="<cst:localeTag key="admin.guitars.neck_joint" />"
+      data-order-status="<cst:localeTag key="admin.guitars.order_status" />"
+      data-body-id="${requestScope.guitar.bodyId}"
+      data-neck-id="${requestScope.guitar.neckId}"
+      data-pickup-id="${requestScope.guitar.pickupId}"
+      data-user-id="${requestScope.guitar.userId}">
+
     <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
@@ -61,217 +73,6 @@
     </c:if>
 
     <jsp:include page="../../common/shared/footer.jsp" />
-
-    <script>
-        $(document).ready( function () {
-            sessionStorage.removeItem('cachedBodies');
-            sessionStorage.removeItem('cachedNecks');
-            sessionStorage.removeItem('cachedPickups');
-            sessionStorage.removeItem('cachedUsers');
-
-            let bodyId = ${requestScope.guitar.bodyId};
-            let neckId = ${requestScope.guitar.neckId};
-            let pickupId = ${requestScope.guitar.pickupId};
-            let userId = ${requestScope.guitar.userId};
-            let bodySelect = $('#bodySelect');
-            let neckSelect = $('#neckSelect');
-            let pickupSelect = $('#pickupSelect');
-            let userSelect = $('#userSelect');
-
-            $('#neckJointSelect').val('${requestScope.guitar.neckJoint}')
-            $('#orderStatusSelect').val('${requestScope.guitar.orderStatus}')
-
-            bodySelect.select2({
-                language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<cst:localeTag key="admin.guitars.body" />',
-                // theme: 'bootstrap',
-                width: '10%',
-                maximumInputLength: 50,
-                ajax: {
-                    delay: 250,
-                    url: '/controller?command=get_bodies',
-                    data: function (params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1,
-                            pageSize: 10,
-                            requestType: 'SELECT',
-                            filterCriteria: 'NAME'
-                        }
-                    },
-                    processResults: function (data, params) {
-                        data = JSON.parse(data);
-                        let mappedData = $.map(data.results, function (item) {
-                            item.id = item.entityId;
-                            item.text = item.name;
-                            return item;
-                        });
-                        params.page = params.page || 1;
-
-                        return {
-                            results: mappedData,
-                            pagination: {
-                                more: data.paginationMore
-                            }
-                        }
-                    }
-                }
-            });
-
-            neckSelect.select2({
-                language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: 'cst:localeTag key="admin.guitars.neck" />',
-                // theme: 'bootstrap',
-                width: '10%',
-                maximumInputLength: 50,
-                ajax: {
-                    delay: 250,
-                    url: '/controller?command=get_necks',
-                    data: function (params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1,
-                            pageSize: 10,
-                            requestType: 'SELECT',
-                            filterCriteria: 'NAME'
-                        }
-                    },
-                    processResults: function (data, params) {
-                        data = JSON.parse(data);
-                        let mappedData = $.map(data.results, function (item) {
-                            item.id = item.entityId;
-                            item.text = item.name;
-                            return item;
-                        });
-                        params.page = params.page || 1;
-
-                        return {
-                            results: mappedData,
-                            pagination: {
-                                more: data.paginationMore
-                            }
-                        }
-                    }
-                }
-            });
-
-            pickupSelect.select2({
-                language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<cst:localeTag key="admin.guitars.pickup" />',
-                // theme: 'bootstrap',
-                width: '10%',
-                maximumInputLength: 50,
-                ajax: {
-                    delay: 250,
-                    url: '/controller?command=get_pickups',
-                    data: function (params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1,
-                            pageSize: 10,
-                            requestType: 'SELECT',
-                            filterCriteria: 'NAME'
-                        }
-                    },
-                    processResults: function (data, params) {
-                        data = JSON.parse(data);
-                        let mappedData = $.map(data.results, function (item) {
-                            item.id = item.entityId;
-                            item.text = item.name;
-                            return item;
-                        });
-                        params.page = params.page || 1;
-
-                        return {
-                            results: mappedData,
-                            pagination: {
-                                more: data.paginationMore
-                            }
-                        }
-                    }
-                }
-            });
-
-            userSelect.select2({
-                language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<cst:localeTag key="admin.guitars.user" />',
-                // theme: 'bootstrap',
-                width: '10%',
-                maximumInputLength: 50,
-                ajax: {
-                    delay: 250,
-                    url: '/controller?command=get_users',
-                    data: function (params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1,
-                            pageSize: 10,
-                            requestType: 'SELECT',
-                            filterCriteria: 'LOGIN'
-                        }
-                    },
-                    processResults: function (data, params) {
-                        data = JSON.parse(data);
-                        let mappedData = $.map(data.results, function (item) {
-                            item.id = item.entityId;
-                            item.text = item.login;
-                            return item;
-                        });
-                        params.page = params.page || 1;
-
-                        return {
-                            results: mappedData,
-                            pagination: {
-                                more: data.paginationMore
-                            }
-                        }
-                    }
-                }
-            });
-
-            if (!isNaN(Number.parseInt(bodyId))) {
-                fetchBody(bodyId, function (entity) {
-                    let option = new Option(entity.name, entity.entityId);
-                    bodySelect.append(option).trigger('change');
-                });
-            }
-
-            if (!isNaN(Number.parseInt(neckId))) {
-                fetchNeck(neckId, function (entity) {
-                    let option = new Option(entity.name, entity.entityId);
-                    neckSelect.append(option).trigger('change');
-                });
-            }
-
-            if (!isNaN(Number.parseInt(pickupId))) {
-                fetchPickup(pickupId, function (entity) {
-                    let option = new Option(entity.name, entity.entityId);
-                    pickupSelect.append(option).trigger('change');
-                });
-            }
-
-            if (!isNaN(Number.parseInt(userId))) {
-                fetchUser(userId, function (entity) {
-                    let option = new Option(entity.login, entity.entityId);
-                    userSelect.append(option).trigger('change');
-                });
-            }
-
-            let form = $('#edit_guitar_form');
-            form.submit( function () {
-                let fileInput = $('#file_input');
-                let files = fileInput.prop('files');
-                for (let i = 0; i < files.length; i++) {
-                    let type = files[i].type;
-                    if (type !== "image/jpeg" && type !== "image/png") {
-                        alert('Invalid file type! Choose .png or .jpeg file.')
-                        return false;
-                    }
-                }
-                return true;
-            });
-        });
-    </script>
 
 </body>
 </html>

@@ -6,8 +6,13 @@
 <head>
     <title><cst:localeTag key="admin.edit_user.title" /></title>
     <jsp:include page="../shared/head.html" />
+
+    <script src="/static/js/common/set_locale.js"></script>
+    <script src="/static/js/admin/user/edit_user.js"></script>
 </head>
-<body>
+<body data-role="<cst:localeTag key="admin.users.role" />"
+      data-status="<cst:localeTag key="admin.users.status" />">
+
     <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
@@ -49,13 +54,6 @@
     </c:if>
 
     <jsp:include page="../../common/shared/footer.jsp" />
-
-    <script>
-        $(document).ready( function () {
-            $('#role_select').val('${requestScope.user.role}')
-            $('#status_select').val('${requestScope.user.status}')
-        });
-    </script>
 
 </body>
 </html>

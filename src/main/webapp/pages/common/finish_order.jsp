@@ -6,8 +6,12 @@
 <head>
   <title><cst:localeTag key="finish_order.title" /></title>
   <jsp:include page="shared/head.html" />
+
+  <script src="/static/js/common/finish_order.js"></script>
+  <script src="/static/js/common/shared/footer.js"></script>
 </head>
 <body>
+
   <jsp:include page="shared/header.jsp" />
 
   <form id="finish_order_form" action="${pageContext.request.contextPath}/controller?command=finish_order"
@@ -17,24 +21,6 @@
     <br>
     <input type="submit">
   </form>
-
-  <script>
-    $(document).ready( function () {
-      let form = $('#finish_order_form');
-      form.submit( function () {
-        let fileInput = $('#file_input');
-        let files = fileInput.prop('files');
-        for (let i = 0; i < files.length; i++) {
-          let type = files[i].type;
-          if (type !== "image/jpeg" && type !== "image/png") {
-            alert('Invalid file type! Choose .png or .jpeg file.')
-            return false;
-          }
-        }
-        return true;
-      });
-    });
-  </script>
 
   <jsp:include page="shared/footer.jsp" />
 </body>

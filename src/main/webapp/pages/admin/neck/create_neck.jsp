@@ -15,8 +15,13 @@
     <c:if test="${sessionScope.locale == 'ru_RU'}">
         <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/ru.js"></script>
     </c:if>
+
+    <script src="/static/js/admin/neck/create_neck.js"></script>
+    <script src="/static/js/common/shared/footer.js"></script>
 </head>
-<body>
+<body data-wood="<cst:localeTag key="admin.necks.wood" />"
+      data-fretboard-wood="<cst:localeTag key="admin.necks.fretboard_wood" />">
+
     <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
@@ -36,86 +41,6 @@
     </c:if>
 
     <jsp:include page="../../common/shared/footer.jsp" />
-
-    <script>
-        $(document).ready( function () {
-            sessionStorage.removeItem('cachedWoods');
-
-            $('#woodSelect').select2({
-                language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<cst:localeTag key="admin.necks.wood" />',
-                // theme: 'bootstrap',
-                width: '10%',
-                maximumInputLength: 50,
-                ajax: {
-                    delay: 250,
-                    url: '/controller?command=get_woods',
-                    data: function (params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1,
-                            pageSize: 10,
-                            requestType: 'SELECT',
-                            filterCriteria: 'NAME'
-                        }
-                    },
-                    processResults: function (data, params) {
-                        data = JSON.parse(data);
-                        let mappedData = $.map(data.results, function (item) {
-                            item.id = item.entityId;
-                            item.text = item.name;
-                            return item;
-                        });
-                        params.page = params.page || 1;
-
-                        return {
-                            results: mappedData,
-                            pagination: {
-                                more: data.paginationMore
-                            }
-                        }
-                    }
-                }
-            });
-
-            $('#fretboardWoodSelect').select2({
-                language: '${sessionScope.locale}'.substring(0, 2),
-                placeholder: '<cst:localeTag key="admin.necks.fretboard_wood" />',
-                // theme: 'bootstrap',
-                width: '10%',
-                maximumInputLength: 50,
-                ajax: {
-                    delay: 250,
-                    url: '/controller?command=get_woods',
-                    data: function (params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1,
-                            pageSize: 10,
-                            requestType: 'SELECT',
-                            filterCriteria: 'NAME'
-                        }
-                    },
-                    processResults: function (data, params) {
-                        data = JSON.parse(data);
-                        let mappedData = $.map(data.results, function (item) {
-                            item.id = item.entityId;
-                            item.text = item.name;
-                            return item;
-                        });
-                        params.page = params.page || 1;
-
-                        return {
-                            results: mappedData,
-                            pagination: {
-                                more: data.paginationMore
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script>
 
 </body>
 </html>

@@ -21,8 +21,8 @@
   <script src="/static/js/common/my_guitars.js"></script>
   <script src="/static/js/common/shared/footer.js"></script>
 </head>
-<body data-locale="${sessionScope.locale}"
-      data-guitars-string="<cst:localeTag key="admin.guitars" />">
+<body data-guitars-string="<cst:localeTag key="admin.guitars" />">
+
   <jsp:include page="shared/header.jsp" />
 
   <select id="guitarSelect"></select>
