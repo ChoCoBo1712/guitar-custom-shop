@@ -31,7 +31,6 @@ public class TokenUtilImpl implements TokenUtil {
     private static final String VALIDITY_TIME_PROPERTY = "validityTime";
     public static final String ID_CLAIM = "id";
     public static final String EMAIL_CLAIM = "email";
-    public static final String STATUS_CLAIM = "status";
 
     private static final Key secretKey;
     private static final int validityTime;

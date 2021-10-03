@@ -48,6 +48,7 @@ public class MailUtilImpl implements MailUtil {
     private static final String sender;
 
     private static final ExecutorService emailExecutor;
+    private static final TokenUtil tokenUtil = TokenUtilImpl.getInstance();
 
     static {
         ClassLoader classLoader = MailUtilImpl.class.getClassLoader();
@@ -80,8 +81,6 @@ public class MailUtilImpl implements MailUtil {
 
     @Override
     public void sendConfirmationMail(long userId, String email, String scheme, String serverName) throws ServiceException {
-        TokenUtil tokenUtil = TokenUtilImpl.getInstance();
-
         String mailSubject = mailProperties.getProperty(CONFIRMATION_MAIL_SUBJECT_PROPERTY);
         String bodyTemplate = mailProperties.getProperty(CONFIRMATION_MAIL_BODY_PROPERTY);
         Map<String, Object> claimsMap = new HashMap<>();
@@ -96,8 +95,6 @@ public class MailUtilImpl implements MailUtil {
 
     @Override
     public void sendPasswordChangeMail(String email, String scheme, String serverName) throws ServiceException {
-        TokenUtil tokenUtil = TokenUtilImpl.getInstance();
-
         String mailSubject = mailProperties.getProperty(PASSWORD_CHANGE_MAIL_SUBJECT_PROPERTY);
         String bodyTemplate = mailProperties.getProperty(PASSWORD_CHANGE_MAIL_BODY_PROPERTY);
         Map<String, Object> claimsMap = new HashMap<>();
