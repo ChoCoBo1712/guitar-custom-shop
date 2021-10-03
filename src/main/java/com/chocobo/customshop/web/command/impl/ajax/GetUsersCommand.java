@@ -5,6 +5,7 @@ import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.criteria.UserFilterCriteria;
 import com.chocobo.customshop.model.service.impl.UserServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class GetUsersCommand extends AbstractAjaxCommand<User> {
 
     @Override
     Pair<Long, List<User>> filterForDatatables(int start, int length, String filterCriteria, String searchValue) throws ServiceException {
-        return searchValue.isEmpty()
+        return StringUtils.isEmpty(searchValue)
                 ? userService.filter(start, length, UserFilterCriteria.NONE, null)
                 : userService.filter(start, length, UserFilterCriteria.valueOf(filterCriteria), searchValue);
     }

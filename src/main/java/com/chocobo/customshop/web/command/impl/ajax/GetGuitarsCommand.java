@@ -6,6 +6,7 @@ import com.chocobo.customshop.model.service.GuitarService;
 import com.chocobo.customshop.model.service.criteria.GuitarFilterCriteria;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class GetGuitarsCommand extends AbstractAjaxCommand<Guitar> {
     @Override
     Pair<Long, List<Guitar>> filterForDatatables(int start, int length, String filterCriteria, String searchValue)
             throws ServiceException {
-        return searchValue.isEmpty()
+        return StringUtils.isEmpty(searchValue)
                 ? guitarService.filter(start, length, GuitarFilterCriteria.NONE, null)
                 : guitarService.filter(start, length, GuitarFilterCriteria.valueOf(filterCriteria), searchValue);
     }

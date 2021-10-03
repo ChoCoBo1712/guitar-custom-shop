@@ -5,6 +5,7 @@ import com.chocobo.customshop.model.entity.Wood;
 import com.chocobo.customshop.model.service.WoodService;
 import com.chocobo.customshop.model.service.criteria.WoodFilterCriteria;
 import com.chocobo.customshop.model.service.impl.WoodServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class GetWoodsCommand extends AbstractAjaxCommand<Wood> {
 
     @Override
     Pair<Long, List<Wood>> filterForDatatables(int start, int length, String filterCriteria, String searchValue) throws ServiceException {
-        return searchValue.isEmpty()
+        return StringUtils.isEmpty(searchValue)
                 ? woodService.filter(start, length, WoodFilterCriteria.NONE, null)
                 : woodService.filter(start, length, WoodFilterCriteria.valueOf(filterCriteria), searchValue);
     }

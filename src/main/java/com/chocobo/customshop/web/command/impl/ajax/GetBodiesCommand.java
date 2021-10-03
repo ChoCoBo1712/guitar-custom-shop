@@ -5,6 +5,7 @@ import com.chocobo.customshop.model.entity.Body;
 import com.chocobo.customshop.model.service.BodyService;
 import com.chocobo.customshop.model.service.criteria.BodyFilterCriteria;
 import com.chocobo.customshop.model.service.impl.BodyServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class GetBodiesCommand extends AbstractAjaxCommand<Body> {
     @Override
     Pair<Long, List<Body>> filterForDatatables(int start, int length, String filterCriteria, String searchValue)
             throws ServiceException {
-        return searchValue.isEmpty()
+        return StringUtils.isEmpty(searchValue)
                 ? bodyService.filter(start, length, BodyFilterCriteria.NONE, null)
                 : bodyService.filter(start, length, BodyFilterCriteria.valueOf(filterCriteria), searchValue);
     }
