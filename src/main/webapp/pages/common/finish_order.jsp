@@ -4,11 +4,11 @@
 
 <html>
 <head>
-  <title><cst:localeTag key="finish_order.title" /></title>
-  <jsp:include page="shared/head.html" />
+    <title><cst:localeTag key="finish_order.title" /></title>
+    <jsp:include page="shared/head.html" />
 
-  <script src="/static/js/common/finish_order.js"></script>
-  <script src="/static/js/common/shared/footer.js"></script>
+    <script src="/static/js/common/finish_order.js"></script>
+    <script src="/static/js/common/shared/footer.js"></script>
 </head>
 <body>
 
