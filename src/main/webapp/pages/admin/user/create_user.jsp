@@ -27,8 +27,8 @@
         <br>
         <select name="role" id="role_select">
             <option value="ADMIN">ADMIN</option>
+            <option value="MAKER">MAKER</option>
             <option value="CLIENT" selected>CLIENT</option>
-            <option value="MASTER">MASTER</option>
         </select>
         <br>
         <select name="status" id="status_select">

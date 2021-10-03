@@ -28,6 +28,8 @@
   <select id="guitarSelect"></select>
 
   <div id="guitar">
+    <img id="image" src="/static/image/default.png" width="auto" height="200">
+    <br>
     <input id="nameInput" readonly/>
     <br>
     <input id="bodyInput" readonly/>

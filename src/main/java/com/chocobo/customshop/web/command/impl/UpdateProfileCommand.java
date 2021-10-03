@@ -12,6 +12,7 @@ import com.chocobo.customshop.util.ValidationUtil;
 import com.chocobo.customshop.util.impl.ValidationUtilImpl;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
+import com.chocobo.customshop.web.command.SessionAttribute;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +34,9 @@ public class UpdateProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserService userService = UserServiceImpl.getInstance();
     private final ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
+    private final Validator<String> emailValidator = EmailValidator.getInstance();
+    private final Validator<String> loginValidator = LoginValidator.getInstance();
+    private final Validator<String> passwordValidator = PasswordValidator.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -47,11 +51,21 @@ public class UpdateProfileCommand implements Command {
             Optional<User> optionalUser = userService.findById(entityId);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
+                String previousEmail = user.getEmail();
+                String previousLogin = user.getLogin();
+
+                boolean emailsMatch = StringUtils.equals(email, previousEmail);
+                boolean loginsMatch = StringUtils.equals(login, previousLogin);
+                boolean passwordEmpty = StringUtils.isEmpty(password);
+
+                boolean valid = emailsMatch || emailValidator.validate(email)
+                        && loginsMatch || loginValidator.validate(login)
+                        && passwordEmpty || passwordValidator.validate(password);
 
                 String redirectUrl = PROFILE_URL;
-                boolean passwordEmpty = StringUtils.isEmpty(password);
-                if (validationUtil.validateUserUpdate(user, email, login, password, passwordEmpty)) {
-                    Pair<Boolean, String> pair = validationUtil.isUserDuplicate(email, login, redirectUrl);
+                if (valid) {
+                    Pair<Boolean, String> pair = validationUtil.isUpdatedUserDuplicate(email, login, redirectUrl,
+                            emailsMatch, loginsMatch);
                     if (pair.getLeft()) {
                         return CommandResult.createRedirectResult(pair.getRight());
                     }
@@ -66,7 +80,8 @@ public class UpdateProfileCommand implements Command {
                         userService.updateWithPassword(updatedUser, password);
                     }
 
-                    session.setAttribute(USER, updatedUser);
+                    session.setAttribute(USER_LOGIN, updatedUser.getLogin());
+                    session.setAttribute(USER_EMAIL, updatedUser.getEmail());
                     redirectUrl += AMPERSAND + PROFILE_UPDATED + EQUALS_SIGN + true;
                 } else {
                     redirectUrl += AMPERSAND + VALIDATION_ERROR + EQUALS_SIGN + true;

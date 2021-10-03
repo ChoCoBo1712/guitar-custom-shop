@@ -7,11 +7,11 @@
     <title><cst:localeTag key="admin.edit_user.title" /></title>
     <jsp:include page="../shared/head.html" />
 
-    <script src="/static/js/common/set_locale.js"></script>
+    <script src="/static/js/common/shared/footer.js"></script>
     <script src="/static/js/admin/user/edit_user.js"></script>
 </head>
-<body data-role="<cst:localeTag key="admin.users.role" />"
-      data-status="<cst:localeTag key="admin.users.status" />">
+<body data-role="${requestScope.user.role}"
+      data-status="${requestScope.user.status}">
 
     <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
@@ -29,8 +29,8 @@
         <br>
         <select name="role" id="role_select">
             <option value="ADMIN">ADMIN</option>
+            <option value="MAKER">MAKER</option>
             <option value="CLIENT">CLIENT</option>
-            <option value="MASTER">MASTER</option>
         </select>
         <br>
         <select name="status" id="status_select">

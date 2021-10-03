@@ -21,15 +21,27 @@ public class ValidationUtilImpl implements ValidationUtil {
 
     private static ValidationUtil instance;
     private static final UserService userService = UserServiceImpl.getInstance();
-    private static final Validator<String> emailValidator = EmailValidator.getInstance();
-    private static final Validator<String> loginValidator = LoginValidator.getInstance();
-    private static final Validator<String> passwordValidator = PasswordValidator.getInstance();
 
     public static ValidationUtil getInstance() {
         if (instance == null) {
             instance = new ValidationUtilImpl();
         }
         return instance;
+    }
+
+    @Override
+    public Pair<Boolean, String> isUpdatedUserDuplicate(String email, String login, String redirectUrl,
+                                                        boolean emailsMatch, boolean loginsMatch) throws ServiceException {
+        boolean duplicate = false;
+        if (!emailsMatch && !userService.isEmailUnique(email)) {
+            duplicate = true;
+            redirectUrl += AMPERSAND + DUPLICATE_EMAIL_ERROR + EQUALS_SIGN + true;
+        }
+        if (!loginsMatch && !userService.isLoginUnique(login)) {
+            duplicate = true;
+            redirectUrl += AMPERSAND + DUPLICATE_LOGIN_ERROR + EQUALS_SIGN + true;
+        }
+        return Pair.of(duplicate, redirectUrl);
     }
 
     @Override
@@ -44,18 +56,5 @@ public class ValidationUtilImpl implements ValidationUtil {
             redirectUrl += AMPERSAND + DUPLICATE_LOGIN_ERROR + EQUALS_SIGN + true;
         }
         return Pair.of(duplicate, redirectUrl);
-    }
-
-    @Override
-    public boolean validateUserUpdate(User user, String email, String login, String password, boolean passwordEmpty) {
-        String previousEmail = user.getEmail();
-        String previousLogin = user.getLogin();
-
-        boolean emailsMatch = StringUtils.equals(email, previousEmail);
-        boolean loginsMatch = StringUtils.equals(login, previousLogin);
-
-        return emailsMatch || emailValidator.validate(email)
-                && loginsMatch || loginValidator.validate(login)
-                && passwordEmpty || passwordValidator.validate(password);
     }
 }

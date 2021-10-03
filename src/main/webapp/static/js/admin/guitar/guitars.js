@@ -48,7 +48,7 @@ $(document).ready( function () {
             {
                 data: 'picturePath',
                 render: function (data) {
-                    return '<img src="'+ data +'" alt="Guitar picture">'
+                    return '<img src="'+ data +'" alt="Guitar picture" width="auto" height="100">'
                 }
             },
             {

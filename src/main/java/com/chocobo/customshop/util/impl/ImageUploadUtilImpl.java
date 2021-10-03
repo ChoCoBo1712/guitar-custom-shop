@@ -17,7 +17,7 @@ public class ImageUploadUtilImpl implements ImageUploadUtil {
     private static final Logger logger = LogManager.getLogger();
     private static ImageUploadUtil instance;
 
-    public static final String DEFAULT_IMAGE_NAME = "default.jpg";
+    public static final String DEFAULT_IMAGE_NAME = "default.png";
     public static final String IMAGES_URL = "images/";
     private static final String UPLOAD_PROPERTIES_NAME = "properties/upload.properties";
     private static final String DIRECTORY_PROPERTY = "directory";

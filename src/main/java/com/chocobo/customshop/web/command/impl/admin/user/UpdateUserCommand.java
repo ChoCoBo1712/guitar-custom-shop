@@ -36,6 +36,9 @@ public class UpdateUserCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserService userService = UserServiceImpl.getInstance();
     private final ValidationUtil validationUtil = ValidationUtilImpl.getInstance();
+    private final Validator<String> emailValidator = EmailValidator.getInstance();
+    private final Validator<String> loginValidator = LoginValidator.getInstance();
+    private final Validator<String> passwordValidator = PasswordValidator.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -50,10 +53,20 @@ public class UpdateUserCommand implements Command {
             Optional<User> optionalUser = userService.findById(entityId);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
+                String previousEmail = user.getEmail();
+                String previousLogin = user.getLogin();
 
+                boolean emailsMatch = StringUtils.equals(email, previousEmail);
+                boolean loginsMatch = StringUtils.equals(login, previousLogin);
                 boolean passwordEmpty = StringUtils.isEmpty(password);
-                if (validationUtil.validateUserUpdate(user, email, login, password, passwordEmpty)) {
-                    Pair<Boolean, String> pair = validationUtil.isUserDuplicate(email, login, ADMIN_EDIT_USER_URL);
+
+                boolean valid = emailsMatch || emailValidator.validate(email)
+                        && loginsMatch || loginValidator.validate(login)
+                        && passwordEmpty || passwordValidator.validate(password);
+
+                if (valid) {
+                    Pair<Boolean, String> pair = validationUtil.isUpdatedUserDuplicate(email, login,
+                            ADMIN_EDIT_USER_URL, emailsMatch, loginsMatch);
                     if (pair.getLeft()) {
                         return CommandResult.createRedirectResult(pair.getRight());
                     }

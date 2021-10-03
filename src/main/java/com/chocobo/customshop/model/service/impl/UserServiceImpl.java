@@ -80,7 +80,6 @@ public class UserServiceImpl implements UserService {
     public Optional<User> login(String login, String password) throws ServiceException {
         Optional<User> optional;
         try {
-            // TODO: 30.09.2021 check deleted user login 
             optional = userDao.selectByLogin(login);
             if (optional.isPresent()) {
                 User user = optional.get();

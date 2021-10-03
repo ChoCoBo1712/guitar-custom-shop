@@ -31,7 +31,7 @@ public class ConstructGuitarCommand implements Command {
         long bodyId = Long.parseLong(request.getParameter(BODY_ID));
         long neckId = Long.parseLong(request.getParameter(RequestAttribute.NECK_ID));
         long pickupId = Long.parseLong(request.getParameter(PICKUP_ID));
-        long userId = ((User) request.getSession().getAttribute(USER)).getEntityId();
+        long userId = Long.parseLong(request.getSession().getAttribute(USER_ID).toString());
         String color = request.getParameter(COLOR);
         NeckJoint neckJoint = NeckJoint.valueOf(request.getParameter(NECK_JOINT));
 

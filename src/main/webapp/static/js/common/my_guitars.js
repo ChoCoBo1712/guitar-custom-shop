@@ -15,6 +15,7 @@ $(document).ready( function () {
     let neckJointInput = $('#neckJointInput');
     let colorInput = $('#colorInput');
     let orderStatusInput = $('#orderStatusInput');
+    let image = $('#image');
 
     guitarSelect.select2({
         language: locale.substring(0, 2),
@@ -86,6 +87,7 @@ $(document).ready( function () {
             neckJointInput.val(guitar.neckJoint);
             colorInput.val(guitar.color);
             orderStatusInput.val(guitar.orderStatus);
+            image.attr('src', guitar.picturePath);
         });
     });
 });
