@@ -15,9 +15,20 @@
 
 <body>
 
-
-
-
+    <main role="main" class="container common-main-form">
+        <h3 class="justify-content-center mb-4">
+            <cst:localeTag key="index.header" />
+        </h3>
+        <p class="lead"><cst:localeTag key="index.content" /></p>
+        <ul>
+            <li><cst:localeTag key="index.content1" /></li>
+            <li><cst:localeTag key="index.content2" /></li>
+            <li><cst:localeTag key="index.content3" /></li>
+            <li><cst:localeTag key="index.content4" /></li>
+            <li><cst:localeTag key="index.content5" /></li>
+        </ul>
+        <p class="lead"><cst:localeTag key="index.content6" /></p>
+    </main>
 
 </body>
 

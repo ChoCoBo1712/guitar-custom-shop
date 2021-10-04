@@ -20,8 +20,8 @@ $(document).ready( function () {
     guitarSelect.select2({
         language: locale.substring(0, 2),
         placeholder: guitars,
-        // theme: 'bootstrap',
-        width: '10%',
+        theme: 'bootstrap',
+        width: '100%',
         maximumInputLength: 50,
         ajax: {
             delay: 250,

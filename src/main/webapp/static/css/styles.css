@@ -31,3 +31,8 @@ h1.error {
     padding-top: 100px;
     padding-inline: 500px;
 }
+
+.common-main-table {
+    padding-bottom: 60px;
+    padding-top: 70px;
+}

@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title><cst:localeTag key="index.title" /></title>
+    <title><cst:localeTag key="guitar_orders.title" /></title>
     <jsp:include page="shared/head.html" />
 
     <!-- jQuery Select2 -->
@@ -33,28 +33,36 @@
       data-neck="<cst:localeTag key="admin.guitars.neck" />"
       data-pickup="<cst:localeTag key="admin.guitars.pickup" />"
       data-neck-joint="<cst:localeTag key="admin.guitars.neck_joint" />"
+      data-bolt-on="<cst:localeTag key="admin.guitars.neck_joint.bolt_on" />"
+      data-set-neck="<cst:localeTag key="admin.guitars.neck_joint.set_neck" />"
+      data-neck-through="<cst:localeTag key="admin.guitars.neck_joint.neck_through" />"
       data-color="<cst:localeTag key="admin.guitars.color" />"
       data-user="<cst:localeTag key="admin.guitars.user" />"
       data-order-status="<cst:localeTag key="admin.guitars.order_status" />"
-      data-search="<cst:localeTag key="admin.search" />">
+      data-ordered="<cst:localeTag key="admin.guitars.order_status.ordered" />"
+      data-in-progress="<cst:localeTag key="admin.guitars.order_status.in_progress" />"
+      data-search="<cst:localeTag key="admin.search" />"
+      data-any="<cst:localeTag key="admin.any" />">
 
     <jsp:include page="shared/header.jsp" />
 
-    <table id="orders_table">
-        <thead>
-            <th><cst:localeTag key="admin.guitars.name" /></th>
-            <th><cst:localeTag key="admin.guitars.body" /></th>
-            <th><cst:localeTag key="admin.guitars.neck" /></th>
-            <th><cst:localeTag key="admin.guitars.pickup" /></th>
-            <th><cst:localeTag key="admin.guitars.neck_joint" /></th>
-            <th><cst:localeTag key="admin.guitars.color" /></th>
-            <th><cst:localeTag key="admin.guitars.user" /></th>
-            <th><cst:localeTag key="admin.guitars.order_status" /></th>
-            <th><cst:localeTag key="admin.action" /></th>
-        </thead>
-    </table>
-
-    <jsp:include page="shared/footer.jsp" />
-
+    <main role="main" class="container-fluid bg-light common-main-table">
+        <table id="orders_table" class="table table-striped table-bordered">
+            <thead>
+                <th><cst:localeTag key="admin.guitars.name" /></th>
+                <th><cst:localeTag key="admin.guitars.body" /></th>
+                <th><cst:localeTag key="admin.guitars.neck" /></th>
+                <th><cst:localeTag key="admin.guitars.pickup" /></th>
+                <th><cst:localeTag key="admin.guitars.neck_joint" /></th>
+                <th><cst:localeTag key="admin.guitars.color" /></th>
+                <th><cst:localeTag key="admin.guitars.user" /></th>
+                <th><cst:localeTag key="admin.guitars.order_status" /></th>
+                <th><cst:localeTag key="admin.action" /></th>
+            </thead>
+        </table>
+    </main>
 </body>
+
+<jsp:include page="shared/footer.jsp" />
+
 </html>

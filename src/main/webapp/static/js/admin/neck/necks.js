@@ -107,8 +107,8 @@ $(document).ready( function () {
                 searchSelect.select2({
                     language: locale.substring(0, 2),
                     placeholder: woodData,
-                    // theme: 'bootstrap',
-                    width: '10%',
+                    theme: 'bootstrap',
+                    width: '71%',
                     maximumInputLength: 30,
                     ajax: {
                         delay: 250,
@@ -147,8 +147,8 @@ $(document).ready( function () {
                 searchSelect.select2({
                     language: locale.substring(0, 2),
                     placeholder: fretboardWoodData,
-                    // theme: 'bootstrap',
-                    width: '10%',
+                    theme: 'bootstrap',
+                    width: '71%',
                     maximumInputLength: 30,
                     ajax: {
                         delay: 250,

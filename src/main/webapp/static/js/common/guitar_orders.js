@@ -7,10 +7,16 @@ $(document).ready( function () {
     let neck = bodyTag.data('neck');
     let pickup = bodyTag.data('pickup');
     let neckJoint = bodyTag.data('neck-joint');
+    let boltOn = bodyTag.data('bolt-on');
+    let setNeck = bodyTag.data('set-neck');
+    let neckThrough = bodyTag.data('neck-through');
     let color = bodyTag.data('color');
     let user = bodyTag.data('user');
     let orderStatus = bodyTag.data('order-status');
+    let ordered = bodyTag.data('ordered');
+    let inProgress = bodyTag.data('in-progress');
     let search = bodyTag.data('search');
+    let anyData = bodyTag.data('any');
 
     let footer = $('footer');
     let locale = footer.data('locale');
@@ -44,23 +50,35 @@ $(document).ready( function () {
             { data: 'name'},
             {
                 data: null,
-                render: function (row) {
+                render: function () {
                     return '<p></p>'
                 }
             },
             {
                 data: null,
-                render: function (row) {
+                render: function () {
                     return '<p></p>'
                 }
             },
             {
                 data: null,
-                render: function (row) {
+                render: function () {
                     return '<p></p>'
                 }
             },
-            { data: 'neckJoint'},
+            {
+                data: 'neckJoint',
+                render: function (data) {
+                    if (data === "BOLT_ON") {
+                        return "<p>" + boltOn + "</p>";
+                    }
+                    else if (data === "SET_NECK") {
+                        return "<p>" + setNeck + "</p>";
+                    } else {
+                        return "<p>" + neckThrough + "</p>";
+                    }
+                }
+            },
             { data: 'color'},
             {
                 data: null,
@@ -68,15 +86,24 @@ $(document).ready( function () {
                     return '<p></p>'
                 }
             },
-            { data: 'orderStatus'},
+            {
+                data: 'orderStatus',
+                render: function (data) {
+                    if (data === "ORDERED") {
+                        return "<p>" + ordered + "</p>";
+                    } else {
+                        return "<p>" + inProgress + "</p>";
+                    }
+                }
+            },
             {
                 data: null,
                 render: function (row) {
                     if (row.orderStatus === "ORDERED") {
-                        return '<a href="/controller?command=take_order&id=' + row.entityId + '">'
+                        return '<a href="/controller?command=take_order&id=' + row.entityId + '" type="button" class="btn btn-outline-primary me-1">'
                             + takeOrder + '</a>'
                     } else {
-                        return '<a href="/controller?command=go_to_finish_order_page&id=' + row.entityId + '">'
+                        return '<a href="/controller?command=go_to_finish_order_page&id=' + row.entityId + '" type="button" class="btn btn-outline-primary me-1">'
                             + finishOrder + '</a>'
                     }
                 }
@@ -89,8 +116,8 @@ $(document).ready( function () {
 
     function onDataTableInitComplete(table) {
         $("div.toolbar").html(`
-        <div class="input-group mb-3">
-            <select id="searchCriteria" class="form-select">
+        <div class="input-group input-group-sm mb-2">
+            <select id="searchCriteria" class="form-select input-sm">
                 <option value="NAME">${name}</option>
                 <option value="BODY_ID">${body}</option>
                 <option value="NECK_ID">${neck}</option>
@@ -100,9 +127,8 @@ $(document).ready( function () {
                 <option value="USER_ID">${user}</option>
                 <option value="ORDER_STATUS">${orderStatus}</option>
             </select>
-            <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
-             placeholder=${search}>
-             <select id="searchSelect"></select>
+            <input id="searchInput" maxlength="50" type="text" class="form-control w-50" placeholder=${search}>
+             <select id="searchSelect" class="form-select w-50"></select>
         </div>
     `);
 
@@ -125,8 +151,8 @@ $(document).ready( function () {
                 searchSelect.select2({
                     language: locale.substring(0, 2),
                     placeholder: body,
-                    // theme: 'bootstrap',
-                    width: '10%',
+                    theme: 'bootstrap',
+                    width: '73%',
                     maximumInputLength: 30,
                     ajax: {
                         delay: 250,
@@ -169,8 +195,8 @@ $(document).ready( function () {
                 searchSelect.select2({
                     language: locale.substring(0, 2),
                     placeholder: neck,
-                    // theme: 'bootstrap',
-                    width: '10%',
+                    theme: 'bootstrap',
+                    width: '73%',
                     maximumInputLength: 30,
                     ajax: {
                         delay: 250,
@@ -217,8 +243,8 @@ $(document).ready( function () {
                 searchSelect.select2({
                     language: locale.substring(0, 2),
                     placeholder: pickup,
-                    // theme: 'bootstrap',
-                    width: '10%',
+                    theme: 'bootstrap',
+                    width: '73%',
                     maximumInputLength: 30,
                     ajax: {
                         delay: 250,
@@ -257,8 +283,8 @@ $(document).ready( function () {
                 searchSelect.select2({
                     language: locale.substring(0, 2),
                     placeholder: user,
-                    // theme: 'bootstrap',
-                    width: '10%',
+                    theme: 'bootstrap',
+                    width: '73%',
                     maximumInputLength: 30,
                     ajax: {
                         delay: 250,
@@ -296,19 +322,19 @@ $(document).ready( function () {
                 searchInput.hide();
                 searchSelect.show();
                 searchSelect.html('')
-                    .append($("<option></option>").attr("value", "").text("None"))
-                    .append($("<option></option>").attr("value", "BOLT_ON").text("BOLT_ON"))
-                    .append($("<option></option>").attr("value", "SET_NECK").text("SET_NECK"))
-                    .append($("<option></option>").attr("value", "NECK_THROUGH").text("NECK_THROUGH"))
+                    .append($("<option></option>").attr("value", "").text(anyData))
+                    .append($("<option></option>").attr("value", "BOLT_ON").text(boltOn))
+                    .append($("<option></option>").attr("value", "SET_NECK").text(setNeck))
+                    .append($("<option></option>").attr("value", "NECK_THROUGH").text(neckThrough))
                 searchSelect.select2('destroy');
             } else if (searchCriteria.val() === 'ORDER_STATUS') {
                 table.search(searchInput.val()).draw();
                 searchInput.hide();
                 searchSelect.show();
                 searchSelect.html('')
-                    .append($("<option></option>").attr("value", "").text("None"))
-                    .append($("<option></option>").attr("value", "ORDERED").text("ORDERED"))
-                    .append($("<option></option>").attr("value", "IN_PROGRESS").text("IN_PROGRESS"))
+                    .append($("<option></option>").attr("value", "").text(anyData))
+                    .append($("<option></option>").attr("value", "ORDERED").text(ordered))
+                    .append($("<option></option>").attr("value", "IN_PROGRESS").text(inProgress))
                 searchSelect.select2('destroy');
             } else {
                 table.search(searchInput.val()).draw();

@@ -26,27 +26,49 @@
 
   <jsp:include page="shared/header.jsp" />
 
-  <select id="guitarSelect"></select>
+  <main role="main" class="container common-form">
+    <h3 class="row justify-content-center mb-4">
+      <cst:localeTag key="my_guitars.title" />
+    </h3>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="guitarSelect"><cst:localeTag key="admin.guitars" /></label>
+      <select id="guitarSelect" class="form-control form-control-sm"></select>
+    </div>
+    <div class="form-outline mb-3">
+      <img id="image" src="/images/default.png" alt="Guitar picture" width="auto" height="200" class="img-thumbnail">
+    </div>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="orderStatusInput"><cst:localeTag key="admin.guitars.order_status" /></label>
+      <input id="orderStatusInput" readonly class="form-control form-control-sm"/>
+    </div>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="nameInput"><cst:localeTag key="admin.guitars.name" /></label>
+      <input id="nameInput" readonly class="form-control form-control-sm"/>
+    </div>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="bodyInput"><cst:localeTag key="admin.guitars.body" /></label>
+      <input id="bodyInput" readonly class="form-control form-control-sm"/>
+    </div>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="neckInput"><cst:localeTag key="admin.guitars.neck" /></label>
+      <input id="neckInput" readonly class="form-control form-control-sm"/>
+    </div>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="pickupInput"><cst:localeTag key="admin.guitars.pickup" /></label>
+      <input id="pickupInput" readonly class="form-control form-control-sm"/>
+    </div>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="neckJointInput"><cst:localeTag key="admin.guitars.neck_joint" /></label>
+      <input id="neckJointInput" readonly class="form-control form-control-sm"/>
+    </div>
+    <div class="form-outline mb-3">
+      <label class="form-group" for="colorInput"><cst:localeTag key="admin.guitars.color" /></label>
+      <input id="colorInput" readonly class="form-control form-control-sm"/>
+    </div>
+  </main>
 
-  <div id="guitar">
-    <img id="image" src="/static/image/default.png" width="auto" height="200">
-    <br>
-    <input id="nameInput" readonly/>
-    <br>
-    <input id="bodyInput" readonly/>
-    <br>
-    <input id="neckInput" readonly/>
-    <br>
-    <input id="pickupInput" readonly/>
-    <br>
-    <input id="neckJointInput" readonly/>
-    <br>
-    <input id="colorInput" readonly/>
-    <br>
-    <input id="orderStatusInput" readonly/>
-    <br>
-  </div>
-
-  <jsp:include page="shared/footer.jsp" />
 </body>
+
+<jsp:include page="shared/footer.jsp" />
+
 </html>
