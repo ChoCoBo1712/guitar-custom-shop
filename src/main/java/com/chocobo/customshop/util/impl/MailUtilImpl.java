@@ -43,6 +43,12 @@ public class MailUtilImpl implements MailUtil {
     private static final String PASSWORD_CHANGE_MAIL_BODY_PROPERTY = "passwordChangeMail.body";
     private static final String PASSWORD_CHANGE_MAIL_URL_BLANK = "/controller?command=go_to_password_change_page&token=";
 
+    private static final String ORDER_IN_PROGRESS_MAIL_SUBJECT_PROPERTY = "orderInProgressMail.subject";
+    private static final String ORDER_IN_PROGRESS_MAIL_BODY_PROPERTY = "orderInProgressMail.body";
+
+    private static final String ORDER_COMPLETED_MAIL_SUBJECT_PROPERTY = "orderCompletedMail.subject";
+    private static final String ORDER_COMPLETED_MAIL_BODY_PROPERTY = "orderCompletedMail.body";
+
     private static final Properties mailProperties;
     private static final Session mailSession;
     private static final String sender;
@@ -103,6 +109,22 @@ public class MailUtilImpl implements MailUtil {
         String confirmationLink = scheme + PROTOCOL_DELIMITER + serverName + confirmationUrl;
 
         String mailBody = String.format(bodyTemplate, confirmationLink);
+        sendMail(email, mailSubject, mailBody);
+    }
+
+    @Override
+    public void senOrderInProgressMail(String email, String guitarName, String scheme, String serverName) throws ServiceException {
+        String mailSubject = mailProperties.getProperty(ORDER_IN_PROGRESS_MAIL_SUBJECT_PROPERTY);
+        String bodyTemplate = mailProperties.getProperty(ORDER_IN_PROGRESS_MAIL_BODY_PROPERTY);
+        String mailBody = String.format(bodyTemplate, guitarName);
+        sendMail(email, mailSubject, mailBody);
+    }
+
+    @Override
+    public void senOrderCompletedMail(String email, String guitarName, String scheme, String serverName) throws ServiceException {
+        String mailSubject = mailProperties.getProperty(ORDER_COMPLETED_MAIL_SUBJECT_PROPERTY);
+        String bodyTemplate = mailProperties.getProperty(ORDER_COMPLETED_MAIL_BODY_PROPERTY);
+        String mailBody = String.format(bodyTemplate, guitarName);
         sendMail(email, mailSubject, mailBody);
     }
 

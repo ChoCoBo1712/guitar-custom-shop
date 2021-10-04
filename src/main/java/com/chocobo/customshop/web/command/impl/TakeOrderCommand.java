@@ -1,5 +1,10 @@
 package com.chocobo.customshop.web.command.impl;
 
+import com.chocobo.customshop.model.entity.User;
+import com.chocobo.customshop.model.service.UserService;
+import com.chocobo.customshop.model.service.impl.UserServiceImpl;
+import com.chocobo.customshop.util.MailUtil;
+import com.chocobo.customshop.util.impl.MailUtilImpl;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
 import com.chocobo.customshop.exception.ServiceException;
@@ -23,6 +28,8 @@ public class TakeOrderCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
     private final GuitarService guitarService = GuitarServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
+    private final MailUtil mailUtil = MailUtilImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -32,10 +39,21 @@ public class TakeOrderCommand implements Command {
             Optional<Guitar> optionalGuitar = guitarService.findById(entityId);
             if (optionalGuitar.isPresent()) {
                 Guitar guitar = optionalGuitar.get();
-                Guitar updatedGuitar = Guitar.builder().of(guitar)
-                        .setOrderStatus(Guitar.OrderStatus.IN_PROGRESS)
-                        .build();
-                guitarService.update(updatedGuitar);
+                long userId = guitar.getUserId();
+                Optional<User> optionalUser = userService.findById(userId);
+                if (optionalUser.isPresent()) {
+                    Guitar updatedGuitar = Guitar.builder().of(guitar)
+                            .setOrderStatus(Guitar.OrderStatus.IN_PROGRESS)
+                            .build();
+                    guitarService.update(updatedGuitar);
+
+                    User user = optionalUser.get();
+                    mailUtil.senOrderInProgressMail(user.getEmail(), guitar.getName(),
+                            request.getScheme(), request.getServerName());
+                } else {
+                    logger.error("Requested not found, id = " + userId);
+                    return CommandResult.createErrorResult(SC_NOT_FOUND);
+                }
                 return CommandResult.createRedirectResult(GUITAR_ORDERS_URL);
             } else {
                 logger.error("Requested guitar not found, id = " + entityId);

@@ -2,12 +2,17 @@ package com.chocobo.customshop.web.command.impl;
 
 import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.model.entity.Guitar;
+import com.chocobo.customshop.model.entity.User;
 import com.chocobo.customshop.model.service.GuitarService;
+import com.chocobo.customshop.model.service.UserService;
 import com.chocobo.customshop.model.service.impl.GuitarServiceImpl;
+import com.chocobo.customshop.model.service.impl.UserServiceImpl;
 import com.chocobo.customshop.model.validator.Validator;
 import com.chocobo.customshop.model.validator.impl.ImagePartValidator;
 import com.chocobo.customshop.util.ImageUploadUtil;
+import com.chocobo.customshop.util.MailUtil;
 import com.chocobo.customshop.util.impl.ImageUploadUtilImpl;
+import com.chocobo.customshop.util.impl.MailUtilImpl;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
 import jakarta.servlet.ServletException;
@@ -32,6 +37,8 @@ public class FinishOrderCommand implements Command {
     private final GuitarService guitarService = GuitarServiceImpl.getInstance();
     private final ImageUploadUtil imageUploadUtil = ImageUploadUtilImpl.getInstance();
     private final Validator<Part> imagePartValidator = ImagePartValidator.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
+    private final MailUtil mailUtil = MailUtilImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -44,15 +51,26 @@ public class FinishOrderCommand implements Command {
                 boolean valid = imagePartValidator.validate(part);
 
                 if (valid) {
-                    String picturePath = imageUploadUtil.uploadImage(part);
-
                     Guitar guitar = optionalGuitar.get();
-                    Guitar updatedGuitar = builder().of(guitar)
-                            .setPicturePath(picturePath)
-                            .setOrderStatus(OrderStatus.COMPLETED)
-                            .build();
-                    guitarService.update(updatedGuitar);
-                    return CommandResult.createRedirectResult(GUITAR_ORDERS_URL);
+                    long userId = guitar.getUserId();
+                    Optional<User> optionalUser = userService.findById(userId);
+                    if (optionalUser.isPresent()) {
+                        String picturePath = imageUploadUtil.uploadImage(part);
+
+                        Guitar updatedGuitar = builder().of(guitar)
+                                .setPicturePath(picturePath)
+                                .setOrderStatus(OrderStatus.COMPLETED)
+                                .build();
+                        guitarService.update(updatedGuitar);
+
+                        User user = optionalUser.get();
+                        mailUtil.senOrderCompletedMail(user.getEmail(), guitar.getName(),
+                                request.getScheme(), request.getServerName());
+                        return CommandResult.createRedirectResult(GUITAR_ORDERS_URL);
+                    } else {
+                        logger.error("Requested user not found, id = " + entityId);
+                        return CommandResult.createErrorResult(SC_NOT_FOUND);
+                    }
                 } else {
                     request.getSession().setAttribute(VALIDATION_ERROR, true);
                     String redirectUrl = FINISH_ORDER_URL
