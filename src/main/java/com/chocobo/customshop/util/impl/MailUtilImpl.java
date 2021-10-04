@@ -113,7 +113,7 @@ public class MailUtilImpl implements MailUtil {
     }
 
     @Override
-    public void senOrderInProgressMail(String email, String guitarName, String scheme, String serverName) throws ServiceException {
+    public void sendOrderInProgressMail(String email, String guitarName, String scheme, String serverName) throws ServiceException {
         String mailSubject = mailProperties.getProperty(ORDER_IN_PROGRESS_MAIL_SUBJECT_PROPERTY);
         String bodyTemplate = mailProperties.getProperty(ORDER_IN_PROGRESS_MAIL_BODY_PROPERTY);
         String mailBody = String.format(bodyTemplate, guitarName);
@@ -121,7 +121,7 @@ public class MailUtilImpl implements MailUtil {
     }
 
     @Override
-    public void senOrderCompletedMail(String email, String guitarName, String scheme, String serverName) throws ServiceException {
+    public void sendOrderCompletedMail(String email, String guitarName, String scheme, String serverName) throws ServiceException {
         String mailSubject = mailProperties.getProperty(ORDER_COMPLETED_MAIL_SUBJECT_PROPERTY);
         String bodyTemplate = mailProperties.getProperty(ORDER_COMPLETED_MAIL_BODY_PROPERTY);
         String mailBody = String.format(bodyTemplate, guitarName);
