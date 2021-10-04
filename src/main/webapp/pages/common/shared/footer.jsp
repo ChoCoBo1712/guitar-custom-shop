@@ -3,10 +3,22 @@
 <%@ taglib uri="customshop-tags" prefix="cst" %>
 
 <footer data-locale="${sessionScope.locale}">
-    <hr>
-    <p><cst:localeTag key="footer.site_by" /> ChoCoBo</p>
-    <select id="localeSelect">
-        <option value="en_US">EN</option>
-        <option value="ru_RU">RU</option>
-    </select>
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <p class="navbar-text mb-auto mt-auto"><cst:localeTag key="footer.site_by" /> ChoCoBo</p>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item">
+                    <select id="localeSelect">
+                        <option value="en_US">EN</option>
+                        <option value="ru_RU">RU</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </footer>

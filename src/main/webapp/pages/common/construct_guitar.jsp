@@ -22,39 +22,60 @@
   <script src="/static/js/common/construct_guitar.js"></script>
   <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="shared/header.jsp" />
+
 <body data-body="<cst:localeTag key="admin.guitars.body" />"
       data-neck="<cst:localeTag key="admin.guitars.neck" />"
       data-pickup="<cst:localeTag key="admin.guitars.pickup" />">
 
-  <jsp:include page="shared/header.jsp" />
+  <main role="main" class="container common-form">
+    <h3 class="row justify-content-center mb-4">
+      <cst:localeTag key="construct_guitar.title" />
+    </h3>
+    <form id="construct_guitar_form" action="${pageContext.request.contextPath}/controller?command=construct_guitar" method="post">
+      <div class="form-outline mb-3">
+        <label class="form-group" for="nameInput"><cst:localeTag key="admin.guitars.name" /></label>
+        <input id="nameInput" type="text" name="name" placeholder=<cst:localeTag key="placeholder.name" /> required class="form-control form-control-sm"
+               pattern="[a-zA-Z0-9\s\-]{1,30}">
+      </div>
+      <div class="form-outline mb-3">
+        <label class="form-group" for="ci"><cst:localeTag key="admin.guitars.color" /></label>
+        <input id="ci" type="text" name="color" placeholder=<cst:localeTag key="placeholder.color" /> required
+               pattern="[a-zA-Z0-9\s\-]{1,30}" class="form-control form-control-sm">
+      </div>
+      <div class="form-outline mb-3">
+        <label class="form-group" for="bodySelect"><cst:localeTag key="admin.guitars.body" /></label>
+        <select name="bodyId" id="bodySelect" required  class="form-control form-control-sm"></select>
+      </div>
+      <div class="form-outline mb-3">
+        <label class="form-group" for="neckSelect"><cst:localeTag key="admin.guitars.neck" /></label>
+        <select name="neckId" id="neckSelect" required  class="form-control form-control-sm"></select>
+      </div>
+      <div class="form-outline mb-3">
+        <label class="form-group" for="pickupSelect"><cst:localeTag key="admin.guitars.pickup" /></label>
+        <select name="pickupId" id="pickupSelect" required  class="form-control form-control-sm"></select>
+      </div>
+      <div class="form-outline mb-3">
+        <label class="form-group" for="neckJointSelect"><cst:localeTag key="admin.guitars.neck_joint" /></label>
+        <select name="neckJoint" id="neckJointSelect" class="form-select form-select-sm">
+          <option selected value="BOLT_ON"><cst:localeTag key="admin.guitars.neck_joint.bolt_on" /></option>
+          <option value="SET_NECK"><cst:localeTag key="admin.guitars.neck_joint.set_neck" /></option>
+          <option value="NECK_THROUGH"><cst:localeTag key="admin.guitars.neck_joint.neck_through" /></option>
+        </select>
+      </div>
+      <div class="form-actions text-center">
+        <input type="submit" class="btn btn-secondary btn-block" value=<cst:localeTag key="construct_guitar.construct" />>
+      </div>
+    </form>
 
-  <form id="construct_guitar_form" action="${pageContext.request.contextPath}/controller?command=construct_guitar" method="post">
-    <input type="text" name="name" placeholder=<cst:localeTag key="placeholder.name" /> required
-           pattern="[a-zA-Z0-9\s\-]{1,30}">
-    <br>
-    <select name="bodyId" id="bodySelect" required></select>
-    <br>
-    <select name="neckId" id="neckSelect" required></select>
-    <br>
-    <select name="pickupId" id="pickupSelect" required></select>
-    <br>
-    <select name="neckJoint" id="neck_joint_select">
-      <option selected value="BOLT_ON">BOLT_ON</option>
-      <option value="SET_NECK">SET_NECK</option>
-      <option value="NECK_THROUGH">NECK_THROUGH</option>
-    </select>
-    <br>
-    <input type="text" name="color" placeholder=<cst:localeTag key="placeholder.color" /> required
-           pattern="[a-zA-Z0-9\s\-]{1,30}">
-    <br>
-    <input type="submit" value=<cst:localeTag key="construct_guitar.construct" />>
-  </form>
-
-  <c:if test="${param.validationError}">
-    <p><cst:localeTag key="error.validation_error" /></p>
-  </c:if>
-
-  <jsp:include page="shared/footer.jsp" />
+    <c:if test="${param.validationError}">
+      <p><cst:localeTag key="error.validation_error" /></p>
+    </c:if>
+  </main>
 
 </body>
+
+<jsp:include page="shared/footer.jsp" />
+
 </html>

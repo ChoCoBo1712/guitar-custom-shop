@@ -12,8 +12,8 @@ $(document).ready( function () {
     $('#bodySelect').select2({
         language: locale.substring(0, 2),
         placeholder: bodyData,
-        // theme: 'bootstrap',
-        width: '10%',
+        theme: 'bootstrap',
+        width: '100%',
         maximumInputLength: 50,
         ajax: {
             delay: 250,
@@ -49,8 +49,8 @@ $(document).ready( function () {
     $('#neckSelect').select2({
         language: locale.substring(0, 2),
         placeholder: neckData,
-        // theme: 'bootstrap',
-        width: '10%',
+        theme: 'bootstrap',
+        width: '100%',
         maximumInputLength: 50,
         ajax: {
             delay: 250,
@@ -86,8 +86,8 @@ $(document).ready( function () {
     $('#pickupSelect').select2({
         language: locale.substring(0, 2),
         placeholder: pickupData,
-        // theme: 'bootstrap',
-        width: '10%',
+        theme: 'bootstrap',
+        width: '100%',
         maximumInputLength: 50,
         ajax: {
             delay: 250,
@@ -123,8 +123,8 @@ $(document).ready( function () {
     $('#userSelect').select2({
         language: locale.substring(0, 2),
         placeholder: userData,
-        // theme: 'bootstrap',
-        width: '10%',
+        theme: 'bootstrap',
+        width: '100%',
         maximumInputLength: 50,
         ajax: {
             delay: 250,

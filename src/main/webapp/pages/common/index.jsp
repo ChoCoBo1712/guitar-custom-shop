@@ -10,12 +10,17 @@
     <script src="/static/js/common/set_locale.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="shared/header.jsp" />
+
 <body>
 
-    <jsp:include page="shared/header.jsp" />
 
 
 
-    <jsp:include page="shared/footer.jsp" />
+
 </body>
+
+<jsp:include page="shared/footer.jsp" />
+
 </html>

@@ -10,6 +10,9 @@
     <script src="/static/js/admin/user/users.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="../../common/shared/header.jsp" />
+
 <body data-search="<cst:localeTag key="admin.search" />"
       data-edit="<cst:localeTag key="admin.edit" />"
       data-delete="<cst:localeTag key="admin.delete" />"
@@ -17,24 +20,32 @@
       data-email="<cst:localeTag key="admin.users.email" />"
       data-login="<cst:localeTag key="admin.users.login" />"
       data-role="<cst:localeTag key="admin.users.role" />"
+      data-admin="<cst:localeTag key="admin.users.role.admin" />"
+      data-maker="<cst:localeTag key="admin.users.role.maker" />"
+      data-client="<cst:localeTag key="admin.users.role.client" />"
       data-status="<cst:localeTag key="admin.users.status" />"
-      data-create="<cst:localeTag key="admin.create" />">
+      data-confirmed="<cst:localeTag key="admin.users.status.confirmed" />"
+      data-not-confirmed="<cst:localeTag key="admin.users.status.not_confirmed" />"
+      data-create="<cst:localeTag key="admin.create" />"
+      data-any="<cst:localeTag key="admin.any" />">
 
-    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
-    <table id="users_table">
-        <thead>
+    <main role="main" class="container-fluid bg-light admin-main-table">
+        <table id="users_table" class="table table-striped table-bordered">
+            <thead>
             <th><cst:localeTag key="admin.users.id" /></th>
             <th><cst:localeTag key="admin.users.email" /></th>
             <th><cst:localeTag key="admin.users.login" /></th>
             <th><cst:localeTag key="admin.users.role" /></th>
             <th><cst:localeTag key="admin.users.status" /></th>
             <th><cst:localeTag key="admin.actions" /></th>
-        </thead>
-    </table>
-
-    <jsp:include page="../../common/shared/footer.jsp" />
+            </thead>
+        </table>
+    </main>
 
 </body>
+
+<jsp:include page="../../common/shared/footer.jsp" />
+
 </html>

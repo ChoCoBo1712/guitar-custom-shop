@@ -4,13 +4,22 @@
 <html>
 <head>
     <title><cst:localeTag key="error.error" /> 404</title>
+    <jsp:include page="../shared/head.html" />
 
     <script src="/static/js/common/set_locale.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="../shared/header.jsp" />
+
 <body>
 
-    <p><cst:localeTag key="error.error" /> 404!</p>
+    <main role="main" class="container-fluid bg-light h-100 row align-items-center text-center">
+        <h1 class="error"><cst:localeTag key="error.error" /> 404!</h1>
+    </main>
 
 </body>
+
+<jsp:include page="../shared/footer.jsp" />
+
 </html>

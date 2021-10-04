@@ -39,10 +39,9 @@ $(document).ready( function () {
             {
                 data: null,
                 render: function (row) {
-                    return '<a href="/controller?command=go_to_edit_pickup_page&id=' + row.entityId + '">'
+                    return '<a href="/controller?command=go_to_edit_pickup_page&id=' + row.entityId + '" type="button" class="btn btn-outline-primary me-1">'
                         + editData + '</a>'
-                        + '<br>'
-                        + '<a href="/controller?command=delete_pickup&id=' + row.entityId + '">'
+                        + '<a href="/controller?command=delete_pickup&id=' + row.entityId + '" type="button" class="btn btn-outline-primary me-1">'
                         + deleteData + '</a>'
                 }
             },
@@ -54,17 +53,17 @@ $(document).ready( function () {
 
     function onDataTableInitComplete(table) {
         $("div.toolbar").html(`
-            <div class="input-group mb-3">
+            <div class="input-group input-group-sm mb-2">
             <button id="createButton" type="button" class="btn btn-secondary">
                 ${createData}
             </button>
-            <select id="searchCriteria" class="form-select">
+            <select id="searchCriteria" class="form-select input-sm">
                 <option value="ID">${idData}</option>
                 <option value="NAME">${nameData}</option>
             </select>
             <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
              placeholder=${searchData}>
-             <select id="searchSelect"></select>
+             <select id="searchSelect" class="form-select w-50"></select>
             </div>
         `);
 

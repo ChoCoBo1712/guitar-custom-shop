@@ -1,0 +1,33 @@
+.admin-main-form {
+    padding-bottom: 60px;
+    padding-top: 20px;
+    padding-inline: 300px;
+}
+
+.admin-main-table {
+    padding-bottom: 60px;
+    padding-top: 20px;
+}
+
+h1.error {
+    color: #111;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 150px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+
+}
+
+.common-main-form {
+    padding-bottom: 60px;
+    padding-top: 150px;
+    padding-inline: 500px;
+}
+
+.common-form {
+    padding-bottom: 60px;
+    padding-top: 100px;
+    padding-inline: 500px;
+}

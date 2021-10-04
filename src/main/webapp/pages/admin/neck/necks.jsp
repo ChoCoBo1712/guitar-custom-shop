@@ -21,6 +21,9 @@
     <script src="/static/js/admin/neck/necks.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="../../common/shared/header.jsp" />
+
 <body data-search="<cst:localeTag key="admin.search" />"
       data-edit="<cst:localeTag key="admin.edit" />"
       data-delete="<cst:localeTag key="admin.delete" />"
@@ -30,21 +33,23 @@
       data-fretboard-wood="<cst:localeTag key="admin.necks.fretboard_wood" />"
       data-create="<cst:localeTag key="admin.create" />">
 
-    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
-    <table id="necks_table">
-        <thead>
-        <th><cst:localeTag key="admin.necks.id" /></th>
-        <th><cst:localeTag key="admin.necks.name" /></th>
-        <th><cst:localeTag key="admin.necks.wood" /></th>
-        <th><cst:localeTag key="admin.necks.fretboard_wood" /></th>
-        <th><cst:localeTag key="admin.actions" /></th>
-        </thead>
-    </table>
-
-    <jsp:include page="../../common/shared/footer.jsp" />
+    <main role="main" class="container-fluid bg-light admin-main-table">
+        <table id="necks_table" class="table table-striped table-bordered">
+            <thead>
+            <th><cst:localeTag key="admin.necks.id" /></th>
+            <th><cst:localeTag key="admin.necks.name" /></th>
+            <th><cst:localeTag key="admin.necks.wood" /></th>
+            <th><cst:localeTag key="admin.necks.fretboard_wood" /></th>
+            <th><cst:localeTag key="admin.actions" /></th>
+            </thead>
+        </table>
+    </main>
 
 </body>
+
+<jsp:include page="../../common/shared/footer.jsp" />
+
 </html>
 

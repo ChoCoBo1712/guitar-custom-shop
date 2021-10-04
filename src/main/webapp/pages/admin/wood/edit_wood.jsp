@@ -10,23 +10,36 @@
     <script src="/static/js/common/set_locale.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="../../common/shared/header.jsp" />
+
 <body>
 
-    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
-    <form action="${pageContext.request.contextPath}/controller?command=update_wood" method="post">
-        <input type="text" name="id" value="${requestScope.wood.entityId}" hidden>
-        <input type="text" name="name" value="${requestScope.wood.name}"
-               placeholder=<cst:localeTag key="placeholder.name" /> required pattern="[a-zA-Z0-9\s\-]{1,30}">
-        <br>
-        <input type="submit" value=<cst:localeTag key="admin.edit" />>
-    </form>
+    <main role="main" class="container bg-light admin-main-form">
+        <h3 class="row justify-content-center mb-4">
+            <cst:localeTag key="admin.edit_wood.title" />
+        </h3>
+        <form action="${pageContext.request.contextPath}/controller?command=update_wood" method="post">
+            <input type="text" name="id" value="${requestScope.wood.entityId}" hidden>
+            <div class="form-outline mb-3">
+                <label class="form-group" for="ni"><cst:localeTag key="admin.woods.name" /></label>
+                <input id="ni" type="text" name="name" placeholder=<cst:localeTag key="placeholder.name" /> required value="${requestScope.wood.name}"
+                       pattern="[a-zA-Z0-9\s\-]{1,30}" class="form-control form-control-sm">
+            </div>
+            <div class="form-actions text-center">
+                <input type="submit" class="btn btn-secondary btn-block" value=<cst:localeTag key="admin.create" />>
+            </div>
+        </form>
 
-    <c:if test="${param.validationError}">
-        <p><cst:localeTag key="error.validation_error" /></p>
-    </c:if>
+        <c:if test="${param.validationError}">
+            <p><cst:localeTag key="error.validation_error" /></p>
+        </c:if>
+    </main>
 
-    <jsp:include page="../../common/shared/footer.jsp" />
 </body>
+
+<jsp:include page="../../common/shared/footer.jsp" />
+
 </html>

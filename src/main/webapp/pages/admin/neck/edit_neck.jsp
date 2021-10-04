@@ -21,31 +21,47 @@
     <script src="/static/js/admin/neck/edit_neck.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="../../common/shared/header.jsp" />
+
 <body data-wood="<cst:localeTag key="admin.necks.wood" />"
       data-fretboard-wood="<cst:localeTag key="admin.necks.fretboard_wood" />"
       data-wood-id="${requestScope.neck.woodId}"
       data-fretboard-wood-id="${requestScope.neck.fretboardWoodId}">
 
-    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
-    <form action="${pageContext.request.contextPath}/controller?command=update_neck" method="post">
-        <input type="text" name="id" value="${requestScope.neck.entityId}" hidden>
-        <input type="text" name="name" value="${requestScope.neck.name}"
-               placeholder=<cst:localeTag key="placeholder.name" /> required pattern="[a-zA-Z0-9\s\-]{1,30}">
-        <br>
-        <select name="woodId" id="woodSelect" required></select>
-        <br>
-        <select name="fretboardWoodId" id="fretboardWoodSelect" required></select>
-        <br>
-        <input type="submit" value=<cst:localeTag key="admin.edit" />>
-    </form>
+    <main role="main" class="container bg-light admin-main-form">
+        <h3 class="row justify-content-center mb-4">
+            <cst:localeTag key="admin.edit_neck.title" />
+        </h3>
+        <form action="${pageContext.request.contextPath}/controller?command=update_neck" method="post">
+            <input type="text" name="id" value="${requestScope.neck.entityId}" hidden>
+            <div class="form-outline mb-3">
+                <label class="form-group" for="ni"><cst:localeTag key="admin.necks.name" /></label>
+                <input id="ni" type="text" name="name" placeholder=<cst:localeTag key="placeholder.name" /> required value="${requestScope.neck.name}"
+                       pattern="[a-zA-Z0-9\s\-]{1,30}"  class="form-control form-control-sm">
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-group" for="woodSelect"><cst:localeTag key="admin.necks.wood" /></label>
+                <select name="woodId" id="woodSelect" required  class="form-control form-control-sm"></select>
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-group" for="fretboardWoodSelect"><cst:localeTag key="admin.necks.fretboard_wood" /></label>
+                <select name="fretboardWoodId" id="fretboardWoodSelect" required  class="form-control form-control-sm"></select>
+            </div>
+            <div class="form-actions text-center">
+                <input type="submit" class="btn btn-secondary btn-block" value=<cst:localeTag key="admin.create" />>
+            </div>
+        </form>
 
-    <c:if test="${param.validationError}">
-        <p><cst:localeTag key="error.validation_error" /></p>
-    </c:if>
-
-    <jsp:include page="../../common/shared/footer.jsp" />
+        <c:if test="${param.validationError}">
+            <p><cst:localeTag key="error.validation_error" /></p>
+        </c:if>
+    </main>
 
 </body>
+
+<jsp:include page="../../common/shared/footer.jsp" />
+
 </html>

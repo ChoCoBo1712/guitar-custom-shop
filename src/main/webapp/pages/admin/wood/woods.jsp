@@ -10,6 +10,9 @@
     <script src="/static/js/admin/wood/woods.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="../../common/shared/header.jsp" />
+
 <body data-search="<cst:localeTag key="admin.search" />"
       data-edit="<cst:localeTag key="admin.edit" />"
       data-delete="<cst:localeTag key="admin.delete" />"
@@ -17,19 +20,21 @@
       data-name="<cst:localeTag key="admin.woods.name" />"
       data-create="<cst:localeTag key="admin.create" />">
 
-    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
-    <table id="woods_table">
-        <thead>
+    <main role="main" class="container-fluid bg-light admin-main-table">
+        <table id="woods_table" class="table table-striped table-bordered">
+            <thead>
             <th><cst:localeTag key="admin.woods.id" /></th>
             <th><cst:localeTag key="admin.woods.name" /></th>
             <th><cst:localeTag key="admin.actions" /></th>
-        </thead>
-    </table>
-
-    <jsp:include page="../../common/shared/footer.jsp" />
+            </thead>
+        </table>
+    </main>
 
 </body>
+
+<jsp:include page="../../common/shared/footer.jsp" />
+
 </html>
 

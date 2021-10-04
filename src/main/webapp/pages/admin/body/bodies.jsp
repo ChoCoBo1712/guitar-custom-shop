@@ -18,31 +18,36 @@
     </c:if>
 
     <script src="/static/js/util/fetch.js"></script>
-    <script src="/static/js/admin/guitar/guitars.js"></script>
+    <script src="/static/js/admin/body/bodies.js"></script>
     <script src="/static/js/common/shared/footer.js"></script>
 </head>
+
+<jsp:include page="../../common/shared/header.jsp" />
+
 <body data-search="<cst:localeTag key="admin.search" />"
       data-edit="<cst:localeTag key="admin.edit" />"
       data-delete="<cst:localeTag key="admin.delete" />"
-      data-id="<cst:localeTag key="admin.necks.id" />"
-      data-name="<cst:localeTag key="admin.necks.name" />"
-      data-wood="<cst:localeTag key="admin.necks.wood" />"
+      data-id="<cst:localeTag key="admin.bodies.id" />"
+      data-name="<cst:localeTag key="admin.bodies.name" />"
+      data-wood="<cst:localeTag key="admin.bodies.wood" />"
       data-create="<cst:localeTag key="admin.create" />">
 
-    <jsp:include page="../../common/shared/header.jsp" />
     <jsp:include page="../shared/header.jsp" />
 
-    <table id="bodies_table">
-        <thead>
-        <th><cst:localeTag key="admin.bodies.id" /></th>
-        <th><cst:localeTag key="admin.bodies.name" /></th>
-        <th><cst:localeTag key="admin.bodies.wood" /></th>
-        <th><cst:localeTag key="admin.actions" /></th>
-        </thead>
-    </table>
-
-    <jsp:include page="../../common/shared/footer.jsp" />
+    <main role="main" class="container-fluid bg-light admin-main-table">
+        <table id="bodies_table" class="table table-striped table-bordered">
+            <thead>
+            <th><cst:localeTag key="admin.bodies.id" /></th>
+            <th><cst:localeTag key="admin.bodies.name" /></th>
+            <th><cst:localeTag key="admin.bodies.wood" /></th>
+            <th><cst:localeTag key="admin.actions" /></th>
+            </thead>
+        </table>
+    </main>
 
 </body>
+
+<jsp:include page="../../common/shared/footer.jsp" />
+
 </html>
 

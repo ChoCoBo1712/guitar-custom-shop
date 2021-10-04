@@ -4,11 +4,17 @@ $(document).ready( function () {
     let emailData = bodyTag.data('email');
     let loginData = bodyTag.data('login');
     let roleData = bodyTag.data('role');
+    let adminData = bodyTag.data('admin');
+    let makerData = bodyTag.data('maker');
+    let clientData = bodyTag.data('client');
     let statusData = bodyTag.data('status');
+    let confirmedData = bodyTag.data('confirmed');
+    let notConfirmedData = bodyTag.data('not-confirmed');
     let searchData = bodyTag.data('search');
     let editData = bodyTag.data('edit');
     let deleteData = bodyTag.data('delete');
     let createData = bodyTag.data('create');
+    let anyData = bodyTag.data('any');
 
     let footer = $('footer');
     let locale = footer.data('locale');
@@ -40,15 +46,35 @@ $(document).ready( function () {
             { data: 'entityId'},
             { data: 'email'},
             { data: 'login'},
-            { data: 'role'},
-            { data: 'status'},
+            {
+                data: 'role',
+                render: function (data) {
+                    if (data === "ADMIN") {
+                        return "<p>" + adminData + "</p>";
+                    }
+                    else if (data === "MAKER") {
+                        return "<p>" + makerData + "</p>";
+                    } else {
+                        return "<p>" + clientData + "</p>";
+                    }
+                }
+            },
+            {
+                data: 'status',
+                render: function (data) {
+                    if (data === "NOT_CONFIRMED") {
+                        return "<p>" + notConfirmedData + "</p>";
+                    } else {
+                        return "<p>" + confirmedData + "</p>";
+                    }
+                }
+            },
             {
                 data: null,
                 render: function (row) {
-                    return '<a href="/controller?command=go_to_edit_user_page&id=' + row.entityId + '">'
+                    return '<a href="/controller?command=go_to_edit_user_page&id=' + row.entityId + '" type="button" class="btn btn-outline-primary me-1">'
                         + editData + '</a>'
-                        + '<br>'
-                        + '<a href="/controller?command=delete_user&id=' + row.entityId + '">'
+                        + '<a href="/controller?command=delete_user&id=' + row.entityId + '" type="button" class="btn btn-outline-primary me-1">'
                         + deleteData + '</a>'
                 }
             },
@@ -60,11 +86,11 @@ $(document).ready( function () {
 
     function onDataTableInitComplete(table) {
         $("div.toolbar").html(`
-                <div class="input-group mb-3">
+                <div class="input-group input-group-sm mb-2">
                 <button id="createButton" type="button" class="btn btn-secondary">
                     ${createData}
                 </button>
-                <select id="searchCriteria" class="form-select">
+                <select id="searchCriteria" class="form-select input-sm">
                     <option value="ID">${idData}</option>
                     <option value="EMAIL">${emailData}</option>
                     <option value="LOGIN">${loginData}</option>
@@ -73,7 +99,7 @@ $(document).ready( function () {
                 </select>
                 <input id="searchInput" maxlength="50" type="text" class="form-control w-50"
                  placeholder=${searchData}>
-                 <select id="searchSelect"></select>
+                 <select id="searchSelect" class="form-select w-50"></select>
                 </div>
             `);
 
@@ -96,18 +122,18 @@ $(document).ready( function () {
                 searchInput.hide();
                 searchSelect.show();
                 searchSelect.html("")
-                    .append($("<option></option>").attr("value", "").text("None"))
-                    .append($("<option></option>").attr("value", "ADMIN").text("ADMIN"))
-                    .append($("<option></option>").attr("value", "CLIENT").text("CLIENT"))
-                    .append($("<option></option>").attr("value", "MASTER").text("MASTER"))
+                    .append($("<option></option>").attr("value", "").text(anyData))
+                    .append($("<option></option>").attr("value", "ADMIN").text(adminData))
+                    .append($("<option></option>").attr("value", "MAKER").text(makerData))
+                    .append($("<option></option>").attr("value", "CLIENT").text(clientData))
                 searchSelect.change();
             } else if (searchCriteria.val() === 'STATUS') {
                 searchInput.hide();
                 searchSelect.show();
                 searchSelect.html("")
-                    .append($("<option></option>").attr("value", "").text("None"))
-                    .append($("<option></option>").attr("value", "NOT_CONFIRMED").text("NOT_CONFIRMED"))
-                    .append($("<option></option>").attr("value", "CONFIRMED").text("CONFIRMED"))
+                    .append($("<option></option>").attr("value", "").text(anyData))
+                    .append($("<option></option>").attr("value", "NOT_CONFIRMED").text(notConfirmedData))
+                    .append($("<option></option>").attr("value", "CONFIRMED").text(confirmedData))
                 searchSelect.change();
             } else {
                 searchInput.val("");

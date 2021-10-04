@@ -9,8 +9,8 @@ $(document).ready( function () {
     $('#woodSelect').select2({
         language: locale.substring(0, 2),
         placeholder: woodData,
-        // theme: 'bootstrap',
-        width: '10%',
+        theme: 'bootstrap',
+        width: '100%',
         maximumInputLength: 50,
         ajax: {
             delay: 250,
