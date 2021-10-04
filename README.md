@@ -10,7 +10,7 @@ Guest | Unauthenticated user
 Not confirmed user | Authenticated user without confirmed email that has reduced access rights
 Client | Authenticated user
 Maker | Authenticated user
-Admin | Authenticated user with it's own exclusive and an access to pages dedicated to any other role
+Admin | Authenticated user with it's own exclusive rights and an access to pages dedicated to any other role
 
 ### Guest ###
 * Has access to home page
