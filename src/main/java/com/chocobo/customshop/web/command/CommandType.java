@@ -1,5 +1,9 @@
 package com.chocobo.customshop.web.command;
 
+/**
+ * {@code CommandType} enum stores elements that are later mapped to corresponding {@link Command} instances.
+ * @author Evgeniy Sokolchik
+ */
 public enum CommandType {
 
     // GoTo commands

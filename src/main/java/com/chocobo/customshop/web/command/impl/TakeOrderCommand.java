@@ -17,8 +17,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.web.command.PagePath.GUITAR_ORDERS_URL;
 import static com.chocobo.customshop.web.command.RequestAttribute.ENTITY_ID;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -48,7 +46,7 @@ public class TakeOrderCommand implements Command {
                     guitarService.update(updatedGuitar);
 
                     User user = optionalUser.get();
-                    mailUtil.senOrderInProgressMail(user.getEmail(), guitar.getName(),
+                    mailUtil.sendOrderInProgressMail(user.getEmail(), guitar.getName(),
                             request.getScheme(), request.getServerName());
                 } else {
                     logger.error("Requested not found, id = " + userId);

@@ -7,15 +7,17 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
 
+/**
+ * {@code HttpSessionListenerImpl} class is an implementation of {@link HttpSessionListener} interface.
+ * It sets user application role for newly created session to GUEST value of {@code AppRole} enum.
+ * @author Evgeniy Sokolchik
+ */
 @WebListener
 public class HttpSessionListenerImpl implements HttpSessionListener {
-
-    private static final String DEFAULT_LOCALE = "en_US";
 
     @Override
     public void sessionCreated(HttpSessionEvent event) {
         HttpSession session = event.getSession();
-        session.setAttribute(SessionAttribute.LOCALE, DEFAULT_LOCALE);
         session.setAttribute(SessionAttribute.USER_ROLE, AppRole.GUEST);
     }
 }

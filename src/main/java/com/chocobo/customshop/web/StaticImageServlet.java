@@ -12,6 +12,11 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+/**
+ * {@code StaticImageServlet} class is a subclass of {@link HttpServlet} class.
+ * It processes get requests to {@code /images} url after filtering and is used for loading images.
+ * @author Evgeniy Sokolchik
+ */
 @WebServlet(urlPatterns = "/images/*")
 public class StaticImageServlet extends HttpServlet {
 

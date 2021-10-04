@@ -13,6 +13,12 @@ import java.util.Optional;
 
 import static com.chocobo.customshop.web.command.SessionAttribute.*;
 
+/**
+ * {@code LocaleFilter} class is an implementation of {@link Filter} interface.
+ * It checks incoming cookie files for changes in locale relatively to current value from session.
+ * If there is any difference it sets new locale value to the session
+ * @author Evgeniy Sokolchik
+ */
 @WebFilter(filterName = "LocaleFilter")
 public class LocaleFilter implements Filter {
 

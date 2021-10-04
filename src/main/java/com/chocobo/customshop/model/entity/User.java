@@ -5,14 +5,25 @@ import jakarta.jws.soap.SOAPBinding;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * {@code User} class represents a user entity.
+ * @see AbstractEntity
+ * @author Evgeniy Sokolchik
+ */
 public class User extends AbstractEntity {
 
+    /**
+     * Enum containing user roles assigned by administrator.
+     */
     public enum UserRole {
         ADMIN,
         MAKER,
         CLIENT
     }
 
+    /**
+     * Enum containing user statuses assigned by administrator.
+     */
     public enum UserStatus {
         NOT_CONFIRMED,
         CONFIRMED,
@@ -100,6 +111,10 @@ public class User extends AbstractEntity {
         return builder.toString();
     }
 
+    /**
+     * {@code UserBuilder} is a subclass of {@link AbstractBuilder} class and used for building the user entity.
+     * @author Evgeniy Sokolchik
+     */
     public class UserBuilder extends AbstractBuilder {
 
         private UserBuilder() {

@@ -1,5 +1,9 @@
 package com.chocobo.customshop.model.entity;
 
+/**
+ * {@code AbstractEntity} is a top abstract class in the hierarchy of domain entities.
+ * @author Evgeniy Sokolchik
+ */
 public abstract class AbstractEntity {
 
     private long entityId;
@@ -31,6 +35,10 @@ public abstract class AbstractEntity {
         return "id = " + entityId;
     }
 
+    /**
+     * {@code AbstractBuilder} is a top class in the hierarchy of inner builder classes.
+     * @author Evgeniy Sokolchik
+     */
     public abstract class AbstractBuilder {
 
         public AbstractBuilder setEntityId(long entityId) {

@@ -64,7 +64,7 @@ public class FinishOrderCommand implements Command {
                         guitarService.update(updatedGuitar);
 
                         User user = optionalUser.get();
-                        mailUtil.senOrderCompletedMail(user.getEmail(), guitar.getName(),
+                        mailUtil.sendOrderCompletedMail(user.getEmail(), guitar.getName(),
                                 request.getScheme(), request.getServerName());
                         return CommandResult.createRedirectResult(GUITAR_ORDERS_URL);
                     } else {

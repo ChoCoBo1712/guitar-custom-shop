@@ -13,6 +13,13 @@ import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.Lock;
 
+/**
+ * {@code PoolTimerTask} is a subclass of {@link TimerTask}.
+ * It is used for maintaining a minimal amount of available connections
+ * and returning connections that weren't used for period of time
+ * more than {@code connectionLifetime} to an available queue.
+ * @author Dmitry Karnyshov
+ */
 public class PoolTimerTask extends TimerTask {
 
     public static final Logger logger = LogManager.getLogger();

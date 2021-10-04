@@ -6,15 +6,28 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * {@code ProxyConnection} class intercepts {@link Connection#close()} invocations and returns wrapped connection
+ * to {@link DatabaseConnectionPool}.
+ * @author Evgeniy Sokolchik
+ */
 class ProxyConnection implements Connection {
 
     private final Connection connection;
+
+    /**
+     * An {@link Instant} object containing last moment in time when the connection
+     * was retrieved from {@link DatabaseConnectionPool}.
+     */
     private Instant lifetimeStart;
 
     ProxyConnection(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Package-private method used for real invocation of {@link Connection#close()} method.
+     */
     void closeInnerConnection() throws SQLException {
         connection.close();
     }

@@ -1,5 +1,9 @@
 package com.chocobo.customshop.web.command;
 
+/**
+ * {@code PagePath} class contains constant strings representing absolute URLs and internal paths to JSP files.
+ * @author Evgeniy Sokolchik
+ */
 public final class PagePath {
 
     // JSP paths

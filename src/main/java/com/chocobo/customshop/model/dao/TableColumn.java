@@ -1,5 +1,9 @@
 package com.chocobo.customshop.model.dao;
 
+/**
+ * {@code TableColumn} class contains constant strings that represent DB tables column names.
+ * @author Evgeniy Sokolchik
+ */
 public final class TableColumn {
 
     private TableColumn() {

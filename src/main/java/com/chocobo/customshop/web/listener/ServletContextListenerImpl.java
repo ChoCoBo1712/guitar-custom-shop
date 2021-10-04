@@ -7,6 +7,11 @@ import jakarta.servlet.annotation.WebListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * {@code ServletContextListenerImpl} class is an implementation of {@link ServletContextListener} interface.
+ * It initializes the {@code DatabaseConnectionPool}.
+ * @author Evgeniy Sokolchik
+ */
 @WebListener
 public class ServletContextListenerImpl implements ServletContextListener {
 

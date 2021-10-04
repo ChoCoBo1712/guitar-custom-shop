@@ -2,10 +2,21 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
+/**
+ * {@code Neck} class represents a guitar neck entity.
+ * @see AbstractEntity
+ * @author Evgeniy Sokolchik
+ */
 public class Neck extends AbstractEntity {
 
     private String name;
+    /**
+     * Foreign key to {@link Wood} entity.
+     */
     private long woodId;
+    /**
+     * Foreign key to {@link Wood} entity.
+     */
     private long fretboardWoodId;
 
     private Neck() {
@@ -66,6 +77,10 @@ public class Neck extends AbstractEntity {
         return builder.toString();
     }
 
+    /**
+     * {@code NeckBuilder} is a subclass of {@link AbstractBuilder} class and used for building the guitar neck entity.
+     * @author Evgeniy Sokolchik
+     */
     public class NeckBuilder extends AbstractBuilder {
 
         private NeckBuilder() {

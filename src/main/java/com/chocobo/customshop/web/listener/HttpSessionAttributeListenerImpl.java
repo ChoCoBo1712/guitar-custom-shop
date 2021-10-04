@@ -11,9 +11,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.chocobo.customshop.web.command.SessionAttribute.USER_ID;
 
+/**
+ * {@code HttpSessionAttributeListenerImpl} class is an implementation of {@link HttpSessionAttributeListener} interface.
+ * It collects all authenticated sessions to a map.
+ * @author Evgeniy Sokolchik
+ */
 @WebListener
 public class HttpSessionAttributeListenerImpl implements HttpSessionAttributeListener {
-    private static final Map<Long, HttpSession> allSessions = new ConcurrentHashMap<>();
+    private static final Map<Long, HttpSession> sessions = new ConcurrentHashMap<>();
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
@@ -22,7 +27,7 @@ public class HttpSessionAttributeListenerImpl implements HttpSessionAttributeLis
 
         if (attributeName.equals(USER_ID)) {
             long userId = Long.parseLong(session.getAttribute(USER_ID).toString());
-            allSessions.put(userId, session);
+            sessions.put(userId, session);
         }
     }
 
@@ -32,18 +37,18 @@ public class HttpSessionAttributeListenerImpl implements HttpSessionAttributeLis
 
         if (attributeName.equals(USER_ID)) {
             long userId = Long.parseLong(event.getValue().toString());
-            allSessions.remove(userId);
+            sessions.remove(userId);
         }
     }
 
     /**
      * Find an authenticated session by its owner's id.
      *
-     * @param userId unique id of ther user.
+     * @param userId unique id of the user.
      * @return {@link HttpSession} instance wrapped with {@link Optional}.
      */
     public static Optional<HttpSession> findSession(long userId) {
-        HttpSession session = allSessions.get(userId);
+        HttpSession session = sessions.get(userId);
 
         return session != null
                 ? Optional.of(session)

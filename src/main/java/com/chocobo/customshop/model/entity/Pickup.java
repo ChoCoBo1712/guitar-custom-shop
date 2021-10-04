@@ -2,6 +2,11 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
+/**
+ * {@code Pickup} class represents a guitar pickup entity.
+ * @see AbstractEntity
+ * @author Evgeniy Sokolchik
+ */
 public class Pickup extends AbstractEntity {
 
     private String name;
@@ -50,6 +55,10 @@ public class Pickup extends AbstractEntity {
         return builder.toString();
     }
 
+    /**
+     * {@code PickupBuilder} is a subclass of {@link AbstractBuilder} class and used for building the guitar pickup entity.
+     * @author Evgeniy Sokolchik
+     */
     public class PickupBuilder extends AbstractBuilder {
 
         private PickupBuilder() {

@@ -1,5 +1,11 @@
 package com.chocobo.customshop.model.service.criteria;
 
+/**
+ * {@code GuitarFilterCriteria} enum is used to choose a filter strategy
+ * in {@link com.chocobo.customshop.model.service.GuitarService#filter} and
+ * {@link com.chocobo.customshop.model.service.GuitarService#filterForActiveOrder} methods.
+ * @author Evgeniy Sokolchik
+ */
 public enum GuitarFilterCriteria {
     NONE,
     ID,

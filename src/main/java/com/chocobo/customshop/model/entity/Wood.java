@@ -2,6 +2,11 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
+/**
+ * {@code Wood} class represents a wood species entity.
+ * @see AbstractEntity
+ * @author Evgeniy Sokolchik
+ */
 public class Wood extends AbstractEntity {
 
     private String name;
@@ -50,6 +55,10 @@ public class Wood extends AbstractEntity {
         return builder.toString();
     }
 
+    /**
+     * {@code WoodBuilder} is a subclass of {@link AbstractBuilder} class and used for building the wood species entity.
+     * @author Evgeniy Sokolchik
+     */
     public class WoodBuilder extends AbstractBuilder {
 
         private WoodBuilder() {

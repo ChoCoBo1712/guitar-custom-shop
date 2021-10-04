@@ -21,7 +21,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-
+/**
+ * {@code DatabaseConnectionPool} class is a thread-safe database connection pool.
+ * @author Evgeniy Sokolchik
+ */
 public class DatabaseConnectionPool {
 
     public static final Logger logger = LogManager.getLogger();
@@ -43,7 +46,12 @@ public class DatabaseConnectionPool {
     private final BlockingQueue<Connection> availableConnections;
     private final Queue<Connection> usedConnections;
 
-    // TODO: 26.09.2021 ask about instantiation 
+    // TODO: 26.09.2021 ask about instantiation
+    /**
+     * Get instance of {@code DatabaseConnectionPool} class.
+     *
+     * @return {@code DatabaseConnectionPool} instance.
+     */
     public static DatabaseConnectionPool getInstance() {
         while (instance.get() == null) {
             if (isInitialized.compareAndSet(false, true)) {
@@ -96,6 +104,13 @@ public class DatabaseConnectionPool {
         timer.schedule(task, poolCheckDelay, poolCheckPeriod);
     }
 
+    /**
+     * Get a database connection.
+     * This method has lock in it, so calling thread has to wait until pool has available connections.
+     *
+     * @return {@code Connection} instance.
+     * @throws DatabaseConnectionException if application is unable to establish proper connection.
+     */
     public Connection getConnection() throws DatabaseConnectionException {
         try {
             poolLock.lock();
@@ -120,24 +135,30 @@ public class DatabaseConnectionPool {
         }
     }
 
-    public boolean releaseConnection(Connection connection) {
+    /**
+     * Release connection and return it to the pool thread-safely.
+     *
+     * @param connection {@code Connection} instance that must be returned to the available connections queue.
+     */
+    public void releaseConnection(Connection connection) {
         try {
             poolLock.lock();
 
-            boolean removed = false;
             try {
-                removed = usedConnections.remove(connection);
+                usedConnections.remove(connection);
                 availableConnections.put(connection);
             } catch (InterruptedException e) {
                 logger.error("Unexpected exception", e);
                 Thread.currentThread().interrupt();
             }
-            return removed;
         } finally {
             poolLock.unlock();
         }
     }
 
+    /**
+     * Destroy pool and free all resources.
+     */
     public void destroy() {
         try {
             poolLock.lock();

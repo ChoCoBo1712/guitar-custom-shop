@@ -2,9 +2,17 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
+/**
+ * {@code Body} class represents a guitar body entity.
+ * @see AbstractEntity
+ * @author Evgeniy Sokolchik
+ */
 public class Body extends AbstractEntity {
 
     private String name;
+    /**
+     * Foreign key to {@link Wood} entity.
+     */
     private long woodId;
 
     private Body() {
@@ -57,6 +65,10 @@ public class Body extends AbstractEntity {
         return builder.toString();
     }
 
+    /**
+     * {@code BodyBuilder} is a subclass of {@link AbstractBuilder} class and used for building the guitar body entity.
+     * @author Evgeniy Sokolchik
+     */
     public class BodyBuilder extends AbstractBuilder {
 
         private BodyBuilder() {

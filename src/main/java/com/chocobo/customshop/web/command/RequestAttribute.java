@@ -1,5 +1,9 @@
 package com.chocobo.customshop.web.command;
 
+/**
+ * {@code RequestAttribute} class contains constant strings that are stored as {@link java.net.http.HttpRequest} attributes.
+ * @author Evgeniy Sokolchik
+ */
 public final class RequestAttribute {
 
     public static final String COMMAND = "command";

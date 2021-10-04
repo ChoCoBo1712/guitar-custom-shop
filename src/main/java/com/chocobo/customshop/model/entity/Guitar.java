@@ -2,14 +2,25 @@ package com.chocobo.customshop.model.entity;
 
 import java.util.Objects;
 
+/**
+ * {@code Guitar} class represents a guitar entity.
+ * @see AbstractEntity
+ * @author Evgeniy Sokolchik
+ */
 public class Guitar extends AbstractEntity {
 
+    /**
+     * Enum containing possible variants of guitar neck joints.
+     */
     public enum NeckJoint {
         BOLT_ON,
         SET_NECK,
         NECK_THROUGH
     }
 
+    /**
+     * Enum containing order status of the guitar.
+     */
     public enum OrderStatus {
         ORDERED,
         IN_PROGRESS,
@@ -19,10 +30,22 @@ public class Guitar extends AbstractEntity {
     private String name;
     private String picturePath;
     private NeckJoint neckJoint;
+    /**
+     * Foreign key to {@link Body} entity.
+     */
     private long bodyId;
+    /**
+     * Foreign key to {@link Neck} entity.
+     */
     private long neckId;
+    /**
+     * Foreign key to {@link Pickup} entity.
+     */
     private long pickupId;
     private String color;
+    /**
+     * Foreign key to {@link User} entity.
+     */
     private long userId;
     private OrderStatus orderStatus;
 
@@ -122,6 +145,10 @@ public class Guitar extends AbstractEntity {
         return builder.toString();
     }
 
+    /**
+     * {@code GuitarBuilder} is a subclass of {@link AbstractBuilder} class and used for building the guitar entity.
+     * @author Evgeniy Sokolchik
+     */
     public class GuitarBuilder extends AbstractBuilder {
 
         private GuitarBuilder() {

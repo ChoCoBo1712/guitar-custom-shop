@@ -20,6 +20,11 @@ import static com.chocobo.customshop.web.command.RequestAttribute.COMMAND;
 import static com.chocobo.customshop.web.command.SessionAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.*;
 
+/**
+ * {@code ControllerServlet} class is a subclass of {@link HttpServlet} class.
+ * It processes all requests to {@code /controller} url after filtering.
+ * @author Evgeniy Sokolchik
+ */
 @WebServlet(urlPatterns = "/controller")
 @MultipartConfig(
         fileSizeThreshold = 1024,

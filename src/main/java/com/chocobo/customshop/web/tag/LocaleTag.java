@@ -12,6 +12,11 @@ import java.util.ResourceBundle;
 
 import static com.chocobo.customshop.web.command.SessionAttribute.LOCALE;
 
+/**
+ * {@code LocaleTag} class is a subclass of {@link TagSupport} class.
+ * It is a custom JSP tag used for JSP internationalization.
+ * @author Evgeniy Sokolchik
+ */
 public class LocaleTag extends TagSupport {
 
     private static final String BUNDLE_NAME = "properties.pagecontent";
