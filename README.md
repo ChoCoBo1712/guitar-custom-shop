@@ -98,3 +98,6 @@ Admin | Authenticated user with it's own exclusive rights and an access to pages
         * Delete wood
         * Filter by criteria: id, name
 * Change application language
+
+### Database EER Diagram ###
+![Database scheme](https://raw.githubusercontent.com/ChoCoBo1712/guitar-custom-shop/master/schema/schema.png)
