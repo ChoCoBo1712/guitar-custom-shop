@@ -28,7 +28,7 @@ public class PoolTimerTask extends TimerTask {
     public void run() {
         DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
         Lock poolLock = pool.getPoolLock();
-        BlockingQueue<Connection> availableConnections = pool.getAvailableConnections();
+        Queue<Connection> availableConnections = pool.getAvailableConnections();
         Queue<Connection> usedConnections = pool.getUsedConnections();
         long connectionLifetime = pool.getConnectionLifetime();
         int minPoolSize = pool.getMinPoolSize();

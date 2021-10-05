@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 class QueryExecutor {
 
-    Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private final Connection connection;
     private final boolean transaction;

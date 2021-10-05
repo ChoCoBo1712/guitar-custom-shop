@@ -10,10 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.Instant;
-import java.util.ArrayDeque;
-import java.util.Properties;
-import java.util.Queue;
-import java.util.Timer;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,10 +40,9 @@ public class DatabaseConnectionPool {
     private final long connectionLifetime;
 
     private final Lock poolLock = new ReentrantLock(true);
-    private final BlockingQueue<Connection> availableConnections;
+    private final Queue<Connection> availableConnections;
     private final Queue<Connection> usedConnections;
 
-    // TODO: 26.09.2021 ask about instantiation
     /**
      * Get instance of {@code DatabaseConnectionPool} class.
      *
@@ -81,7 +77,7 @@ public class DatabaseConnectionPool {
             poolCheckDelay = Integer.parseInt(poolProperties.getProperty(POOL_CHECK_DELAY_PROPERTY));
             poolCheckPeriod = Integer.parseInt(poolProperties.getProperty(POOL_CHECK_PERIOD_PROPERTY));
 
-            availableConnections = new ArrayBlockingQueue<>(maxPoolSize);
+            availableConnections = new ArrayDeque<>(maxPoolSize);
             usedConnections = new ArrayDeque<>(maxPoolSize);
 
             for (int i = 0; i < minPoolSize; i++) {
@@ -121,14 +117,13 @@ public class DatabaseConnectionPool {
             }
 
             try {
-                connection = availableConnections.take();
+                connection = availableConnections.remove();
                 usedConnections.add(connection);
                 ProxyConnection proxyConnection = (ProxyConnection) connection;
                 proxyConnection.setLifetimeStart(Instant.now());
-            } catch (InterruptedException e) {
+            } catch (NoSuchElementException | IllegalStateException e) {
                 logger.error("Unexpected exception", e);
-                Thread.currentThread().interrupt();
-            } 
+            }
             return connection;
         } finally {
             poolLock.unlock();
@@ -146,10 +141,9 @@ public class DatabaseConnectionPool {
 
             try {
                 usedConnections.remove(connection);
-                availableConnections.put(connection);
-            } catch (InterruptedException e) {
+                availableConnections.add(connection);
+            } catch (NoSuchElementException | IllegalStateException e) {
                 logger.error("Unexpected exception", e);
-                Thread.currentThread().interrupt();
             }
         } finally {
             poolLock.unlock();
@@ -198,7 +192,7 @@ public class DatabaseConnectionPool {
         return poolLock;
     }
 
-    BlockingQueue<Connection> getAvailableConnections() {
+    Queue<Connection> getAvailableConnections() {
         return availableConnections;
     }
 
