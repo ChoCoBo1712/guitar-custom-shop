@@ -3,7 +3,7 @@ package com.chocobo.customshop.model.validator;
 /**
  * {@code Validator} is a functional interface implementing instances of which
  * are user to validate an object of specified type by specified rules.
- * @author Dmitry Karnyshov
+ * @author Evgeniy Sokolchik
  */
 @FunctionalInterface
 public interface Validator<T> {

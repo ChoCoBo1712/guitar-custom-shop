@@ -17,8 +17,8 @@ import java.util.concurrent.locks.Lock;
  * {@code PoolTimerTask} is a subclass of {@link TimerTask}.
  * It is used for maintaining a minimal amount of available connections
  * and returning connections that weren't used for period of time
- * more than {@code connectionLifetime} to an available queue.
- * @author Dmitry Karnyshov
+ * of more than {@code connectionLifetime} to an available queue.
+ * @author Evgeniy Sokolchik
  */
 public class PoolTimerTask extends TimerTask {
 
