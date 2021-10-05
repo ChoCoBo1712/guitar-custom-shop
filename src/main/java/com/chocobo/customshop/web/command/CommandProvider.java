@@ -19,7 +19,8 @@ import static com.chocobo.customshop.web.command.AppRole.*;
 
 /**
  * {@code CommandProvider} class contains all mappings between URLs and {@link Command} instances.
- * Also it stores set of {@link AppRole} enum elements as a part of {@link Pair} with {@link Command} instances describing which roles can access specified URL command.
+ * Also it stores set of {@link AppRole} enum elements as a part of
+ * {@link Pair} with {@link Command} instances describing which roles can access specified URL command.
  * @author Evgeniy Sokolchik
  */
 public class CommandProvider {
