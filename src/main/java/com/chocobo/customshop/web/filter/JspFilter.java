@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * {@code JspFilter} class is an implementation of {@link Filter} interface.
- * It filters access of users to all .jsp files.
+ * It filters access of users to all {@code .jsp} files.
  * @author Evgeniy Sokolchik
  */
 @WebFilter(filterName = "JspFilter")

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * {@code ConnectionFactory} class is used for internal creating connections via JDBC driver.
+ * {@code ConnectionFactory} class is used for internal creating connections using JDBC driver.
  * @author Evgeniy Sokolchik
  */
 class ConnectionFactory {
