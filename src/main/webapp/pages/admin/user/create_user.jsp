@@ -58,15 +58,30 @@
         </form>
 
         <c:if test="${param.duplicateEmailError}">
-            <p><cst:localeTag key="error.duplicate_email" /></p>
+            <script>
+                $.alert({
+                    title: '<cst:localeTag key="error.error" />',
+                    content: '<cst:localeTag key="error.duplicate_email" />'
+                })
+            </script>
         </c:if>
 
         <c:if test="${param.duplicateLoginError}">
-            <p><cst:localeTag key="error.duplicate_login" /></p>
+            <script>
+                $.alert({
+                    title: '<cst:localeTag key="error.error" />',
+                    content: '<cst:localeTag key="error.duplicate_login" />'
+                })
+            </script>
         </c:if>
 
         <c:if test="${param.validationError}">
-            <p><cst:localeTag key="error.validation_error" /></p>
+            <script>
+                $.alert({
+                    title: '<cst:localeTag key="error.error" />',
+                    content: '<cst:localeTag key="error.validation_error" />'
+                })
+            </script>
         </c:if>
     </main>
 

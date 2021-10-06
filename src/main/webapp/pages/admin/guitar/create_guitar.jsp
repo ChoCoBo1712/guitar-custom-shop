@@ -30,39 +30,39 @@
 
     <jsp:include page="../shared/header.jsp" />
 
-    <main role="main" class="container bg-light admin-main-form">
+    <main role="main" class="container bg-light admin-main-form" style="padding-bottom: 60px">
         <h3 class="row justify-content-center mb-4">
             <cst:localeTag key="admin.create_guitar.title" />
         </h3>
         <form id="create_guitar_form" action="${pageContext.request.contextPath}/controller?command=create_guitar"
               method="post" enctype="multipart/form-data">
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="nameInput"><cst:localeTag key="admin.guitars.name" /></label>
                 <input id="nameInput" type="text" name="name" placeholder=<cst:localeTag key="placeholder.name" /> required class="form-control form-control-sm"
                        pattern="[a-zA-Z0-9\s\-]{1,30}">
             </div>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="ci"><cst:localeTag key="admin.guitars.color" /></label>
                 <input id="ci" type="text" name="color" placeholder=<cst:localeTag key="placeholder.color" /> required
                        pattern="[a-zA-Z0-9\s\-]{1,30}" class="form-control form-control-sm">
             </div>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="bodySelect"><cst:localeTag key="admin.guitars.body" /></label>
                 <select name="bodyId" id="bodySelect" required  class="form-control form-control-sm"></select>
             </div>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="neckSelect"><cst:localeTag key="admin.guitars.neck" /></label>
                 <select name="neckId" id="neckSelect" required  class="form-control form-control-sm"></select>
             </div>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="pickupSelect"><cst:localeTag key="admin.guitars.pickup" /></label>
                 <select name="pickupId" id="pickupSelect" required  class="form-control form-control-sm"></select>
             </div>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="userSelect"><cst:localeTag key="admin.guitars.user" /></label>
                 <select name="userId" id="userSelect" required class="form-control form-control-sm"></select>
             </div>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="neckJointSelect"><cst:localeTag key="admin.guitars.neck_joint" /></label>
                 <select name="neckJoint" id="neckJointSelect" class="form-select form-select-sm">
                     <option selected value="BOLT_ON"><cst:localeTag key="admin.guitars.neck_joint.bolt_on" /></option>
@@ -70,7 +70,7 @@
                     <option value="NECK_THROUGH"><cst:localeTag key="admin.guitars.neck_joint.neck_through" /></option>
                 </select>
             </div>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <label class="form-group" for="orderStatusSelect"><cst:localeTag key="admin.guitars.order_status" /></label>
                 <select name="orderStatus" id="orderStatusSelect" class="form-select form-select-sm">
                     <option selected value="ORDERED"><cst:localeTag key="admin.guitars.order_status.ordered" /></option>
@@ -79,7 +79,7 @@
                 </select>
             </div>
             <label class="form-group" for="file_input"><cst:localeTag key="admin.guitars.picture_path" /></label>
-            <div class="form-outline mb-3">
+            <div class="form-outline mb-2">
                 <input type="file" name="picturePath" id="file_input" accept="image/png, image/jpeg" class="form-control-file form-control-sm">
             </div>
             <div class="form-actions text-center">
@@ -88,7 +88,12 @@
         </form>
 
         <c:if test="${param.validationError}">
-            <p><cst:localeTag key="error.validation_error" /></p>
+            <script>
+                $.alert({
+                    title: '<cst:localeTag key="error.error" />',
+                    content: '<cst:localeTag key="error.validation_error" />'
+                })
+            </script>
         </c:if>
     </main>
 

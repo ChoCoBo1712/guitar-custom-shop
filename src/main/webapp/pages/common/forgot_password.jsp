@@ -31,7 +31,12 @@
         </form>
 
         <c:if test="${param.forgotPasswordError}">
-            <p><cst:localeTag key="error.forgot_password" /></p>
+            <script>
+                $.alert({
+                    title: '<cst:localeTag key="error.error" />',
+                    content: '<cst:localeTag key="error.forgot_password" />'
+                })
+            </script>
         </c:if>
     </main>
 

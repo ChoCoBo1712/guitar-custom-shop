@@ -36,10 +36,6 @@ public class CommandProvider {
                 new HashSet<>(Collections.singletonList(GUEST))));
         commandMap.put(CommandType.GO_TO_REGISTER_PAGE, Pair.of(new GoToRegisterPageCommand(),
                 new HashSet<>(Collections.singletonList(GUEST))));
-        commandMap.put(CommandType.GO_TO_TOKEN_SENT_PAGE, Pair.of(new GoToTokenSentPageCommand(),
-                new HashSet<>(Arrays.asList(GUEST, NOT_CONFIRMED, CLIENT, MAKER, ADMIN))));
-        commandMap.put(CommandType.GO_TO_TOKEN_SUCCESS_PAGE, Pair.of(new GoToTokenSuccessPageCommand(),
-                new HashSet<>(Arrays.asList(GUEST, NOT_CONFIRMED, CLIENT, MAKER, ADMIN))));
         commandMap.put(CommandType.GO_TO_USERS_PAGE, Pair.of(new GoToUsersPageCommand(),
                 new HashSet<>(Collections.singletonList(ADMIN))));
         commandMap.put(CommandType.GO_TO_CREATE_USER_PAGE, Pair.of(new GoToCreateUserPageCommand(),

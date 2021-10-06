@@ -1,6 +1,12 @@
 $(document).ready( function () {
     let bodyTag = $('body');
     let guitars = bodyTag.data('guitars-string');
+    let boltOnData = bodyTag.data('bolt-on');
+    let setNeckData = bodyTag.data('set-neck');
+    let neckThroughData = bodyTag.data('neck-through');
+    let orderedData = bodyTag.data('ordered');
+    let inProgressData = bodyTag.data('in-progress');
+    let completedData = bodyTag.data('completed');
 
     let footer = $('footer');
     let locale = footer.data('locale');
@@ -84,9 +90,22 @@ $(document).ready( function () {
             }, false);
             pickupInput.val(pickupName);
 
-            neckJointInput.val(guitar.neckJoint);
+            if (guitar.neckJoint === 'BOLT_ON') {
+                neckJointInput.val(boltOnData);
+            } else if (guitar.neckJoint === 'SET_NECK') {
+                neckJointInput.val(setNeckData);
+            } else {
+                neckJointInput.val(neckThroughData);
+            }
+
+            if (guitar.orderStatus === 'ORDERED') {
+                orderStatusInput.val(orderedData);
+            } else if (guitar.orderStatus === 'IN_PROGRESS') {
+                orderStatusInput.val(inProgressData);
+            } else {
+                orderStatusInput.val(completedData);
+            }
             colorInput.val(guitar.color);
-            orderStatusInput.val(guitar.orderStatus);
             image.attr('src', guitar.picturePath);
         });
     });

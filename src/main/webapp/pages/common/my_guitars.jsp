@@ -22,7 +22,13 @@
   <script src="/static/js/common/my_guitars.js"></script>
   <script src="/static/js/common/shared/footer.js"></script>
 </head>
-<body data-guitars-string="<cst:localeTag key="admin.guitars" />">
+<body data-guitars-string="<cst:localeTag key="admin.guitars" />"
+      data-bolt-on="<cst:localeTag key="admin.guitars.neck_joint.bolt_on" />"
+      data-set-neck="<cst:localeTag key="admin.guitars.neck_joint.set_neck" />"
+      data-neck-through="<cst:localeTag key="admin.guitars.neck_joint.neck_through" />"
+      data-ordered="<cst:localeTag key="admin.guitars.order_status.ordered" />"
+      data-in-progress="<cst:localeTag key="admin.guitars.order_status.in_progress" />"
+      data-completed="<cst:localeTag key="admin.guitars.order_status.completed" />">
 
   <jsp:include page="shared/header.jsp" />
 
@@ -66,6 +72,15 @@
       <input id="colorInput" readonly class="form-control form-control-sm"/>
     </div>
   </main>
+
+  <c:if test="${param.guitarConstructed}">
+    <script>
+      $.alert({
+        title: '<cst:localeTag key="message" />',
+        content: '<cst:localeTag key="my_guitars.constructed" />'
+      })
+    </script>
+  </c:if>
 
 </body>
 

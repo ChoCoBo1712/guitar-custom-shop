@@ -43,7 +43,9 @@ public class ConstructGuitarCommand implements Command {
                 String defaultPicturePath = IMAGES_URL + DEFAULT_IMAGE_NAME;
                 GuitarServiceImpl.getInstance().insert(name, defaultPicturePath, bodyId, neckId, pickupId,
                         userId, color, neckJoint, OrderStatus.ORDERED);
-                return CommandResult.createRedirectResult(INDEX_URL);
+                String redirectUrl = MY_GUITARS_URL
+                        + AMPERSAND + GUITAR_CONSTRUCTED + EQUALS_SIGN + true;
+                return CommandResult.createRedirectResult(redirectUrl);
             } else {
                 String redirectUrl = CONSTRUCT_GUITAR_URL
                         + AMPERSAND + VALIDATION_ERROR + EQUALS_SIGN + true;

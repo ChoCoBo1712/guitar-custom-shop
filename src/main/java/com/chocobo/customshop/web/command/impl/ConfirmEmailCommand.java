@@ -20,8 +20,7 @@ import static com.chocobo.customshop.model.entity.User.UserStatus.CONFIRMED;
 import static com.chocobo.customshop.util.impl.TokenUtilImpl.EMAIL_CLAIM;
 import static com.chocobo.customshop.util.impl.TokenUtilImpl.ID_CLAIM;
 import static com.chocobo.customshop.web.command.PagePath.*;
-import static com.chocobo.customshop.web.command.RequestAttribute.EMAIL_CONFIRMATION;
-import static com.chocobo.customshop.web.command.RequestAttribute.TOKEN;
+import static com.chocobo.customshop.web.command.RequestAttribute.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
@@ -48,8 +47,8 @@ public class ConfirmEmailCommand implements Command {
                             .build();
                     userService.update(updatedUser);
 
-                    String redirectUrl = TOKEN_SUCCESS_URL
-                            + AMPERSAND + EMAIL_CONFIRMATION + EQUALS_SIGN + true;
+                    String redirectUrl = INDEX_URL
+                            + AMPERSAND + EMAIL_CONFIRMATION_SUCCESS + EQUALS_SIGN + true;
                     return CommandResult.createRedirectResult(redirectUrl);
                 }
             }

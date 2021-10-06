@@ -35,7 +35,12 @@
     </main>
 
     <c:if test="${param.validationError}">
-        <p><cst:localeTag key="error.validation_error" /></p>
+        <script>
+            $.alert({
+                title: '<cst:localeTag key="error.error" />',
+                content: '<cst:localeTag key="error.validation_error" />'
+            })
+        </script>
     </c:if>
 
 </body>

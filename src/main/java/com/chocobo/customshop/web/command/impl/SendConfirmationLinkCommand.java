@@ -1,20 +1,19 @@
 package com.chocobo.customshop.web.command.impl;
 
+import com.chocobo.customshop.exception.ServiceException;
 import com.chocobo.customshop.util.MailUtil;
+import com.chocobo.customshop.util.impl.MailUtilImpl;
 import com.chocobo.customshop.web.command.Command;
 import com.chocobo.customshop.web.command.CommandResult;
-import com.chocobo.customshop.exception.ServiceException;
-import com.chocobo.customshop.util.impl.MailUtilImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.ERROR;
-import static com.chocobo.customshop.web.command.CommandResult.RouteType.REDIRECT;
 import static com.chocobo.customshop.web.command.PagePath.*;
-import static com.chocobo.customshop.web.command.RequestAttribute.EMAIL_CONFIRMATION;
-import static com.chocobo.customshop.web.command.SessionAttribute.*;
+import static com.chocobo.customshop.web.command.RequestAttribute.EMAIL_CONFIRMATION_TOKEN;
+import static com.chocobo.customshop.web.command.SessionAttribute.USER_EMAIL;
+import static com.chocobo.customshop.web.command.SessionAttribute.USER_ID;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 public class SendConfirmationLinkCommand implements Command {
@@ -31,8 +30,8 @@ public class SendConfirmationLinkCommand implements Command {
         try {
             mailUtil.sendConfirmationMail(userId, email, request.getScheme(), request.getServerName());
 
-            String redirectUrl = TOKEN_SENT_URL
-                    + AMPERSAND + EMAIL_CONFIRMATION + EQUALS_SIGN + true;
+            String redirectUrl = INDEX_URL
+                    + AMPERSAND + EMAIL_CONFIRMATION_TOKEN + EQUALS_SIGN + true;
             return CommandResult.createRedirectResult(redirectUrl);
         } catch (ServiceException e) {
             logger.error("An error occurred during send confirmation link command execution", e);

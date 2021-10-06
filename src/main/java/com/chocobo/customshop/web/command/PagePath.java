@@ -10,8 +10,6 @@ public final class PagePath {
     public static final String INDEX_JSP = "/pages/common/index.jsp";
     public static final String LOGIN_JSP = "/pages/common/login.jsp";
     public static final String REGISTER_JSP = "/pages/common/register.jsp";
-    public static final String TOKEN_SENT_JSP = "/pages/common/token_sent.jsp";
-    public static final String TOKEN_SUCCESS_JSP = "/pages/common/token_success.jsp";
     public static final String ADMIN_USERS_JSP = "/pages/admin/user/users.jsp";
     public static final String ADMIN_EDIT_USER_JSP = "/pages/admin/user/edit_user.jsp";
     public static final String ADMIN_CREATE_USER_JSP = "/pages/admin/user/create_user.jsp";
@@ -42,8 +40,6 @@ public final class PagePath {
     public static final String LOGIN_URL = "/controller?command=go_to_login_page";
     public static final String INDEX_URL = "/controller?command=go_to_index_page";
     public static final String REGISTER_URL = "/controller?command=go_to_register_page";
-    public static final String TOKEN_SENT_URL = "/controller?command=go_to_token_sent_page";
-    public static final String TOKEN_SUCCESS_URL = "/controller?command=go_to_token_success_page";
     public static final String ADMIN_USERS_URL = "/controller?command=go_to_users_page";
     public static final String ADMIN_EDIT_USER_URL = "/controller?command=go_to_edit_user_page";
     public static final String ADMIN_CREATE_USER_URL = "/controller?command=go_to_create_user_page";
@@ -66,6 +62,7 @@ public final class PagePath {
     public static final String FORGOT_PASSWORD_URL = "/controller?command=go_to_forgot_password_page";
     public static final String PASSWORD_CHANGE_URL = "/controller?command=go_to_password_change_page";
     public static final String CONSTRUCT_GUITAR_URL = "/controller?command=go_to_construct_guitar_page";
+    public static final String MY_GUITARS_URL = "/controller?command=go_to_my_guitars_page";
     public static final String GUITAR_ORDERS_URL = "/controller?command=go_to_guitar_orders_page";
     public static final String FINISH_ORDER_URL = "/controller?command=finish_order";
 

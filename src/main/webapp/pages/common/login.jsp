@@ -42,7 +42,12 @@
         </div>
 
         <c:if test="${param.loginError}">
-            <p><cst:localeTag key="error.login" /></p>
+            <script>
+                $.alert({
+                    title: '<cst:localeTag key="error.error" />',
+                    content: '<cst:localeTag key="error.login" />'
+                })
+            </script>
         </c:if>
     </main>
 

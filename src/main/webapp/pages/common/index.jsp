@@ -30,6 +30,42 @@
         <p class="lead"><cst:localeTag key="index.content6" /></p>
     </main>
 
+    <c:if test="${param.emailConfirmationToken}">
+        <script>
+            $.alert({
+                title: '<cst:localeTag key="message" />',
+                content: '<cst:localeTag key="token_sent.email_confirmation" />'
+            })
+        </script>
+    </c:if>
+
+    <c:if test="${param.passwordChangeToken}">
+        <script>
+            $.alert({
+                title: '<cst:localeTag key="message" />',
+                content: '<cst:localeTag key="token_sent.password_change" />'
+            })
+        </script>
+    </c:if>
+
+    <c:if test="${param.emailConfirmationSuccess}">
+        <script>
+            $.alert({
+                title: '<cst:localeTag key="message" />',
+                content: '<cst:localeTag key="token_success.email_confirmation" />'
+            })
+        </script>
+    </c:if>
+
+    <c:if test="${param.passwordChangeSuccess}">
+        <script>
+            $.alert({
+                title: '<cst:localeTag key="message" />',
+                content: '<cst:localeTag key="token_success.password_change" />'
+            })
+        </script>
+    </c:if>
+
 </body>
 
 <jsp:include page="shared/footer.jsp" />

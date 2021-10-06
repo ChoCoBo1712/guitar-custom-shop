@@ -29,8 +29,8 @@ public class SendPasswordChangeLinkCommand implements Command {
             if (!userService.isEmailUnique(email)) {
                 mailUtil.sendPasswordChangeMail(email, request.getScheme(), request.getServerName());
 
-                String redirectUrl = TOKEN_SENT_URL
-                        + AMPERSAND + PASSWORD_CHANGING + EQUALS_SIGN + true;
+                String redirectUrl = INDEX_URL
+                        + AMPERSAND + PASSWORD_CHANGE_TOKEN + EQUALS_SIGN + true;
                 return CommandResult.createRedirectResult(redirectUrl);
             } else {
                 String redirectUrl = FORGOT_PASSWORD_URL

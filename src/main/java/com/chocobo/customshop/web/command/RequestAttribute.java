@@ -52,9 +52,12 @@ public final class RequestAttribute {
     public static final String DUPLICATE_EMAIL_ERROR = "duplicateEmailError";
     public static final String DUPLICATE_LOGIN_ERROR = "duplicateLoginError";
     public static final String VALIDATION_ERROR = "validationError";
-    public static final String EMAIL_CONFIRMATION = "emailConfirmation";
-    public static final String PASSWORD_CHANGING = "passwordChange";
+    public static final String EMAIL_CONFIRMATION_TOKEN = "emailConfirmationToken";
+    public static final String PASSWORD_CHANGE_TOKEN = "passwordChangeToken";
+    public static final String EMAIL_CONFIRMATION_SUCCESS = "emailConfirmationSuccess";
+    public static final String PASSWORD_CHANGE_SUCCESS = "passwordChangeSuccess";
     public static final String PROFILE_UPDATED = "profileUpdated";
+    public static final String GUITAR_CONSTRUCTED = "guitarConstructed";
 
     private RequestAttribute() {
 

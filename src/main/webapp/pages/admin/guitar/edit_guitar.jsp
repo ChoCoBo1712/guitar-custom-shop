@@ -37,7 +37,7 @@
 
     <jsp:include page="../shared/header.jsp" />
 
-    <main role="main" class="container bg-light admin-main-form">
+    <main role="main" class="container bg-light admin-main-form" style="padding-bottom: 60px">
         <h3 class="row justify-content-center mb-4">
             <cst:localeTag key="admin.edit_guitar.title" />
         </h3>
@@ -96,7 +96,12 @@
         </form>
 
         <c:if test="${param.validationError}">
-            <p><cst:localeTag key="error.validation_error" /></p>
+            <script>
+                $.alert({
+                    title: '<cst:localeTag key="error.error" />',
+                    content: '<cst:localeTag key="error.validation_error" />'
+                })
+            </script>
         </c:if>
     </main>
 

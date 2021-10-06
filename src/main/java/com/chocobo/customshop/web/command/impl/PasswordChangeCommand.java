@@ -39,8 +39,8 @@ public class PasswordChangeCommand implements Command {
                     User user = optionalUser.get();
                     userService.updateWithPassword(user, password);
 
-                    String redirectUrl = TOKEN_SUCCESS_URL
-                            + AMPERSAND + PASSWORD_CHANGING + EQUALS_SIGN + true;
+                    String redirectUrl = INDEX_URL
+                            + AMPERSAND + PASSWORD_CHANGE_SUCCESS + EQUALS_SIGN + true;
                     return CommandResult.createRedirectResult(redirectUrl);
                 } else {
                     logger.error("User with email given in token is not found");
